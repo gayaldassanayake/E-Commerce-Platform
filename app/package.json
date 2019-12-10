@@ -1,0 +1,30 @@
+{
+  "name": "tutorial",
+  "version": "1.0.0",
+  "description": "Complete node js Guide",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "start-server": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruchinamaratunga/node-tutorial.git"
+  },
+  "author": "Ruchin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruchinamaratunga/node-tutorial/issues"
+  },
+  "homepage": "https://github.com/ruchinamaratunga/node-tutorial#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mysql2": "^2.0.2"
+  }
+}
