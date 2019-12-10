@@ -6,7 +6,6 @@ CREATE TABLE administrator(
     PRIMARY KEY(admin_id)
 );
 
--- Admini signup ?
 CREATE TABLE delivery_person(
     delivery_person_id char(5),
     name varchar(200) NOT NULL,
@@ -47,7 +46,7 @@ CREATE TABLE product(
     title varchar(100) not null,
     description text not null,
     manufacturer varchar(50) NOT NULL,
-    state char(30) not null,
+    deleted boolean not null,
     rating int,
     PRIMARY KEY(product_id)
 );
@@ -59,7 +58,7 @@ CREATE TABLE varient(
     title char(100) NOT NULL,
     price numeric(12, 2) NOT NULL,
     quantity int not null,
-    state char(30) not null,
+    deleted boolean not null,
     weight numeric(6, 2),
     restock_limit int not null,
     image_path varchar(255) NOT NULL,
@@ -67,7 +66,7 @@ CREATE TABLE varient(
     FOREIGN KEY (product_id) REFERENCES product(product_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE `order`(
+CREATE TABLE order_(
     order_id char(7),
     state char(30) not null,
     delivery_method char(20) not null,
@@ -104,7 +103,7 @@ CREATE TABLE order_item(
 
     PRIMARY KEY(product_id, varient_id, serial_number,order_id),
     FOREIGN KEY (product_id, varient_id,serial_number) REFERENCES varient_item(product_id, varient_id,serial_number) ON UPDATE CASCADE ON DELETE RESTRICT,
-    FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON UPDATE CASCADE ON DELETE RESTRICT
+    FOREIGN KEY (order_id) REFERENCES order_(order_id) ON UPDATE CASCADE ON DELETE RESTRICT
 
 );
 
@@ -112,7 +111,7 @@ CREATE TABLE category(
     category_id char(6),
     category varchar(50) not null,
     super_category_id char(6),
-    state char(30) not null,
+    deleted boolean not null,
     PRIMARY KEY(category_id),
     FOREIGN KEY(super_category_id) REFERENCES category(category_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
@@ -126,7 +125,7 @@ CREATE TABLE product_category(
 );
 
 CREATE TABLE category_specialized_attribute(
-    attribute_id char(6),
+    attribute_id int AUTO_INCREMENT,
     attribute varchar(50) NOT NULL,
     category_id char(6),
     PRIMARY KEY(attribute_id, category_id),
@@ -135,7 +134,7 @@ CREATE TABLE category_specialized_attribute(
 
 CREATE TABLE product_category_specialized_attribute(
     product_id char(6),
-    attribute_id char(6),
+    attribute_id int AUTO_INCREMENT,
     category_id char(6),
     value VARCHAR(255) NOT NULL,
     PRIMARY KEY(product_id, attribute_id, category_id),

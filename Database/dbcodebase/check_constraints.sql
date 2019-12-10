@@ -63,7 +63,7 @@ INSERT
         CALL error_procedure(1);
     ELSEIF NEW.weight <0 THEN
         CALL error_procedure(1);
-    ELSEIF NEW.restock_limit THEN
+    ELSEIF NEW.restock_limit<0 THEN
         CALL error_procedure(1);
     END IF //
 DELIMITER ;
@@ -77,7 +77,7 @@ UPDATE
         CALL error_procedure(1);
     ELSEIF NEW.weight <0 THEN
         CALL error_procedure(1);
-    ELSEIF NEW.restock_limit THEN
+    ELSEIF NEW.restock_limit<0 THEN
         CALL error_procedure(1);
     END IF //
 DELIMITER ;
@@ -87,7 +87,7 @@ DELIMITER ;
 DELIMITER //
 CREATE TRIGGER order_validation_on_insert BEFORE
 INSERT
-    ON `order` FOR EACH ROW 
+    ON order_ FOR EACH ROW 
     IF LENGTH(NEW.credit_card_number) <> 16 THEN
         CALL error_procedure(0);
     ELSEIF LENGTH(NEW.cvv) <> 3 THEN
@@ -95,6 +95,8 @@ INSERT
     ELSEIF NEW.expire_year <= 1950 OR NEW.expire_year >=2100 THEN
         CALL error_procedure(1);
     ELSEIF NEW.expire_month < 1 OR NEW.expire_month > 12 THEN
+        CALL error_procedure(1);
+    ELSEIF NEW.estimate_days <0 THEN
         CALL error_procedure(1);
     ELSEIF NEW.state not in (
             'Pending',
@@ -114,7 +116,7 @@ DELIMITER ;
 DELIMITER //
 CREATE TRIGGER order_validation_on_update BEFORE
 UPDATE
-    ON `order` FOR EACH ROW 
+    ON order_ FOR EACH ROW 
     IF LENGTH(NEW.credit_card_number) <> 16 THEN
         CALL error_procedure(0);
     ELSEIF LENGTH(NEW.cvv) <> 3 THEN
@@ -122,6 +124,8 @@ UPDATE
     ELSEIF NEW.expire_year <= 1950 OR NEW.expire_year >=2100 THEN
         CALL error_procedure(1);
     ELSEIF NEW.expire_month < 1 OR NEW.expire_month > 12 THEN
+        CALL error_procedure(1);
+    ELSEIF NEW.estimate_days <0 THEN
         CALL error_procedure(1);
     ELSEIF NEW.state not in (
             'Pending',
@@ -161,23 +165,23 @@ DELIMITER ;
 
 -- DELIVERY_DETAIL CHECK
 
-DELIMITER //
-CREATE TRIGGER delivery_detail_validation_on_insert BEFORE
-INSERT
-    ON delivery_detail FOR EACH ROW 
-    IF NEW.estimate_days <0 THEN
-        CALL error_procedure(1);
-    END IF //
-DELIMITER ;
+-- DELIMITER //
+-- CREATE TRIGGER delivery_detail_validation_on_insert BEFORE
+-- INSERT
+--     ON delivery_detail FOR EACH ROW 
+--     IF NEW.estimate_days <0 THEN
+--         CALL error_procedure(1);
+--     END IF //
+-- DELIMITER ;
 
-DELIMITER //
-CREATE TRIGGER delivery_detail_validation_on_update BEFORE
-UPDATE
-    ON delivery_detail FOR EACH ROW 
-    IF NEW.estimate_days <0 THEN
-        CALL error_procedure(1);
-    END IF //
-DELIMITER ;
+-- DELIMITER //
+-- CREATE TRIGGER delivery_detail_validation_on_update BEFORE
+-- UPDATE
+--     ON delivery_detail FOR EACH ROW 
+--     IF NEW.estimate_days <0 THEN
+--         CALL error_procedure(1);
+--     END IF //
+-- DELIMITER ;
 
 
 
