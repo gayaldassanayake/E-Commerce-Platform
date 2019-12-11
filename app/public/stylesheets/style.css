@@ -2133,6 +2133,25 @@ ul {
   font-weight: 400;
 }
 
+.main_menu .main-menu-item ul li .nav-link-username {
+  color: white;
+  background-color: #ff3368;
+  font-size: 15px;
+  padding: 36px 23px;
+  font-family: "Poppins", sans-serif;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+.main_menu .main-menu-item ul li .nav-link-username :hover {
+  font-size: 17px;
+  padding: 36px 23px;
+  font-family: "Poppins", sans-serif;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+
 /* line 29, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
 .main_menu .main-menu-item ul li .nav-link:hover {
   color: #000;
@@ -2319,11 +2338,25 @@ ul {
   .main_menu .main-menu-item .nav-item {
     padding: 10px 15px !important;
   }
+
+  /* .nav-item-username {
+    color: white;
+    background-color: #ff3368;
+
+  } */
+/* 
+  .main_menu .main-menu-item .nav-item-username {
+    color: white;
+    background-color: #ff3368;
+
+  } */
   /* line 208, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
   .main_menu .main-menu-item .nav-item .nav-link {
     padding: 5px 15px !important;
     color: #000;
   }
+
+
   /* line 215, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
   .navbar-collapse {
     z-index: 9999 !important;
