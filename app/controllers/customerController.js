@@ -14,6 +14,20 @@ exports.indexAction = (req, res, next) => {
     });
 };
 
+exports.loginAction = (req,res, next) => {
+    res.render ('customer_views/customer_login',{
+        pageTitle: "Login",
+        path:'/'
+    });
+};
+
+exports.signupAction = (req,res, next) => {
+    res.render ('customer_views/customer_signup',{
+        pageTitle: "Signup",
+        path : '/'
+    });
+};
+
 exports.cartAction = (req, res, next) => {
     // const promise = jsonData.jsonReader('')
 
