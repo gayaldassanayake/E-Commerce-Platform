@@ -10,6 +10,7 @@ const router = express.Router();
 router.get('/', customerController.indexAction);
 router.get('/login',customerController.loginAction);
 router.get ('/signup',customerController.signupAction);
+router.get ('/track_order', customerController.track_orderAction);
 router.get('/test',testController.testAction);
 
 

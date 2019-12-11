@@ -28,6 +28,14 @@ exports.signupAction = (req,res, next) => {
     });
 };
 
+exports.track_orderAction = (req, res, next) =>{
+    res.render ('customer_views/track_order',{
+        pageTitle: "Track Order",
+        path: "/"
+    })
+
+};
+
 exports.cartAction = (req, res, next) => {
     // const promise = jsonData.jsonReader('')
 
