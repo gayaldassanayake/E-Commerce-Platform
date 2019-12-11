@@ -1,73 +1,27 @@
-<%- include('includes/header.ejs') %>
-<%- include('includes/navigation.ejs') %>
+<%- include('../includes/header.ejs') %>
+<%- include('../includes/navigation.ejs') %>
 
 
 <section class="banner_part">
     <div class="banner_slider owl-carousel">
-
-        <div class="single_banner_slider1">
-            <div class="single_banner_slider">
-                <div class="row">
-                    <div class="banner_text">
-                        <div class="banner_text_iner">
-                            <h1><%= meta[0].title %></h1>
-                            <p>We are at C provide you the best service possible.We are at C provide you the best
-                                service possible.We are at C provide you the best service possible.We are at C provide
-                                you the best service possible.We are at C provide you the best service possible.We are
-                                at C provide you the best service possible.We are at C provide you the best service
-                                possible.We are at C provide you the best service possible.We are at C provide you the
-                                best service possible.We are at C provide you the best service possible.We are at C
-                                provide you the best service possible.We are at C provide you the best service possible.
-                            </p>
-                            <a href="#" class="btn_2">buy now</a>
+        <% for(var i=0; i < meta.length; i++) { %>
+            <div class="single_banner_slider<%= i+1 %>">
+                <div class="single_banner_slider">
+                    <div class="row">
+                        <div class="banner_text">
+                            <div class="banner_text_iner">
+                                <h1><%= meta[i].title %></h1>
+                                <p><%= meta[i].description %></p>
+                                <a href="#" class="btn_2">buy now</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="single_banner_slider2">
-            <div class="single_banner_slider">
-                <div class="row">
-                    <div class="banner_text">
-                        <div class="banner_text_iner">
-                            <h1>Electronic Equipment</h1>
-                            <p>We provide you the best electronic equipments in the world.We provide you the best
-                                electronic equipments in the world.We provide you the best electronic equipments in the
-                                world.We provide you the best electronic equipments in the world.We provide you the best
-                                electronic equipments in the world.We provide you the best electronic equipments in the
-                                world.We provide you the best electronic equipments in the world.We provide you the best
-                                electronic equipments in the world.We provide you the best electronic equipments in the
-                                world.We provide you the best electronic equipments in the world.We provide you the best
-                                electronic equipments in the world.We provide you the best electronic equipments in the
-                                world.We provide you the best electronic equipments in the world.</p>
-                            <a href="#" class="btn_2">buy now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="single_banner_slider3">
-            <div class="single_banner_slider">
-                <div class="row">
-                    <div class="banner_text">
-                        <div class="banner_text_iner">
-                            <h1>Toys for Kids</h1>
-                            <p>We provide you the best toys in the world.We provide you the best toys in the world.We
-                                provide you the best toys in the world.We provide you the best toys in the world.We
-                                provide you the best toys in the world.We provide you the best toys in the world.We
-                                provide you the best toys in the world.We provide you the best toys in the world.We
-                                provide you the best toys in the world.We provide you the best toys in the world.We
-                                provide you the best toys in the world.We provide you the best toys in the world.We
-                                provide you the best toys in the world.We provide you the best toys in the world.</p>
-                            <a href="#" class="btn_2">buy now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <% } %>
     </div>
 </section>
-<!-- banner part start-->
+
 
 <!-- feature_part start-->
 <section class="feature_part padding_top">
@@ -93,9 +47,7 @@
                     <p>Premium Quality</p>
                     <h3>Toys for Kids</h3>
                     <img src="/images/feature/medium02.png" style="size: 40%;" alt="">
-
                     <a href="#" class="feature_btn">EXPLORE NOW</a>
-
                 </div>
             </div>
         </div>
@@ -393,4 +345,4 @@
     </div>
 </section>
 
-<%- include('includes/footer.ejs') %>
+<%- include('../includes/footer.ejs') %>

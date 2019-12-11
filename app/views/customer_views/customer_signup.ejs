@@ -1,0 +1,85 @@
+<%- include('../includes/header.ejs') %>
+<%- include('../includes/navigation.ejs') %>
+
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_bg_customer_signup">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Customer Signup</h2>
+                        <p>C <span>-</span> An Online Shopping Center</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb start-->
+
+<!--================login_part Area =================-->
+<section class="login_part padding_top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="login_part_text text-center">
+                    <div class="login_part_text_iner">
+                        <h2>Already have an account?</h2>
+                        <p>Then do not wait to experience the full range of our customer services
+                        </p>
+                        <a href="#" class="btn_3">Sign in</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="login_part_form">
+                    <div class="login_part_form_iner">
+                        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="name" name="name" value=""
+                                    placeholder="Username">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="password" class="form-control" id="password" name="password" value=""
+                                    placeholder="Password">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="password" class="form-control" id="re_password" name="re_password" value=""
+                                    placeholder="Re enter the Password">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="email" name="email" value=""
+                                    placeholder="Email Address">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="email" name="email" value=""
+                                    placeholder="Email Address">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <textarea class="form-control" id="address" name="address" value="" rows = "2"
+                                    placeholder="Addresss"></textarea>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="number" class="form-control" id="telephone_number" name="telephone_number" value=""
+                                    placeholder="Telephone Number">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <div class="creat_account d-flex align-items-center">
+                                    <input type="checkbox" id="f-option" name="selector">
+                                    <label for="f-option">Remember me</label>
+                                </div>
+                                <button type="submit" value="submit" class="btn_3">
+                                    Signup
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================login_part end =================-->
+
+<%- include('../includes/footer.ejs') %>
