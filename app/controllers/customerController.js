@@ -33,7 +33,13 @@ exports.track_orderAction = (req, res, next) =>{
         pageTitle: "Track Order",
         path: "/"
     })
+};
 
+exports.checkoutAction = (req, res, next) => {
+    res.render ('customer_views/checkout',{
+        pageTitle: "Checkout",
+        path: "/"
+    })
 };
 
 exports.cartAction = (req, res, next) => {

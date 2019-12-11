@@ -11,6 +11,7 @@ router.get('/', customerController.indexAction);
 router.get('/login',customerController.loginAction);
 router.get ('/signup',customerController.signupAction);
 router.get ('/track_order', customerController.track_orderAction);
+router.get ('/checkout',customerController.checkoutAction); // methna post ekak dmmoth hodi from cart interface//
 router.get('/test',testController.testAction);
 
 
