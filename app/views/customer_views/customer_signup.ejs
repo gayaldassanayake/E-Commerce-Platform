@@ -28,13 +28,17 @@
                         <h2>Already have an account?</h2>
                         <p>Then do not wait to experience the full range of our customer services
                         </p>
-                        <a href="#" class="btn_3">Sign in</a>
+                        <form action="/login" method="get">
+                            <button class ="btn_3" type="submit">Sign in</button>
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="col-lg-8 col-md-6">
                 <div class="login_part_form">
                     <div class="login_part_form_iner">
+                        <h3>Welcome ! <br>
+                            Please Signup now</h3>
                         <form class="row contact_form" action="#" method="post" novalidate="novalidate">
                             <div class="col-md-12 form-group p_star">
                                 <input type="text" class="form-control" id="name" name="name" value=""
@@ -53,22 +57,14 @@
                                     placeholder="Email Address">
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="email" name="email" value=""
-                                    placeholder="Email Address">
-                            </div>
-                            <div class="col-md-12 form-group p_star">
-                                <textarea class="form-control" id="address" name="address" value="" rows = "2"
+                                <textarea class="form-control" id="address" name="address" value="" rows="2"
                                     placeholder="Addresss"></textarea>
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <input type="number" class="form-control" id="telephone_number" name="telephone_number" value=""
-                                    placeholder="Telephone Number">
+                                <input type="number" class="form-control" id="telephone_number" name="telephone_number"
+                                    value="" placeholder="Telephone Number">
                             </div>
                             <div class="col-md-12 form-group">
-                                <div class="creat_account d-flex align-items-center">
-                                    <input type="checkbox" id="f-option" name="selector">
-                                    <label for="f-option">Remember me</label>
-                                </div>
                                 <button type="submit" value="submit" class="btn_3">
                                     Signup
                                 </button>

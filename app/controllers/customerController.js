@@ -14,6 +14,34 @@ exports.indexAction = (req, res, next) => {
     });
 };
 
+exports.loginAction = (req,res, next) => {
+    res.render ('customer_views/customer_login',{
+        pageTitle: "Login",
+        path:'/'
+    });
+};
+
+exports.signupAction = (req,res, next) => {
+    res.render ('customer_views/customer_signup',{
+        pageTitle: "Signup",
+        path : '/'
+    });
+};
+
+exports.track_orderAction = (req, res, next) =>{
+    res.render ('customer_views/track_order',{
+        pageTitle: "Track Order",
+        path: "/"
+    })
+};
+
+exports.checkoutAction = (req, res, next) => {
+    res.render ('customer_views/checkout',{
+        pageTitle: "Checkout",
+        path: "/"
+    })
+};
+
 exports.cartAction = (req, res, next) => {
     // Product.getProductsFromTheCart(13550)
     // .then((data)=>{
