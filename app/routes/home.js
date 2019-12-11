@@ -9,5 +9,6 @@ const router = express.Router();
 
 router.get('/', customerController.indexAction);
 router.get('/test',testController.testAction);
+router.get('/cart',customerController.cartAction)
 
 module.exports = router;
