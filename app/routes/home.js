@@ -15,6 +15,7 @@ router.get ('/checkout',customerController.checkoutAction); // methna post ekak 
 router.post('/track_order_details',customerController.order_detailsActionPost);
 
 router.get('/test',testController.testAction);
+router.get('/cart',customerController.cartAction)
 
 
 module.exports = router;

@@ -44,6 +44,7 @@ exports.checkoutAction = (req, res, next) => {
 };
 
 exports.cartAction = (req, res, next) => {
+<<<<<<< HEAD
     // const promise = jsonData.jsonReader('')
 
     // res.render('cart');
@@ -74,6 +75,8 @@ exports.order_detailsActionPost = (req,res,next)=>{
 
 
 exports.cartAction = (req, res, next) => {
+=======
+>>>>>>> b1
     // Product.getProductsFromTheCart(13550)
     // .then((data)=>{
     //     console.log('data:' ,data[0]);
