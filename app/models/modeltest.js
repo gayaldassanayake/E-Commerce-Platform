@@ -11,6 +11,7 @@ module.exports = class Model {
                     if (err) {
                         reject(()=>console.error(err));
                     }
+                    // console.log(results);
                     resolve(results); 
                 });
             });

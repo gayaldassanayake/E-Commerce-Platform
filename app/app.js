@@ -6,10 +6,10 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
 const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/home');
+const homeRoutes = require('./routes/home');
 
 const errorController = require('./controllers/errorController');
-
+const  config = require('./utils/config');
 const app = express();
 
 
@@ -18,23 +18,17 @@ app.set('views', 'views');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public'))); 
-const sessionStorage = new MySQLStore({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'ecom_db'
-});
+const sessionStorage = new MySQLStore(config.sessionStorage);
 app.use(session({ 
-    key: 'session_cookie_name',
-    secret: 'laeslfn',
+    key: config.sessionDetails['key'],
+    secret: config.sessionDetails['secret'],
     store: sessionStorage,
     resave: false, 
     saveUninitialized: false
 }));
 
 app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+app.use(homeRoutes);
 
 app.use(errorController.get404);
 

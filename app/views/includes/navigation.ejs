@@ -32,7 +32,11 @@
                                     pages
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                    <a class="dropdown-item" href="login.html"> login</a>
+                                    <% if (!isAuthenticated) { %>
+                                        <a class="dropdown-item" href="/login">login</a>
+                                    <% } else { %> 
+                                        <form action="/logout" method="POST"><button class="dropdown-item" type="submit">logout</button></form>
+                                    <% } %>
                                     <a class="dropdown-item" href="tracking.html">tracking</a>
                                     <a class="dropdown-item" href="checkout.html">product checkout</a>
                                     <a class="dropdown-item" href="cart.html">shopping cart</a>
