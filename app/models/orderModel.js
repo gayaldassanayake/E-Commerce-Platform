@@ -31,6 +31,22 @@ module.exports = class Order {
         });
     }
 
+    static findOrderDetailsByOrderID(order_id) {
+        return new Promise((resolve) => {
+            resolve(db.execute('SELECT * FROM order_details WHERE order_id = ? ', [order_id]))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static findOrderItemsByOrderID(order_id) {
+        return new Promise((resolve) => {
+            resolve(db.execute('SELECT * FROM order_items_view WHERE order_id = ? ', [order_id]))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     static fetchAll() {
 
         new Promise((resolve) => {

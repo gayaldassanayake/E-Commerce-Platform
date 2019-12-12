@@ -4,8 +4,8 @@ const jsonData = require('../utils/json_reader');
 
 exports.indexAction = (req, res, next) => {
     const promise = jsonData.jsonReader('./data/index_carousel.json');
-    
-    promise.then((value) =>{
+
+    promise.then((value) => {
         console.log(value);
         res.render('customer_views/index', {
             pageTitle: "Home",
@@ -15,29 +15,29 @@ exports.indexAction = (req, res, next) => {
     });
 };
 
-exports.loginAction = (req,res, next) => {
-    res.render ('customer_views/customer_login',{
+exports.loginAction = (req, res, next) => {
+    res.render('customer_views/customer_login', {
         pageTitle: "Login",
-        path:'/'
+        path: '/'
     });
 };
 
-exports.signupAction = (req,res, next) => {
-    res.render ('customer_views/customer_signup',{
+exports.signupAction = (req, res, next) => {
+    res.render('customer_views/customer_signup', {
         pageTitle: "Signup",
-        path : '/'
+        path: '/'
     });
 };
 
-exports.track_orderAction = (req, res, next) =>{
-    res.render ('customer_views/track_order',{
+exports.track_orderAction = (req, res, next) => {
+    res.render('customer_views/track_order', {
         pageTitle: "Track Order",
         path: "/"
     })
 };
 
 exports.checkoutAction = (req, res, next) => {
-    res.render ('customer_views/checkout',{
+    res.render('customer_views/checkout', {
         pageTitle: "Checkout",
         path: "/"
     })
@@ -50,27 +50,31 @@ exports.cartAction = (req, res, next) => {
     // res.render('cart');
 };
 
-exports.order_detailsActionPost = (req,res,next)=>{
+exports.order_detailsActionPost = (req, res, next) => {
     var order_id = req.body.order_id;
     console.log(order_id);
-    const fetchOrder = ()=>{
-        return new Promise((resolve,reject)=>{
-            resolve((Order.findByOrderID(order_id)));
+    const fetchOrderDetails = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Order.findOrderDetailsByOrderID(order_id)));
         });
     };
-    fetchOrder().then((result)=>{
-        console.log('121');
-        console.log(result[0][0].order_id);
+    const fetchOrderItems = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Order.findOrderItemsByOrderID(order_id)));
+        });
+    };
+    fetchOrderDetails().then((result) => {
         console.log(result[0][0]);
-        res.render('customer_views/track_order_details',{
-            pageTitle: "Order Details",
-            path: "/",
-            order_details: result[0][0],
-        })
-    }).catch(err=>console.error(err))
-
-
-
+        fetchOrderItems().then((resu) => {
+            console.log(resu[0][0]);
+            res.render('customer_views/track_order_details', {
+                pageTitle: "Order Details",
+                path: "/",
+                order_details: result[0][0],
+                order_items: resu[0][0],
+            })
+        }).catch(err => console.error(err));
+    }).catch(err => console.error(err))
 };
 
 
@@ -80,20 +84,20 @@ exports.cartAction = (req, res, next) => {
     // .then((data)=>{
     //     console.log('data:' ,data[0]);
     // }).catch(err=>{console.log(err)})
-    const fetchProducts = ()=>{
-        return new Promise((resolve,reject)=>{
-             resolve((Product.getProductsFromTheCart(13550)))
+    const fetchProducts = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Product.getProductsFromTheCart(13550)))
         })
         // return promise
     }
-     
+
     fetchProducts()
-        .then((result)=>{
+        .then((result) => {
             console.log(result[0])
-            res.render('customer_views/cart',{
+            res.render('customer_views/cart', {
                 pageTitle: "Cart",
                 path: "/cart",
             })
-        }).catch(err=>console.error(err))
-    
+        }).catch(err => console.error(err))
+
 };

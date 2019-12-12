@@ -1,6 +1,6 @@
 -- details we need in the order that to show in the views --
 CREATE VIEW order_details AS 
-SELECT order_id, state, delivery_method, payment_method, delivery_address, estimate_days, name, SUM(order_item.price) 
+SELECT order_id, state, delivery_method, payment_method, delivery_address, estimate_days, name, SUM(order_item.price) as total_price
 FROM delivery_person JOIN (order_ JOIN order_item USING (order_id)) 
 USING(delivery_person_id) 
 GROUP BY (order_item.order_id);
