@@ -15,9 +15,7 @@ exports.indexAction = (req, res, next) => {
 };
 
 exports.cartAction = (req, res, next) => {
-    // const promise = jsonData.jsonReader('')
 
-    // res.render('cart');
 };
 exports.track_orderAction = (req, res, next) =>{
     res.render ('customer_views/track_order',{
@@ -53,6 +51,7 @@ exports.cartAction = (req, res, next) => {
         }).catch(err=>console.error(err))
     
 };
+
 
 exports.getRegisterAction = (req, res, next) => {
     
