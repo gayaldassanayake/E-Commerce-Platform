@@ -1,6 +1,46 @@
 <%- include('../includes/header.ejs') %>
 <%- include('../includes/navigation.ejs') %>
 
+<% if (order_details==null) { %>
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_error">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>404 ERROR</h2>
+                        <p>C <span>-</span> An Online Shopping Center</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb start-->
+<section class="confirmation_part padding_top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="confirmation_tittle">
+                    <h1>ORDER CANNOT BE FOUND</h1>
+                    <br />
+                    <a href = "/" class = "btn_3">Home</a>
+                    <span> &nbsp; | &nbsp;</span>
+                    <a href = "/track_order" class = "btn_3">Track Order</a>
+                    <span> &nbsp; | &nbsp;</span>
+                    <a href = "#" class = "btn_3">Shop</a>                
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<% } else { %>
+
+
+
+
 <!--================Home Banner Area =================-->
 <!-- breadcrumb start-->
 <section class="breadcrumb breadcrumb_track_order_details">
@@ -137,5 +177,6 @@
 </section>
 <!--================ confirmation part end =================-->
 
+<% } %>
 
 <%- include('../includes/footer.ejs') %>
