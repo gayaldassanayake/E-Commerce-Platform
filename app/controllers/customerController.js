@@ -101,3 +101,11 @@ exports.cartAction = (req, res, next) => {
         }).catch(err => console.error(err))
 
 };
+
+exports.shopAction = (req,res,next) => {
+    res.render('customer_views/shop', {
+        pageTitle: "Shop",
+        path: '/'
+    });
+    
+};
