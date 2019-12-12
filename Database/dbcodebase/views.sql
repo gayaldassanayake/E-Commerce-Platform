@@ -6,7 +6,8 @@ USING(delivery_person_id)
 GROUP BY (order_item.order_id);
 
 -- Which shows the items in the order --
-CREATE VIEW order_items_view AS SELECT varient.title, COUNT(order_item.order_id) as quantity, order_item.price, order_item.order_id 
+CREATE VIEW order_items_view AS 
+SELECT varient.title, COUNT(order_item.varient_id) as quantity, order_item.price, order_item.order_id 
 FROM order_item JOIN (varient_item JOIN varient USING (varient_id,product_id)) 
 USING (varient_id,product_id,serial_number) 
-GROUP BY (order_item.order_id);
+GROUP BY order_item.varient_id, order_item.product_id, order_item.order_id;

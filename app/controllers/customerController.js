@@ -66,12 +66,12 @@ exports.order_detailsActionPost = (req, res, next) => {
     fetchOrderDetails().then((result) => {
         console.log(result[0][0]);
         fetchOrderItems().then((resu) => {
-            console.log(resu[0][0]);
+            console.log(resu[0]);
             res.render('customer_views/track_order_details', {
                 pageTitle: "Order Details",
                 path: "/",
                 order_details: result[0][0],
-                order_items: resu[0][0],
+                order_items: resu[0],
             })
         }).catch(err => console.error(err));
     }).catch(err => console.error(err))
