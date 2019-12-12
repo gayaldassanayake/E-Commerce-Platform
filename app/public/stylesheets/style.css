@@ -7530,6 +7530,8 @@ h6 {
   background-size: cover;
 }
 
+
+
 .breadcrumb_bg_category_shop::before {
   background-color: linear-gradient(rgba(10, 15, 73, 1),rgba(22, 43, 71, 1));
   background-blend-mode: darken;
