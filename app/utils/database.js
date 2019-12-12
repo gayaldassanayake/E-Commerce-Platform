@@ -6,6 +6,7 @@ const pool = mysql.createPool({
     user: database.user,
     database: database.name,
     password: database.password,
+    port: database.port,
 });
 
 const query = (err, conn) => {

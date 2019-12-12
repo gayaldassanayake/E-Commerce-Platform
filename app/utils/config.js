@@ -7,5 +7,6 @@ module.exports = {
         user: process.env.user,
         password: process.env.password,
         name: process.env.database,
+        port: process.env.port,
     }
 };
