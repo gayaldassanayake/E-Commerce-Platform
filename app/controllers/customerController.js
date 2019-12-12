@@ -5,7 +5,7 @@ exports.indexAction = (req, res, next) => {
     const promise = jsonData.jsonReader('./data/index_carousel.json');
     
     promise.then((value) =>{
-        console.log(value);
+        console.log(req.session);
         res.render('customer_views/index', {
             pageTitle: "Home",
             path: '/',
@@ -14,34 +14,23 @@ exports.indexAction = (req, res, next) => {
     });
 };
 
-exports.loginAction = (req,res, next) => {
-    res.render ('customer_views/customer_login',{
-        pageTitle: "Login",
-        path:'/'
-    });
-};
+exports.cartAction = (req, res, next) => {
+    // const promise = jsonData.jsonReader('')
 
-exports.signupAction = (req,res, next) => {
-    res.render ('customer_views/customer_signup',{
-        pageTitle: "Signup",
-        path : '/'
-    });
+    // res.render('cart');
 };
-
 exports.track_orderAction = (req, res, next) =>{
     res.render ('customer_views/track_order',{
         pageTitle: "Track Order",
         path: "/"
     })
 };
-
 exports.checkoutAction = (req, res, next) => {
     res.render ('customer_views/checkout',{
         pageTitle: "Checkout",
         path: "/"
     })
 };
-
 exports.cartAction = (req, res, next) => {
     // Product.getProductsFromTheCart(13550)
     // .then((data)=>{
@@ -55,8 +44,8 @@ exports.cartAction = (req, res, next) => {
     }
      
     fetchProducts()
-        .then((result)=>{
             console.log(result[0])
+        .then((result)=>{
             res.render('customer_views/cart',{
                 pageTitle: "Cart",
                 path: "/cart",
@@ -64,3 +53,25 @@ exports.cartAction = (req, res, next) => {
         }).catch(err=>console.error(err))
     
 };
+
+exports.getRegisterAction = (req, res, next) => {
+    
+    res.render('customer_views/register');
+    
+}
+
+exports.postRegisterAction = (req, res, next) => {
+
+}
+
+exports.getLoginAction = (req, res, next) => {
+    res.render('customer_views/login',{
+        path: '/login',
+        pageTitle: 'Login'
+    });
+}
+
+exports.postLoginAction = (req, res, next) => {
+    req.session.isLoggedIn = true;
+    res.redirect('/');
+}
