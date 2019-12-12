@@ -11,3 +11,10 @@ SELECT varient.title, COUNT(order_item.varient_id) as quantity, order_item.price
 FROM order_item JOIN (varient_item JOIN varient USING (varient_id,product_id)) 
 USING (varient_id,product_id,serial_number) 
 GROUP BY order_item.varient_id, order_item.product_id, order_item.order_id;
+
+-- This view will show the items for the shop.ejs  --
+CREATE VIEW shop_view_min_max AS 
+SELECT category.category_id,category.category,product.product_id,product.title,MIN(varient.price),MAX(varient.price) 
+FROM category JOIN (product_category JOIN (product JOIN varient USING(product_id)) 
+USING (product_id)) USING (category_id) 
+where category.deleted=0 GROUP BY product_id,category_id;
