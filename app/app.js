@@ -6,8 +6,7 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
 const adminRoutes = require('./routes/admin');
-const homeRoutes = require('./routes/home');
-
+const shopRoutes = require('./routes/home');
 const errorController = require('./controllers/errorController');
 const  config = require('./utils/config');
 const app = express();
