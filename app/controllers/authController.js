@@ -1,7 +1,9 @@
-const hashFunctions = require('../utils/hash_functions');
+const Customer = require('../models/customerModel');
+const hash = require('../utils/hash_functions');
 const objToDict = require('../utils/objToDict');
 
 exports.getRegisterAction = (req, res, next) => {
+    Customer.login("Lynwood893","Ruchin");
     
     res.render('customer_views/register',{
         pageTitle: 'Sign up',
@@ -12,15 +14,13 @@ exports.getRegisterAction = (req, res, next) => {
 }
 
 exports.postRegisterAction = (req, res, next) => {
-    const name = req.body.name;
-    const username = req.body.username;
-    const password = req.body.password;
-    const confirmPassword = req.body.password;
-    const email = req.body.emial;
-    const address = req.body.address;
-    const telephoneNumber = req.body.telephoneNumber;
-
-    console.log(objToDict.objToDict(req.body));
+    const userInput = objToDict.objToDict(req.body);
+    const validation = true;
+    if (validation) {
+        Customer.register(userInput).then(res.redirect('/login'));
+    } else {
+        console.log("Not Correct !")
+    }
     
 }
 

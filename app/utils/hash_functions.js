@@ -7,6 +7,6 @@ exports.hash = (password) => {
     return hash;
 }
 
-exports.deHash = (password, hash) => {
+exports.checkHashed = (password, hash) => {
     return bcrypt.compareSync(password , hash);
 }

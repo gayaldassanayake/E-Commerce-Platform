@@ -1,3 +1,4 @@
+const hashFunctions = require('../utils/hash_functions');
 const db = require('../utils/database');
 
 module.exports = class Customer {
@@ -7,26 +8,42 @@ module.exports = class Customer {
         this.email = email;     
     }
 
-    save(password, address, telephoneNumber) {
-        db.getConnection().then(conn => {
-            return new Promise((resolve, reject) => {
-                conn.execute("INSERT INTO customer (name, username, password, email, address, telephoneNumber) VALUES (?,?,?,?,?,?)",
-                [this.name, this.username, password, this.email, address, telephoneNumber]
-                );
-            });
+    static register = (userInput) => {
+        return db.getConnection().then(conn => {
+            conn.execute("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
+            [userInput.name, userInput.username, hashFunctions.hash(userInput.password), userInput.email, userInput.address])
+            // .then(conn => {
+                
+            //     conn.execute("INSERT INTO customer_telephone (customer_id, telephone_number) VALUES (?,?)",
+            //     []);
+            // });
+               
         });
     }
 
-    register = () => {
-
+    static getCustomerByUsername = (username) => {
+        return db.getConnection().then(conn => {
+            return conn.execute("SELECT * FROM customer WHERE username = ?",[username]).then(
+                value => {                
+                    return value[0];
+                }
+            );
+        });
     }
 
-    static getCustomerByUsername = () => {
-
-    }
-
-    static login = () => {
-        
+    static login = (username, password) => {
+        this.getCustomerByUsername(username).then((value) => {
+            // console.log(value[0].password);
+            if(value) {
+                if(hashFunctions.checkHashed(password, value[0].password)) {
+                    console.log("hi")
+                } else {
+                    
+                }
+            } else {
+                console.log("Password Incorrect !");
+            }
+        });
     }
 
     static getCustomerById = () => {
