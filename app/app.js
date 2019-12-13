@@ -5,12 +5,15 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/home');
-const errorController = require('./controllers/errorController');
-const  config = require('./utils/config');
-const app = express();
+const adminRoutes = require('./routes/adminRouter');
+const homeRoutes = require('./routes/homeRouter');
+const authRoutes = require('./routes/authRouter');
 
+const errorController = require('./controllers/errorController');
+const config = require('./utils/config');
+
+
+const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -28,6 +31,7 @@ app.use(session({
 
 app.use('/admin', adminRoutes);
 app.use(homeRoutes);
+app.use(authRoutes);
 
 app.use(errorController.get404);
 
