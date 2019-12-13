@@ -1,6 +1,8 @@
 const hashFunctions = require('../utils/hash_functions');
+const objToDict = require('../utils/objToDict');
 
 exports.getRegisterAction = (req, res, next) => {
+    
     res.render('customer_views/register',{
         pageTitle: 'Sign up',
         isAuthenticated: req.session.isLoggedIn,
@@ -18,7 +20,7 @@ exports.postRegisterAction = (req, res, next) => {
     const address = req.body.address;
     const telephoneNumber = req.body.telephoneNumber;
 
-    console.log(hashFunctions.hash("Ruchin"));
+    console.log(objToDict.objToDict(req.body));
     
 }
 
