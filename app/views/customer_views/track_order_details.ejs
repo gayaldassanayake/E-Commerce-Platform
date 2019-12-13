@@ -80,7 +80,7 @@
                         <li>
                             <p>Delivery Method</p><span>: <%= order_details.delivery_method %></span>
                         </li>
-                        <% if (order_details.name != null) { %>
+                        <% if (order_details.delivery_method == 'Delivered') { %>
                         <li>
                             <p>Delivery Person</p><span>: <%= order_details.name %></span>
                         </li>
