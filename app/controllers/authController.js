@@ -1,6 +1,7 @@
 const Customer = require('../models/customerModel');
 const hashFunctions = require('../utils/hash_functions');
 const objToDict = require('../utils/objToDict');
+const errorMessage = require('../utils/errorMessage');
 
 exports.getRegisterAction = (req, res, next) => {
     Customer.getCustomerByUsername("Lynwood893").then((user) => {
@@ -29,8 +30,7 @@ exports.getLoginAction = (req, res, next) => {
     res.render('customer_views/login',{
         path: '/login',
         pageTitle: 'Login',
-        errorMessage1: req.flash('error1'),
-        errorMessage2: req.flash('error2')
+        errorMessage: errorMessage(req.flash('error')),
     });
 }
 
@@ -49,14 +49,14 @@ exports.postLoginAction = (req, res, next) => {
                     return res.redirect('/');
                 });
             } else {
-                req.flash('error1', "Ivalid Password!");
+                req.flash('error', "00002");
                 console.error("Password Incorrect !");
                 res.redirect('/login');
             }
         }
     }).catch((err) => {
         if (err) {
-            req.flash('error2', "Invalid Username!")
+            req.flash('error', "00001")
             console.log("User doesn't exists! Please try Again");
             res.redirect('/login');
         }

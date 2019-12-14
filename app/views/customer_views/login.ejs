@@ -34,11 +34,8 @@
                     <div class="login_part_form_iner">
                         <h3>Welcome Back ! <br>
                             Please Sign in now</h3>
-                        <% if(errorMessage1) {%>
-                            <div><%= errorMessage1 %></div>
-                        <% } %>
-                        <% if(errorMessage2) { %>
-                            <div><%= errorMessage2 %></div>
+                        <% if(errorMessage) {%>
+                            <div><%= errorMessage %></div>
                         <% } %>
                         <form class="row contact_form" action="/login" method="post" novalidate="novalidate">
                             <input type="hidden" name="_csrf" value="<%= csrfToken%>">
