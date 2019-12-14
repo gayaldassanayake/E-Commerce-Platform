@@ -19,12 +19,14 @@ exports.indexAction = (req, res, next) => {
 exports.track_orderAction = (req, res, next) =>{
     res.render ('customer_views/track_order',{
         pageTitle: "Track Order",
+        isAuthenticated: req.session.isLoggedIn, 
         path: "/"
     })
 };
 exports.checkoutAction = (req, res, next) => {
     res.render ('customer_views/checkout',{
         pageTitle: "Checkout",
+        isAuthenticated: req.session.isLoggedIn, 
         path: "/"
     })
 };

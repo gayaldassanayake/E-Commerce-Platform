@@ -36,6 +36,7 @@
                 <div class="login_part_form">
                     <div class="login_part_form_iner">
                         <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken%>">
                             <div class="col-md-12 form-group p_star">
                                 <input type="text" class="form-control" id="name" name="name" value=""
                                     placeholder="Name">

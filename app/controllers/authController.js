@@ -54,7 +54,9 @@ exports.postLoginAction = (req, res, next) => {
                 console.error("Password Incorrect !");
                 res.redirect('/login');
             }
-        } else {
+        }
+    }).catch((err) => {
+        if (err) {
             console.log("User doesn't exists! Please try Again");
             res.redirect('/login');
         }
