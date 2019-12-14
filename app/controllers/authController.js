@@ -9,7 +9,6 @@ exports.getRegisterAction = (req, res, next) => {
     
     res.render('customer_views/register',{
         pageTitle: 'Sign up',
-        isAuthenticated: req.session.isLoggedIn,
         path: '/signup'
     });
     
@@ -29,16 +28,15 @@ exports.postRegisterAction = (req, res, next) => {
 exports.getLoginAction = (req, res, next) => {
     res.render('customer_views/login',{
         path: '/login',
-        isAuthenticated: req.session.isLoggedIn,
-        pageTitle: 'Login'  
+        pageTitle: 'Login',
+        errorMessage1: req.flash('error1'),
+        errorMessage2: req.flash('error2')
     });
 }
 
 exports.postLoginAction = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
-    // console.log(username);
-    // console.log(password);
     Customer.getCustomerByUsername(username).then((user) => {
         if(user) {
             if(hashFunctions.checkHashed(password, user.password)) {
@@ -51,12 +49,14 @@ exports.postLoginAction = (req, res, next) => {
                     return res.redirect('/');
                 });
             } else {
+                req.flash('error1', "Ivalid Password!");
                 console.error("Password Incorrect !");
                 res.redirect('/login');
             }
         }
     }).catch((err) => {
         if (err) {
+            req.flash('error2', "Invalid Username!")
             console.log("User doesn't exists! Please try Again");
             res.redirect('/login');
         }
