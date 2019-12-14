@@ -6,6 +6,7 @@ const customerController = require('../controllers/customerController');
 
 const router = express.Router();
 
-router.get('/shop', customerController.shopAction);
+router.get('/', customerController.shopAction);
+router.get('/:id', customerController.shopCategoryAction);
 
 module.exports = router;

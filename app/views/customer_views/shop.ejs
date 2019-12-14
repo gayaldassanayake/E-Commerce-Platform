@@ -32,9 +32,21 @@
                         <div class="widgets_inner">
                             <ul class="list">
                                 <% for (var i =0 ; i < categories.length ; i++) { %>
-                                    <li>
-                                        <a href="#"><%= categories[i].category %></a>
-                                    </li>
+                                    <% if (check_on_category==null) { %>
+                                        <li>
+                                            <a href="/shop/<%= categories[i].category_id %>" ><%= categories[i].category %></a>
+                                        </li>
+                                    <% } else { %>
+                                        <% if (check_on_category == categories[i].category_id) { %>
+                                            <li>
+                                                <a href="#" style="color: #ff3368;"><%= categories[i].category %></a>
+                                            </li>
+                                        <% } else {%>
+                                        <li>
+                                            <a href="/shop/<%= categories[i].category_id %>" ><%= categories[i].category %></a>
+                                        </li> 
+                                        <% } %>
+                                    <% } %>   
                                 <% } %>
                             </ul>
                         </div>

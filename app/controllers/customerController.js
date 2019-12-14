@@ -115,7 +115,6 @@ exports.cartAction = (req, res, next) => {
 };
 
 exports.shopAction = (req, res, next) => {
-
     const fetchCategory = () => {
         return new Promise((resolve, reject) => {
             resolve((Category.fetchAllCategoryIDAndCategory()));
@@ -128,6 +127,34 @@ exports.shopAction = (req, res, next) => {
         });
     };
 
+    fetchProducts().then((resu) => {
+        fetchCategory().then((result) => {
+            console.log(result[0]);
+            console.log(resu[0])
+            res.render('customer_views/shop', {
+                pageTitle: "Shop",
+                path: '/',
+                categories: result[0],
+                products: resu[0],
+                check_on_category: null,
+            });
+        });
+    });
+
+};
+
+exports.shopCategoryAction = (req, res, next) => {
+    const fetchCategory = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Category.fetchAllCategoryIDAndCategory()));
+        });
+    };
+
+    const fetchProducts = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Product.fetchAllProductsOnCategory(req.params.id)));
+        });
+    };
 
     fetchProducts().then((resu) => {
         fetchCategory().then((result) => {
@@ -137,10 +164,10 @@ exports.shopAction = (req, res, next) => {
                 pageTitle: "Shop",
                 path: '/',
                 categories: result[0],
-                products: resu[0]
+                products: resu[0],
+                check_on_category: req.params.id
             });
         });
     });
-
 
 };
