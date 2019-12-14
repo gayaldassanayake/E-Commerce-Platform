@@ -1,23 +1,30 @@
 const db = require('../utils/database');
 
-module.exports = class Product {
-    constructor(title, description, manufacturer, state, rating) {
-        this.title = title;
-        this.description = description;
-        this.manufacturer = manufacturer;
-        this.state = state;
-        this.rating = rating;
+module.exports = class Category {
+    constructor(category_id, category, super_category_id, deleted) {
+        this.category_id = category_id;
+        this.category= category;
+        this.super_category_id = super_category_id;
+        this.deleted = deleted;
     }
 
     save() {
-        db.execute('INSERT INTO products (title, description, manufacturer, state, rating) VALUES (?,?,?,?,?,?)',
-            [this.title, this.description, manufacturer, this.state, this.rating]
+        db.execute('INSERT INTO products (category_id, category, super_category_id, deleted) VALUES (?,?,?,?)',
+            [this.category_id, this.category, this.super_category_id, this.deleted]
         );
     }
 
     static fetchAll() {
-        db.execute("SELECT * FROM product").then((res) => {
+        db.execute("SELECT * FROM category").then((res) => {
             console.log(res);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchAllCategoryIDAndCategory(){
+        return new Promise((resolve)=>{
+            resolve(db.execute("SELECT category_id,category from category"))
         }).catch((err) => {
             console.log(err);
         });
@@ -41,7 +48,7 @@ module.exports = class Product {
 
     }
 
-    static fetchAllProductForIndex() {
+    static fetchAllProductForShop() {
         return new Promise((resolve) => {
             resolve(db.execute("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND() LIMIT 16"))
         }).catch((err) => {

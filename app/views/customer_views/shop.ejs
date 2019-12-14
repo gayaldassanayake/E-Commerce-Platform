@@ -31,34 +31,11 @@
                         </div>
                         <div class="widgets_inner">
                             <ul class="list">
-                                <li>
-                                    <a href="#">Frozen Fish</a>
-                                    <span>(250)</span>
-                                </li>
-                                <li>
-                                    <a href="#">Dried Fish</a>
-                                    <span>(250)</span>
-                                </li>
-                                <li>
-                                    <a href="#">Fresh Fish</a>
-                                    <span>(250)</span>
-                                </li>
-                                <li>
-                                    <a href="#">Meat Alternatives</a>
-                                    <span>(250)</span>
-                                </li>
-                                <li>
-                                    <a href="#">Fresh Fish</a>
-                                    <span>(250)</span>
-                                </li>
-                                <li>
-                                    <a href="#">Meat Alternatives</a>
-                                    <span>(250)</span>
-                                </li>
-                                <li>
-                                    <a href="#">Meat</a>
-                                    <span>(250)</span>
-                                </li>
+                                <% for (var i =0 ; i < categories.length ; i++) { %>
+                                    <li>
+                                        <a href="#"><%= categories[i].category %></a>
+                                    </li>
+                                <% } %>
                             </ul>
                         </div>
                     </aside>
@@ -102,7 +79,6 @@
                         </div>
                     </div>
                 </div> -->
-
                 <div class="row align-items-center latest_product_inner">
                     <div class="col-lg-4 col-sm-6">
                         <div class="single_product_item">

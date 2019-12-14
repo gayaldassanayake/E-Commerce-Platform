@@ -94,8 +94,7 @@
                                 <div class="single_product_list_slider">
                                     <div class="row align-items-center justify-content-between"> 
                                 <% for (var i =8 ; i < productDetails.length; i++) { %> 
-                                    <% if (productDetails[i]==null) {break;} %> 
-                                                        
+                                    <% if (productDetails[i]==null) {break;} %>        
                                             <div class="col-lg-3 col-sm-6">
                                                     <div class="single_product_item">
                                                         <img style="width: 200mm; height: 94mm; object-fit: contain;" src= <%= productDetails[i].image_path %>>
@@ -106,10 +105,9 @@
                                                         </div>
                                                     </div>                                        
                                             </div>
-                                        
                                 <% } %>
-                            </div>            
-                        </div>
+                                    </div>            
+                                </div>
                             <% } %> 
                             
                             <!-- <div class="col-lg-3 col-sm-6">
