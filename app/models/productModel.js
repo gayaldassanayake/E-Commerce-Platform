@@ -48,5 +48,13 @@ module.exports = class Product {
             console.log(err);
         });
     }
+
+    static fetchAllProductForShop() {
+        return new Promise((resolve) => {
+            resolve(db.execute("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND()"))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 };
 

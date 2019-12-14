@@ -1,6 +1,6 @@
 const Product = require('../models/productModel');
 const Order = require('../models/orderModel');
-const Category  =require('../models/categoryModel');
+const Category = require('../models/categoryModel');
 const jsonData = require('../utils/json_reader');
 
 exports.indexAction = (req, res, next) => {
@@ -14,13 +14,13 @@ exports.indexAction = (req, res, next) => {
 
     promise.then((value) => {
         console.log(value);
-        fetchProductDetails().then((result)=>{
+        fetchProductDetails().then((result) => {
             console.log(result[0])
             res.render('customer_views/index', {
                 pageTitle: "Home",
                 path: '/',
                 meta: value,
-                productDetails : result[0]
+                productDetails: result[0]
             })
         });
 
@@ -114,7 +114,7 @@ exports.cartAction = (req, res, next) => {
 
 };
 
-exports.shopAction = (req,res,next) => {
+exports.shopAction = (req, res, next) => {
 
     const fetchCategory = () => {
         return new Promise((resolve, reject) => {
@@ -122,13 +122,25 @@ exports.shopAction = (req,res,next) => {
         });
     };
 
-    fetchCategory().then((result)=>{
-        console.log(result[0]);
-        res.render('customer_views/shop', {
-            pageTitle: "Shop",
-            path: '/',
-            categories: result[0]
+    const fetchProducts = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Product.fetchAllProductForShop()));
+        });
+    };
+
+
+    fetchProducts().then((resu) => {
+        fetchCategory().then((result) => {
+            console.log(result[0]);
+            console.log(resu[0])
+            res.render('customer_views/shop', {
+                pageTitle: "Shop",
+                path: '/',
+                categories: result[0],
+                products: resu[0]
+            });
         });
     });
-    
+
+
 };
