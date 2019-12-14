@@ -5,13 +5,24 @@ const jsonData = require('../utils/json_reader');
 exports.indexAction = (req, res, next) => {
     const promise = jsonData.jsonReader('./data/index_carousel.json');
 
+    const fetchProductDetails = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Product.fetchAllProductForShop()));
+        });
+    };
+
     promise.then((value) => {
         console.log(value);
-        res.render('customer_views/index', {
-            pageTitle: "Home",
-            path: '/',
-            meta: value
-        })
+        fetchProductDetails().then((result)=>{
+            console.log(result[0])
+            res.render('customer_views/index', {
+                pageTitle: "Home",
+                path: '/',
+                meta: value,
+                productDetails : result[0]
+            })
+        });
+
     });
 };
 

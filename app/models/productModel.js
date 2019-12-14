@@ -34,11 +34,19 @@ module.exports = class Product {
             resolve(db.execute(select_query, [customer_id]))
         })
     }
-    
 
 
-    static createProducts(...product_details){
-        
+
+    static createProducts(...product_details) {
+
+    }
+
+    static fetchAllProductForShop() {
+        return new Promise((resolve) => {
+            resolve(db.execute("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND() LIMIT 16"))
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 };
 
