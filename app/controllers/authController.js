@@ -1,9 +1,11 @@
 const Customer = require('../models/customerModel');
-const hash = require('../utils/hash_functions');
+const hashFunctions = require('../utils/hash_functions');
 const objToDict = require('../utils/objToDict');
 
 exports.getRegisterAction = (req, res, next) => {
-    Customer.login("Lynwood893","Ruchin");
+    Customer.getCustomerByUsername("Lynwood893").then((user) => {
+        console.log(hashFunctions.checkHashed("Ruchin", user.password));
+    });
     
     res.render('customer_views/register',{
         pageTitle: 'Sign up',
@@ -33,8 +35,30 @@ exports.getLoginAction = (req, res, next) => {
 }
 
 exports.postLoginAction = (req, res, next) => {
-    req.session.isLoggedIn = true;
-    res.redirect('/');
+    const username = req.body.username;
+    const password = req.body.password;
+    // console.log(username);
+    // console.log(password);
+    Customer.getCustomerByUsername(username).then((user) => {
+        if(user) {
+            if(hashFunctions.checkHashed(password, user.password)) {
+                req.session.isLoggedIn = true;
+                req.session.user = user;
+                return req.session.save(err => {
+                    if(err) {
+                        console.error(err);
+                    }
+                    return res.redirect('/');
+                });
+            } else {
+                console.error("Password Incorrect !");
+                res.redirect('/login');
+            }
+        } else {
+            console.log("User doesn't exists! Please try Again");
+            res.redirect('/login');
+        }
+    });
 }
 
 exports.postLogoutAction = (req, res, next) => {

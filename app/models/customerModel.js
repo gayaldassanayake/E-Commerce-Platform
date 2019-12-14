@@ -2,16 +2,21 @@ const hashFunctions = require('../utils/hash_functions');
 const db = require('../utils/database');
 
 module.exports = class Customer {
-    constructor(username, name, email) {
+    constructor(username, name, email, password) {
         this.username = username;
         this.name = name;
-        this.email = email;     
+        this.email = email;
+        this.password = password;     
     }
 
     static register = (userInput) => {
         return db.getConnection().then(conn => {
             conn.execute("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
-            [userInput.name, userInput.username, hashFunctions.hash(userInput.password), userInput.email, userInput.address])
+            [userInput.name, 
+            userInput.username, 
+            hashFunctions.hash(userInput.password), 
+            userInput.email, 
+            userInput.address])
             // .then(conn => {
                 
             //     conn.execute("INSERT INTO customer_telephone (customer_id, telephone_number) VALUES (?,?)",
@@ -25,23 +30,30 @@ module.exports = class Customer {
         return db.getConnection().then(conn => {
             return conn.execute("SELECT * FROM customer WHERE username = ?",[username]).then(
                 value => {                
-                    return value[0];
+                    const details = value[0][0];
+                    return new Customer(details.username, details.name, details.email, details.password);
                 }
             );
         });
     }
 
-    static login = (username, password) => {
-        this.getCustomerByUsername(username).then((value) => {
-            // console.log(value[0].password);
-            if(value) {
-                if(hashFunctions.checkHashed(password, value[0].password)) {
-                    console.log("hi")
+    static login = (username, password, req, res) => {
+        this.getCustomerByUsername(username).then((user) => {
+            if(user) {
+                if(hashFunctions.checkHashed(password, user.password)) {
+                    req.session.isLoggedIn = true;
+                    req.session.user = user;
+                    return req.session.save(err => {
+                        console.error(err);
+                        return res.redirect('/');
+                    });
                 } else {
-                    
+                    console.error("Password Incorrect !");
+                    res.redirect('/login');
                 }
             } else {
-                console.log("Password Incorrect !");
+                console.log("User doesn't exists! Please try Again");
+                res.redirect('/login');
             }
         });
     }
