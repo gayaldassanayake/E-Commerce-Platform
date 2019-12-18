@@ -31,6 +31,15 @@
                         </div>
                         <div class="widgets_inner">
                             <ul class="list">
+                                <% if (check_on_category==null) { %>
+                                <li>
+                                    <a style="color: #ff3368;">All</a>
+                                </li>
+                                <% } else { %>
+                                <li>
+                                    <a href="/shop" >All</a>
+                                </li>
+                                <% } %>
                                 <% for (var i =0 ; i < categories.length ; i++) { %>
                                     <% if (check_on_category==null) { %>
                                         <li>
@@ -39,7 +48,7 @@
                                     <% } else { %>
                                         <% if (check_on_category == categories[i].category_id) { %>
                                             <li>
-                                                <a href="#" style="color: #ff3368;"><%= categories[i].category %></a>
+                                                <a style="color: #ff3368;"><%= categories[i].category %></a>
                                             </li>
                                         <% } else {%>
                                         <li>
