@@ -1,11 +1,6 @@
 const mysql = require('mysql2');
-const {database} = require('./config')
+const config = require('./config')
 
-const pool = mysql.createPool({
-    host: database.host,
-    user: database.user,
-    database: database.name,
-    password: database.password
-});
+const pool = mysql.createPool(config.database);
 
 module.exports = pool.promise();
