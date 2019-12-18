@@ -11,6 +11,7 @@ const authRoutes = require('./routes/authRouter');
 
 const errorController = require('./controllers/errorController');
 const config = require('./utils/config');
+const session = require('express-session')
 
 
 const app = express();

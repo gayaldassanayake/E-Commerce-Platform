@@ -15,6 +15,12 @@ exports.indexAction = (req, res, next) => {
     });
 };
 
+exports.loginAction = (req,res, next) => {
+    res.render ('customer_views/customer_login',{
+        pageTitle: "Login",
+        path:'/'
+    });
+};
 
 exports.track_orderAction = (req, res, next) =>{
     res.render ('customer_views/track_order',{
@@ -23,32 +29,48 @@ exports.track_orderAction = (req, res, next) =>{
     })
 };
 exports.checkoutAction = (req, res, next) => {
-    res.render ('customer_views/checkout',{
+    res.render('customer_views/checkout', {
         pageTitle: "Checkout",
         path: "/"
     })
 };
+
+/**
+ * cart information is loaded to the cart page 
+ * the product model is accessed 
+ */
+
 exports.cartAction = (req, res, next) => {
-    // Product.getProductsFromTheCart(13550)
-    // .then((data)=>{
-    //     console.log('data:' ,data[0]);
-    // }).catch(err=>{console.log(err)})
-    const fetchProducts = ()=>{
-        return new Promise((resolve,reject)=>{
-             resolve((Product.getProductsFromTheCart(13550)))
-        })
-        // return promise
-    }
-     
-    fetchProducts()
-            console.log(result[0])
-        .then((result)=>{
-            res.render('customer_views/cart',{
+
+    // change once sessions are done----------------------------------
+    req.session.isLoggedIn = false
+    req.session.cartItems = [
+        { prod_id: 15731, var_id: 66376, quantity: 3 }, 
+        { prod_id: 16113, var_id: 38282, quantity: 4 },
+    ]
+    //-----------------------------------------------------------------
+    
+    const fetchProducts = new Promise((resolve, reject) => {
+        const custId = 13550
+        if (req.session.isLoggedIn) {
+            resolve((Product.getProductsFromTheCart(custId)))
+        }
+        else {
+            resolve(Product.getProductsFromTheCartCookie(req.session.cartItems))
+        }
+    })
+
+
+    fetchProducts
+        .then((result) => {
+            res.render('customer_views/cart', {
                 pageTitle: "Cart",
                 path: "/cart",
+                data: result
             })
-        }).catch(err=>console.error(err))
-    
+            console.log("success")
+
+        }).catch(err => console.error(err))
 };
 
 
