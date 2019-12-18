@@ -1,0 +1,145 @@
+<%- include('../includes/header.ejs') %>
+<%- include('../includes/navigation.ejs') %>
+
+<% if (order_details==null) { %>
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_error">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>404 ERROR</h2>
+                        <p>C <span>-</span> An Online Shopping Center</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb start-->
+<section class="confirmation_part padding_top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="confirmation_tittle">
+                    <h1>ORDER CANNOT BE FOUND</h1>
+                    <br />
+                    <a href="/" class="btn_3">Home</a>
+                    <span> &nbsp; | &nbsp;</span>
+                    <a href="/track_order" class="btn_3">Track Order</a>
+                    <span> &nbsp; | &nbsp;</span>
+                    <a href="/shop" class="btn_3">Shop</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<% } else { %>
+<!--================Home Banner Area =================-->
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_track_order_details">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Order Number <%= order_details.order_id %></h2>
+                        <p>C <span>-</span> An Online Shopping Center</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb start-->
+
+<!--================ confirmation part start =================-->
+<section class="confirmation_part padding_top">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="confirmation_tittle">
+                    <span>DETAILS OF ORDER ID <%= order_details.order_id %>.</span>
+                </div>
+            </div>
+            <div class="col-lg-6 col-lx-4">
+                <div class="single_confirmation_details">
+                    <h4>order information</h4>
+                    <ul>
+                        <li>
+                            <p>order number</p><span>: <%= order_details.order_id %></span>
+                        </li>
+                        <li>
+                            <p>state</p><span>: <%= order_details.state %></span>
+                        </li>
+                        <li>
+                            <p>total</p><span>: USD <%= order_details.total_price %></span>
+                        </li>
+                        <li>
+                            <p>Delivery Method</p><span>: <%= order_details.delivery_method %></span>
+                        </li>
+                        <% if (order_details.delivery_method == 'Delivered') { %>
+                        <li>
+                            <p>Delivery Person</p><span>: <%= order_details.name %></span>
+                        </li>
+                        <% } %>
+                        <li>
+                            <p>Payment method</p><span>: <%= order_details.payment_method %></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <% if (order_details.delivery_method == "Delivered") { %>
+            <div class="col-lg-6 col-lx-4">
+                <div class="single_confirmation_details">
+                    <h4>Billing Address</h4>
+                    <ul>
+                        <li>
+                            <p>Address</p><span>: <%= order_details.delivery_address %></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="order_details_iner">
+                    <h3>Order Details</h3>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th scope="col" colspan="2">Product</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <% for (var i = 0; i < order_items.length; i ++  ){ %>
+                                
+                            <tr>
+                                <th colspan="2"><span><%= order_items[i].title %></span></th>
+                                <th>x<%= order_items[i].quantity %></th>
+                                <th> <span>UDS <%= order_items[i].price %></span></th>
+                            </tr>
+
+                            <% } %>
+                            <tr>
+                                <th colspan="3">Total Price</th>
+                                <th> <span>USD <%= order_details.total_price %></span></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================ confirmation part end =================-->
+
+<% } %>
+
+<%- include('../includes/footer.ejs') %>

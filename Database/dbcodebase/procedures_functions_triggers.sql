@@ -53,8 +53,20 @@ INSERT
     END IF//
 DELIMITER ;
 
+------------------------procedures-------------------------
 
+-- call this proceudre after adding a data to the product_category table
+-- this will automaticall checks and add the supercategories as well
 
+DELIMITER $$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `add_product_super_cateogry` (`p_id` char(6),`c_id` char(6))
+	BEGIN
+        declare d_count char(6);
+        SELECT super_category_id into d_count FROM category where category.category_id = c_id limit 1;
+        IF d_count <> NULL THEN
+            INSERT INTO product_category VALUES (p_id, d_count);
+        END IF;
+	END;
+$$
 
-    
-
+DELIMITER ;

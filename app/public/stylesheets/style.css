@@ -7524,11 +7524,17 @@ h6 {
 
 .breadcrumb_bg_category_shop {
   background-image: url("../images/breadcrumb/breadcrumb_4.jpg"),linear-gradient(rgba(10, 15, 73, 0.3),rgba(22, 43, 71, 0.5));
-  ;
   background-blend-mode: multiply;
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+
+
+.breadcrumb_bg_category_shop::before {
+  background-color: linear-gradient(rgba(10, 15, 73, 1),rgba(22, 43, 71, 1));
+  background-blend-mode: darken;
 }
 
 .breadcrumb_bg_cart {
@@ -7560,6 +7566,23 @@ h6 {
   background-size: cover;
 }
 
+.breadcrumb_track_order_details {
+  background-image: url("../images/breadcrumb/breadcrumb_8.jpg"),linear-gradient(rgba(10, 15, 73, 0.3),rgba(22, 43, 71, 0.5));
+  ;
+  background-blend-mode: multiply;
+  background-position: cen;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.breadcrumb_error {
+  background-image: url("../images/breadcrumb/breadcrumb_9.png"),linear-gradient(rgba(10, 15, 73, 0.3),rgba(22, 43, 71, 0.5));
+  ;
+  background-blend-mode: multiply;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 
 /* line 5, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_breadcrumb.scss */

@@ -104,5 +104,29 @@ module.exports = class Product {
         )
         return product_list
     }
+
+    static fetchAllProductForIndex() {
+        return new Promise((resolve) => {
+            resolve(db.execute("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND() LIMIT 16"))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchAllProductForShop() {
+        return new Promise((resolve) => {
+            resolve(db.execute("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND()"))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchAllProductsOnCategory(category_id){
+        return new Promise((resolve) => {
+            resolve(db.execute("SELECT title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max where category_id = ? ORDER BY RAND()",[category_id]))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 };
 
