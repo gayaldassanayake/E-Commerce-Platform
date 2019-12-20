@@ -10,13 +10,16 @@ module.exports = class Customer {
     }
 
     static register = (userInput) => {
+        // db.insert()
         return db.getConnection().then(conn => {
             conn.execute("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
             [userInput.name, 
             userInput.username, 
             hashFunctions.hash(userInput.password), 
             userInput.email, 
-            userInput.address])
+            userInput.address]);
+
+            
             // .then(conn => {
                 
             //     conn.execute("INSERT INTO customer_telephone (customer_id, telephone_number) VALUES (?,?)",
@@ -58,13 +61,18 @@ module.exports = class Customer {
         });
     }
 
-    static getCustomerById = () => {
+    // static getCustomerById = () => {
 
+    // }
+
+    static checkUsernameExist = ( username ) => {
+        return db.query("SELECT username FROM customer WHERE username = ?", [username]);
+        
     }
 
-
-
-
-
+    static checkEmailExist = ( email ) => {
+        return db.query("SELECT email FROM customer WHERE email = ?", [email]);
+        
+    }
 
 };

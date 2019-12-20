@@ -9,7 +9,6 @@ const jsonReader = (filepath) => {
             } 
             try {
                 const obj = JSON.parse(fileData);
-                // console.log('file read success!');
                 resolve(obj);
             } catch (err) {
                 console.log(err);

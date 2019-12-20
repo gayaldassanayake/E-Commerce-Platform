@@ -11,8 +11,6 @@ const authRoutes = require('./routes/authRouter');
 
 const errorController = require('./controllers/errorController');
 const config = require('./utils/config');
-const session = require('express-session')
-
 
 const app = express();
 
@@ -33,8 +31,10 @@ app.use(session({
 app.use('/admin', adminRoutes);
 app.use(homeRoutes);
 app.use(authRoutes);
-app.use('/shop',shoppingRoutes);
-
+// app.use('/shop',shoppingRoutes);
+// app.use((req,res, next) => {
+//     req.session.cart = "cart";
+// });
 
 app.use(errorController.get404);
 
