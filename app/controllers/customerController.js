@@ -20,7 +20,8 @@ exports.indexAction = (req, res, next) => {
                 pageTitle: "Home",
                 path: '/',
                 meta: value,
-                productDetails: result[0]
+                productDetails: result[0],
+                isAuthenticated: req.session.isLoggedIn
             })
         });
 
@@ -37,7 +38,8 @@ exports.loginAction = (req, res, next) => {
 exports.track_orderAction = (req, res, next) =>{
     res.render ('customer_views/track_order',{
         pageTitle: "Track Order",
-        path: "/"
+        path: "/",
+        isAuthenticated: req.session.isLoggedIn
     })
 };
 exports.checkoutAction = (req, res, next) => {
@@ -105,6 +107,7 @@ exports.order_detailsActionPost = (req, res, next) => {
                 path: "/",
                 order_details: result[0][0],
                 order_items: resu[0],
+                isAuthenticated: req.session.isLoggedIn
             })
         }).catch(err => console.error(err));
     }).catch(err => console.error(err))
