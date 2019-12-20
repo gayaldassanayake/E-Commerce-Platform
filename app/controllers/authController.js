@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator/check');
+
 const Customer = require('../models/customerModel');
 const hashFunctions = require('../utils/hash_functions');
 const objToDict = require('../utils/objToDict');
@@ -17,11 +19,15 @@ exports.getRegisterAction = (req, res, next) => {
 
 exports.postRegisterAction = (req, res, next) => {
     const userInput = objToDict.objToDict(req.body);
-    const validation = true;
-    if (validation) {
+    const errorMessages = validationResult(req);
+    if (errorMessage.isEmpty) {
         Customer.register(userInput).then(res.redirect('/login'));
     } else {
-        console.log("Not Correct !")
+        return res.status(422).render('customer_views/register',{
+            pageTitle: 'Sign up',
+            path: '/signup',
+            errorMessages: errorMessages.array()[0].msg
+        });
     }
     
 }
