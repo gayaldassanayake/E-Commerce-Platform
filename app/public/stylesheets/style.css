@@ -2135,20 +2135,21 @@ ul {
 
 .main_menu .main-menu-item ul li .nav-link-username {
   color: white;
-  background-color: #ff3368;
+  background-color: #00ADB5;
   font-size: 15px;
-  padding: 36px 23px;
+  padding: 36px 23px 47px 23px;
+  margin-left: 5px;
   font-family: "Poppins", sans-serif;
   text-transform: capitalize;
+  line-height: 12px;
   font-weight: 400;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 
 .main_menu .main-menu-item ul li .nav-link-username :hover {
   font-size: 17px;
-  padding: 36px 23px;
-  font-family: "Poppins", sans-serif;
-  text-transform: capitalize;
-  font-weight: 400;
+ 
 }
 
 
@@ -2161,6 +2162,9 @@ ul {
   /* line 20, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
   .main_menu .main-menu-item ul li .nav-link {
     padding: 35px 20px;
+  }
+  .main_menu .main-menu-item ul li .nav-link-username {
+    padding: 38px 20px 42px 20px;
   }
 }
 
@@ -2354,6 +2358,11 @@ ul {
   .main_menu .main-menu-item .nav-item .nav-link {
     padding: 5px 15px !important;
     color: #000;
+  }
+
+  .main_menu .main-menu-item .nav-item .nav-link-username {
+    padding: 5px 15px !important;
+    color: white;
   }
 
 
