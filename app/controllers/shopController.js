@@ -26,6 +26,7 @@ exports.shopAction = (req, res, next) => {
                 categories: result[0],
                 products: resu[0],
                 check_on_category: null,
+                isAuthenticated: req.session.isLoggedIn
             });
         });
     });
@@ -53,7 +54,8 @@ exports.shopCategoryAction = (req, res, next) => {
                 path: '/',
                 categories: result[0],
                 products: resu[0],
-                check_on_category: req.params.id
+                check_on_category: req.params.id,
+                isAuthenticated: req.session.isLoggedIn
             });
         });
     });

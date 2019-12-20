@@ -9,7 +9,7 @@ module.exports = class Customer {
         this.password = password;     
     }
 
-    static register = (userInput) => {
+    static register (userInput) {
         return db.getConnection().then(conn => {
             conn.execute("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
             [userInput.name, 
@@ -26,7 +26,7 @@ module.exports = class Customer {
         });
     }
 
-    static getCustomerByUsername = (username) => {
+    static getCustomerByUsername (username) {
         return db.getConnection().then(conn => {
             return conn.execute("SELECT * FROM customer WHERE username = ?",[username]).then(
                 value => {                
@@ -37,7 +37,7 @@ module.exports = class Customer {
         });
     }
 
-    static login = (username, password, req, res) => {
+    static login (username, password, req, res) {
         this.getCustomerByUsername(username).then((user) => {
             if(user) {
                 if(hashFunctions.checkHashed(password, user.password)) {
@@ -58,7 +58,7 @@ module.exports = class Customer {
         });
     }
 
-    static getCustomerById = () => {
+    static getCustomerById () {
 
     }
 
