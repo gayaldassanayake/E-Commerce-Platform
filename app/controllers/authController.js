@@ -30,8 +30,7 @@ exports.postRegisterAction = (req, res, next) => {
     const errorMessages = validationResult(req);
     console.log(errorMessages);
     if (errorMessages.isEmpty()) {
-        console.log("errors");
-        // Customer.register(userInput).then(res.redirect('/login'));
+        Customer.register(userInput).then(res.redirect('/login'));
     } else {
         return res.status(422).render('customer_views/register',{
             pageTitle: 'Sign up',
