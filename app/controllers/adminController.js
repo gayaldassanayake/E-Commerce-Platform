@@ -10,3 +10,19 @@ exports.admin_dashboardAction = (req, res, next) => {
         isAuthenticated: req.session.isLoggedIn
     });
 }
+
+exports.view_categoryAction = (req, res, next) => {
+    res.render('admin_views/view_category', {
+        pageTitle: "View Category",
+        path: '/',
+        isAuthenticated: req.session.isLoggedIn
+    });
+}
+
+exports.view_productAction = (req, res, next) => {
+    res.render('admin_views/view_product', {
+        pageTitle: "View Category",
+        path: '/',
+        isAuthenticated: req.session.isLoggedIn
+    });
+}
