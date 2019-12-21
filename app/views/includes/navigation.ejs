@@ -7,7 +7,7 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="menu_icon"><i class="ti-angle-double-down"></i></span>
+                        <span class="menu_icon"><i class="fas fa-bars"></i></span>
                     </button>
 
                     <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
@@ -23,11 +23,11 @@
                             </li>
                             <% if (!isAuthenticated) { %>
                                 <li class="nav-item">
-                                    <a href="/login" class="nav-link">Login</a>
+                                   <a href="/login" class="row nav-link-username">Login</a>
                                 </li>
                             <% } else { %>
                                 <li class="nav-item">
-                                    <form action="/logout" method="POST"><button class="nav-link" type="submit">logout</button></form>
+                                    <form action="/logout" method="POST"><button type="submit" style="background-color: rgba(0, 0, 0, 0); border-color: rgba(0, 0, 0, 0);"><a class = "row nav-link-username">logout</a></button></form>
                                 </li>
                             <% } %>
                             <!-- <li class="nav-item">
