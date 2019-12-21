@@ -1,33 +1,55 @@
 const db = require('../utils/database');
 
+
 module.exports = class Category {
     constructor(category_id, category, super_category_id, deleted) {
         this.category_id = category_id;
-        this.category= category;
+        this.category = category;
         this.super_category_id = super_category_id;
         this.deleted = deleted;
     }
 
     save() {
-        db.execute('INSERT INTO products (category_id, category, super_category_id, deleted) VALUES (?,?,?,?)',
-            [this.category_id, this.category, this.super_category_id, this.deleted]
-        );
+        db.insert('products',
+            { 'category_id': this.category_id, 'category': this.category, 'super_category_id': this.super_category_id, 'deleted': this.deleted })
+            .catch((err) => {
+                console.log(err);
+            });
+
     }
 
     static fetchAll() {
-        db.execute("SELECT * FROM category").then((res) => {
-            console.log(res);
-        }).catch((err) => {
+        db.read('categoty',{}).catch((err) => {
             console.log(err);
+        }).then(function(data) {
+            return data;
         });
+
+
+        // db.query("SELECT * FROM category").then((res) => {
+        //     console.log(res);
+        // }).catch((err) => {
+        //     console.log(err);
+        // });
     }
 
-    static fetchAllCategoryIDAndCategory(){
-        return new Promise((resolve)=>{
-            resolve(db.execute("SELECT category_id,category from category"))
+    static fetchAllCategoryIDAndCategory() {
+        // Promise promise = new Promise(db.read('category',{'fields':['category_id','category'] }).catch((err) => {
+        //     console.log(err);
+        // }));;
+
+        return new Promise((resolve) => {
+            resolve(db.read('category',{fields:['category_id','category'] }))
         }).catch((err) => {
             console.log(err);
         });
+
+        // db.read('category',{fields:['category_id','category'] }).then(function(data) {
+        //     //console.log(data);
+        //     return data;
+        // });
+
+   
     }
 
     static getProductsFromTheCart(customer_id) {
@@ -38,19 +60,19 @@ module.exports = class Category {
             + "varient.product_id = shopping_cart_item.product_id and "
             + "shopping_cart_item.customer_id =(?)"
         return new Promise((resolve, reject) => {
-            resolve(db.execute(select_query, [customer_id]))
+            resolve(db.query(select_query, [customer_id]))
         })
     }
 
 
 
     static createProducts(...product_details) {
-
+    
     }
 
     static fetchAllProductForShop() {
         return new Promise((resolve) => {
-            resolve(db.execute("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND() LIMIT 16"))
+            resolve(db.query("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND() LIMIT 16"))
         }).catch((err) => {
             console.log(err);
         });

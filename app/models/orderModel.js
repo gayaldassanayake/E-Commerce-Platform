@@ -18,14 +18,14 @@ module.exports = class Order {
 
 
     save() {
-        db.execute('INSERT INTO products (title, description, manufacturer, state, rating) VALUES (?,?,?,?,?,?)',
+        db.query('INSERT INTO products (title, description, manufacturer, state, rating) VALUES (?,?,?,?,?,?)',
             [this.title, this.description, manufacturer, this.state, this.rating]
         );
     }
 
     static findByOrderID(order_id) {
         return new Promise((resolve) => {
-            resolve(db.execute('SELECT * FROM order_ WHERE order_id = ? ', [order_id]))
+            resolve(db.query('SELECT * FROM order_ WHERE order_id = ? ', [order_id]))
         }).catch((err) => {
             console.log(err);
         });
@@ -33,7 +33,7 @@ module.exports = class Order {
 
     static findOrderDetailsByOrderID(order_id) {
         return new Promise((resolve) => {
-            resolve(db.execute('SELECT * FROM order_details WHERE order_id = ? ', [order_id]))
+            resolve(db.query('SELECT * FROM order_details WHERE order_id = ? ', [order_id]))
         }).catch((err) => {
             console.log(err);
         });
@@ -41,7 +41,7 @@ module.exports = class Order {
 
     static findOrderItemsByOrderID(order_id) {
         return new Promise((resolve) => {
-            resolve(db.execute('SELECT * FROM order_items_view WHERE order_id = ? ', [order_id]))
+            resolve(db.query('SELECT * FROM order_items_view WHERE order_id = ? ', [order_id]))
         }).catch((err) => {
             console.log(err);
         });
@@ -50,21 +50,21 @@ module.exports = class Order {
     static fetchAll() {
 
         new Promise((resolve) => {
-            resolve(db.execute('SELECT * FROM order_ WHERE order_id = ? ', [order_id]))
+            resolve(db.query('SELECT * FROM order_ WHERE order_id = ? ', [order_id]))
         }).then((res) => {
             console.log(res);
         }).catch((err) => {
             console.log(err);
         });
 
-        db.execute('SELECT * FROM order_ WHERE order_id = ? ', [order_id]).then((res) => {
+        db.query('SELECT * FROM order_ WHERE order_id = ? ', [order_id]).then((res) => {
             console.log(res);
         }).catch((err) => {
             console.log(err);
         });
 
 
-        db.execute("SELECT * FROM product").then((res) => {
+        db.query("SELECT * FROM product").then((res) => {
             console.log(res);
         }).catch((err) => {
             console.log(err);

@@ -9,6 +9,7 @@ const pool = mysql.createPool({
     user: database.user,
     database: database.name,
     password: database.password,
+    port: database.port
 });
 
 // const pool = mysql.createPool(config.database);
@@ -151,11 +152,12 @@ function query(sql, parameters) {
 }
 
 
-module.exports = pool.promise();
 exports.read = read;
 exports.insert = insert;
 exports.update = update;
 exports.query = query;
+
+// module.exports = pool.promise();
 
 
 /*

@@ -15,12 +15,12 @@ exports.indexAction = (req, res, next) => {
     promise.then((value) => {
         console.log(value);
         fetchProductDetails().then((result) => {
-            console.log(result[0])
+            console.log(result)
             res.render('customer_views/index', {
                 pageTitle: "Home",
                 path: '/',
                 meta: value,
-                productDetails: result[0],
+                productDetails: result,
                 isAuthenticated: req.session.isLoggedIn
             })
         });
@@ -99,14 +99,14 @@ exports.order_detailsActionPost = (req, res, next) => {
         });
     };
     fetchOrderDetails().then((result) => {
-        console.log(result[0][0]);
+        console.log(result[0]);
         fetchOrderItems().then((resu) => {
-            console.log(resu[0]);
+            console.log(resu);
             res.render('customer_views/track_order_details', {
                 pageTitle: "Order Details",
                 path: "/",
-                order_details: result[0][0],
-                order_items: resu[0],
+                order_details: result[0],
+                order_items: resu,
                 isAuthenticated: req.session.isLoggedIn
             })
         }).catch(err => console.error(err));
