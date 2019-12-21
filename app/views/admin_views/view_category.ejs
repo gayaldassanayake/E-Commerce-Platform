@@ -1,0 +1,45 @@
+<%- include('../includes/header.ejs') %>
+<%- include('../includes/navigation_admin.ejs') %>
+
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div>
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2 style="color: #00ADB5;">Admin Dashboard</h2>
+                        <h4 style="color: #00ADB5;">View Category</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb start-->
+
+<!--================Category Product Area =================-->
+<section class="tracking_box_area padding_top">
+    <div class="container" style="margin-bottom: 15vh;">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <div class="tracking_box_inner">
+                    <p>To view details of a category please enter the category ID in the box below and press the "view" button.
+                        You can find the relevent category ID's in the store manifest.</p>
+                    <form class="row tracking_form" action="#" method="post" novalidate="novalidate">
+                        <div class="col-md-12 form-group">
+                            <input type="text" class="form-control" id="order_id" name="order_id"
+                                placeholder="Category ID">
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <button type="submit" value="submit" class="genric-btn success-border circle arrow" style="font-size:15px;">View Category</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<!--================End Category Product Area =================-->
