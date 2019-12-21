@@ -39,6 +39,24 @@ exports.shopCategoryAction = (req, res, next) => {
         });
     };
 
+    fetchCategory().then((result)=>{
+        var c = 0;
+        for (var i = 0; i<result[0].length ; i++){
+            if (result[0][i].category_id==req.params.id){
+                c = 1;
+                break;
+                
+            }
+        }
+        if (c==0){
+            res.status(404).render('404', {
+                pageTitle: 'Page Not Found', 
+                path: '',
+                isAuthenticated: req.session.isLoggedIn
+            });
+        }
+    });
+
     const fetchProducts = () => {
         return new Promise((resolve, reject) => {
             resolve((Product.fetchAllProductsOnCategory(req.params.id)));

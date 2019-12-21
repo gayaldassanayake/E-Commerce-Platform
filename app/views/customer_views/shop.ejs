@@ -102,17 +102,26 @@
                 </div>
                  -->
                 <div class="row align-items-center latest_product_inner">
-                    <% for (var i = 0; i< products.length ; i++){ %>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img style="width: 200mm; height: 94mm; object-fit: contain;" src= <%= products[i].image_path %>>
-                                <div class="single_product_text">
-                                    <h4><%= products[i].title %></h4>
-                                    <h3>USD<%= products[i].min_price %> - USD<%= products[i].max_price %></h3>
-                                    <a href="#" class="add_cart">+ add to cart</a>
-                                </div>
-                            </div>  
+                    <% if (products.length == 0) { %>
+                        <div class="col-lg-4 col-sm-7">
+                            <img src="/images/shop_sad.png" style="height: auto; width: 250px;">
                         </div>
+                        <div class="col-lg-8 col-sm-4">
+                            <h1 style="color: #ff3368;">SORRY! WE ARE OUT OF STOCK!</h1>
+                        </div>
+                    <% } else { %>
+                        <% for (var i = 0; i< products.length ; i++){ %>
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="single_product_item">
+                                    <img style="width: 200mm; height: 94mm; object-fit: contain;" src= <%= products[i].image_path %>>
+                                    <div class="single_product_text">
+                                        <h4><%= products[i].title %></h4>
+                                        <h3>USD<%= products[i].min_price %> - USD<%= products[i].max_price %></h3>
+                                        <a href="#" class="add_cart">+ add to cart</a>
+                                    </div>
+                                </div>  
+                            </div>
+                        <% } %>
                     <% } %>
                     <!-- <div class="col-lg-4 col-sm-6">
                         <div class="single_product_item">
