@@ -1,9 +1,17 @@
 const mysql = require('mysql2');
 // const { database } = require('./config')
-const config = require('./config')
+// const config = require('./config')
 
+const { database } = require('./config')
 
-const pool = mysql.createPool(config.database);
+const pool = mysql.createPool({
+    host: database.host,
+    user: database.user,
+    database: database.name,
+    password: database.password,
+});
+
+// const pool = mysql.createPool(config.database);
 
 function read(table, parameters) {
 
