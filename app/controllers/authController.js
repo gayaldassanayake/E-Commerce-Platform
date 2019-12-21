@@ -28,9 +28,10 @@ exports.getRegisterAction = (req, res, next) => {
 exports.postRegisterAction = (req, res, next) => {
     const userInput = objToDict.objToDict(req.body);
     const errorMessages = validationResult(req);
-    console.log(errorMessages);
+    console.log(errorMessages)
     if (errorMessages.isEmpty()) {
         Customer.register(userInput).then(res.redirect('/login'));
+        return res.redirect('/login');
     } else {
         return res.status(422).render('customer_views/register',{
             pageTitle: 'Sign up',
@@ -52,16 +53,16 @@ exports.postRegisterAction = (req, res, next) => {
 exports.getLoginAction = (req, res, next) => {
     res.render('customer_views/login',{
         path: '/login',
-        isAuthenticated: req.session.isLoggedIn,
-        pageTitle: 'Login'  
+        pageTitle: 'Login',
+        errorMessage: false,
+        prevInput: ''
     });
 }
 
 exports.postLoginAction = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
-    // console.log(username);
-    // console.log(password);
+    // const errorMessages = validationResult(req).array();
     Customer.getCustomerByUsername(username).then((user) => {
         if(user) {
             if(hashFunctions.checkHashed(password, user.password)) {
@@ -73,13 +74,15 @@ exports.postLoginAction = (req, res, next) => {
                     }
                     return res.redirect('/');
                 });
-            } else {
-                console.error("Password Incorrect !");
-                res.redirect('/login');
+            } else { 
+                redirectToLogin(req, res);
             }
         } else {
-            console.log("User doesn't exists! Please try Again");
-            res.redirect('/login');
+            redirectToLogin(req, res);
+        }
+    }).catch((err) => {
+        if(err) {
+            redirectToLogin(req, res);
         }
     });
 }
@@ -88,5 +91,16 @@ exports.postLogoutAction = (req, res, next) => {
     req.session.destroy((err) => {
         if(err) console.error(err);
         res.redirect('/');
+    });
+}
+
+// Fuctions
+
+const redirectToLogin = (req, res) => {
+    return res.status(422).render('customer_views/login',{
+        pageTitle: 'Login',
+        path: '/login',
+        errorMessage: "Invalid password or Username",
+        prevInput: req.body.username
     });
 }

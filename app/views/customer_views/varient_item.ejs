@@ -266,6 +266,7 @@
                                                     <h4>Post a comment</h4>
                                                     <form class="row contact_form" action="contact_process.php"
                                                         method="post" id="contactForm" novalidate="novalidate">
+                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <input type="text" class="form-control" id="name"
@@ -464,24 +465,25 @@
                                                     <p>Outstanding</p>
                                                     <form class="row contact_form" action="contact_process.php"
                                                         method="post" novalidate="novalidate">
-                                                        {{!-- <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Your Full name" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" name="email"
-                                            placeholder="Email Address" />
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="number"
-                                            placeholder="Phone Number" />
-                                    </div>
-                                </div> --}}
+                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="name"
+                                                                    placeholder="Your Full name" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <input type="email" class="form-control" name="email"
+                                                                    placeholder="Email Address" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="number"
+                                                                    placeholder="Phone Number" />
+                                                            </div>
+                                                        </div> 
                                                         <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <textarea class="form-control" name="message" rows="30"
