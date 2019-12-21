@@ -16,15 +16,17 @@ exports.shopAction = (req, res, next) => {
         });
     };
 
+    console.log(fetchCategory());
+
     fetchProducts().then((resu) => {
         fetchCategory().then((result) => {
-            console.log(result[0]);
-            console.log(resu[0])
+            console.log(result);
+            console.log(resu);
             res.render('customer_views/shop', {
                 pageTitle: "Shop",
                 path: '/',
-                categories: result[0],
-                products: resu[0],
+                categories: result,
+                products: resu,
                 check_on_category: null,
                 isAuthenticated: req.session.isLoggedIn
             });
@@ -41,8 +43,8 @@ exports.shopCategoryAction = (req, res, next) => {
 
     fetchCategory().then((result)=>{
         var c = 0;
-        for (var i = 0; i<result[0].length ; i++){
-            if (result[0][i].category_id==req.params.id){
+        for (var i = 0; i<result.length ; i++){
+            if (result[i].category_id==req.params.id){
                 c = 1;
                 break;
                 
@@ -65,13 +67,13 @@ exports.shopCategoryAction = (req, res, next) => {
 
     fetchProducts().then((resu) => {
         fetchCategory().then((result) => {
-            console.log(result[0]);
-            console.log(resu[0])
+            console.log(result);
+            console.log(resu)
             res.render('customer_views/shop', {
                 pageTitle: "Shop",
                 path: '/',
-                categories: result[0],
-                products: resu[0],
+                categories: result,
+                products: resu,
                 check_on_category: req.params.id,
                 isAuthenticated: req.session.isLoggedIn
             });

@@ -6,41 +6,65 @@ module.exports = class Customer {
         this.username = username;
         this.name = name;
         this.email = email;
-        this.password = password;     
+        this.password = password;
     }
 
-    static register (userInput) {
-        return db.getConnection().then(conn => {
-            conn.execute("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
-            [userInput.name, 
-            userInput.username, 
-            hashFunctions.hash(userInput.password), 
-            userInput.email, 
-            userInput.address])
-            // .then(conn => {
-                
-            //     conn.execute("INSERT INTO customer_telephone (customer_id, telephone_number) VALUES (?,?)",
-            //     []);
-            // });
-               
+    static register(userInput) {
+        return new Promise((resolve) => {
+            resolve(db.execute("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
+                [userInput.name,
+                userInput.username,
+                hashFunctions.hash(userInput.password),
+                userInput.email,
+                userInput.address]))
+        }).catch((err) => {
+            console.log(err);
         });
+
+
+        // return db.getConnection().then(conn => {
+        //     conn.execute("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
+        //     [userInput.name, 
+        //     userInput.username, 
+        //     hashFunctions.hash(userInput.password), 
+        //     userInput.email, 
+        //     userInput.address])
+        //     // .then(conn => {
+
+        //     //     conn.execute("INSERT INTO customer_telephone (customer_id, telephone_number) VALUES (?,?)",
+        //     //     []);
+        //     // });
+
+        // });
+
+
     }
 
-    static getCustomerByUsername (username) {
-        return db.getConnection().then(conn => {
-            return conn.execute("SELECT * FROM customer WHERE username = ?",[username]).then(
-                value => {                
-                    const details = value[0][0];
-                    return new Customer(details.username, details.name, details.email, details.password);
-                }
-            );
+    static getCustomerByUsername(username) {
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT * FROM customer WHERE username = ?", [username]))
+        }).then(value => {
+            const details = value[0];
+            return new Customer(details.username, details.name, details.email, details.password);
+        }).catch((err) => {
+            console.log(err);
         });
+
+
+        // return db.getConnection().then(conn => {
+        //     return conn.execute("SELECT * FROM customer WHERE username = ?", [username]).then(
+        //         value => {
+        //             const details = value[0][0];
+        //             return new Customer(details.username, details.name, details.email, details.password);
+        //         }
+        //     );
+        // });
     }
 
-    static login (username, password, req, res) {
+    static login(username, password, req, res) {
         this.getCustomerByUsername(username).then((user) => {
-            if(user) {
-                if(hashFunctions.checkHashed(password, user.password)) {
+            if (user) {
+                if (hashFunctions.checkHashed(password, user.password)) {
                     req.session.isLoggedIn = true;
                     req.session.user = user;
                     return req.session.save(err => {
@@ -58,7 +82,7 @@ module.exports = class Customer {
         });
     }
 
-    static getCustomerById () {
+    static getCustomerById() {
 
     }
 

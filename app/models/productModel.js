@@ -14,13 +14,13 @@ module.exports = class Product {
     }
 
     save() {
-        db.execute('INSERT INTO products (title, description, manufacturer, state, rating) VALUES (?,?,?,?,?,?)',
+        db.query('INSERT INTO products (title, description, manufacturer, state, rating) VALUES (?,?,?,?,?,?)',
             [this.title, this.description, manufacturer, this.state, this.rating, this.image_path, this.price, this.quantity]
         );
     }
 
     static fetchAll() {
-        db.execute("SELECT * FROM product").then((res) => {
+        db.query("SELECT * FROM product").then((res) => {
             console.log(res);
         }).catch((err) => {
             console.log(err);
@@ -44,7 +44,7 @@ module.exports = class Product {
         return new Promise((resolve) => {
 
             new Promise((resolve)=>{
-                resolve(db.execute(select_query, [customer_id]))
+                resolve(db.query(select_query, [customer_id]))
             })
             .then(res => {
                 res = res[0]
@@ -78,7 +78,7 @@ module.exports = class Product {
         return new Promise((resolve=>{
 
             new Promise((resolve)=>{
-                resolve(db.execute(select_query, bind_params))
+                resolve(db.query(select_query, bind_params))
             })
             .then(res => {
                 res = res[0]
@@ -107,7 +107,7 @@ module.exports = class Product {
 
     static fetchAllProductForIndex() {
         return new Promise((resolve) => {
-            resolve(db.execute("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND() LIMIT 16"))
+            resolve(db.query("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND() LIMIT 16"))
         }).catch((err) => {
             console.log(err);
         });
@@ -115,15 +115,20 @@ module.exports = class Product {
 
     static fetchAllProductForShop() {
         return new Promise((resolve) => {
-            resolve(db.execute("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND()"))
+            resolve(db.query("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND()"))
         }).catch((err) => {
             console.log(err);
         });
+
+        // db.query("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND()").then(function(data){
+        //     return data;
+        // })
+
     }
 
     static fetchAllProductsOnCategory(category_id){
         return new Promise((resolve) => {
-            resolve(db.execute("SELECT title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max where category_id = ? ORDER BY RAND()",[category_id]))
+            resolve(db.query("SELECT title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max where category_id = ? ORDER BY RAND()",[category_id]))
         }).catch((err) => {
             console.log(err);
         });
