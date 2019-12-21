@@ -1,8 +1,12 @@
 const mysql = require('mysql2');
-const config = require('./config')
+const { database } = require('./config')
 
-const pool = mysql.createPool(config.database);
-
+const pool = mysql.createPool({
+    host: database.host,
+    user: database.user,
+    database: database.name,
+    password: database.password,
+});
 
 function read(table, parameters) {
 
@@ -11,11 +15,20 @@ function read(table, parameters) {
         var conditions = '';
         var limit = '';
         var orderby = '';
+        var fieldsStr = '*';
+        var bindparam = [];
 
         if (parameters['conditions']) {
-            conditions = parameters['conditions'].join(' =? AND ');
-            conditions += ' =?';
+            var conditionArr = []
+            for (var field in parameters['conditions']) {
+                if (parameters['conditions'].hasOwnProperty(field)) {
+                    conditionArr.push(field + ' = ?');
+                    bindparam.push(parameters['conditions'][field]);
+                }
+            }
+            conditions = conditionArr.join(' AND ');
         }
+
         if (conditions != '') {
             conditions = ' WHERE ' + conditions;
         }
@@ -28,9 +41,14 @@ function read(table, parameters) {
             limit = ' LIMIT ' + parameters['limit'];
         }
 
-        var sql = `SELECT * FROM ${table}` + conditions + orderby + limit;
+        if (parameters['fields']) {
+            fieldsStr = parameters['fields'].join(', ');
+        }
 
-        pool.execute(sql, parameters['parameters'], function (err, results, fields) {
+
+        var sql = `SELECT ` + fieldsStr + ` FROM ${table}` + conditions + orderby + limit;
+
+        pool.execute(sql, bindparam, function (err, results, fields) {
             if (err) {
                 reject(err);
             }
@@ -47,15 +65,23 @@ function insert(table, parameters) {
 
         var fields = '';
         var values = [];
+        var bindparam = [];
+        var fieldsArr = [];
 
-        for (var i = 0; i < parameters['values'].length; i++) {
-            values.push('?')
+        for (var field in parameters) {
+            if (parameters.hasOwnProperty(field)) {
+                fieldsArr.push(field);
+                values.push('?');
+                bindparam.push(parameters[field]);
+            }
         }
+
+        fields = fieldsArr.join(', ');
         values = values.join(', ');
 
         var sql = `INSERT INTO ${table} (` + fields + ') VALUES (' + values + ')';
 
-        pool.execute(sql, parameters['values'], function (err, results, fields) {
+        pool.execute(sql, bindparam, function (err, results, fields) {
             if (err) {
                 reject(err);
             }
@@ -77,14 +103,14 @@ function update(table, primaryKeys, parameters) {
         for (var field in parameters) {
             if (parameters.hasOwnProperty(field)) {
                 parametersArr.push(field + ' = ?');
-                bindparam.push(parameters[field].toString());
+                bindparam.push(parameters[field]);
             }
         }
 
         for (var key in primaryKeys) {
             if (primaryKeys.hasOwnProperty(key)) {
                 conditionsArr.push(key + ' = ?');
-                bindparam.push(primaryKeys[key].toString());
+                bindparam.push(primaryKeys[key]);
             }
         }
 
@@ -119,8 +145,48 @@ function query(sql, parameters) {
     })
 }
 
-module.exports = pool.promise();
 exports.read = read;
 exports.insert = insert;
 exports.update = update;
 exports.query = query;
+
+
+/*
+===============================================================================================
+
+DEVELOPER GUIDE
+
+    read(table_name[string],paramter[Object])
+
+    parameter[object] =>
+        {conditions:[Object Array],     //  conditions for WHERE clause as key:value pairs
+            fields:[string Array]       //  coloum names needed to be fetched if need to be specified
+            limit: [int]                //  limit no. of results
+            orderby: String             //  order by ASC | DESC
+        }
+
+
+    insert(table_name, parameter[object])
+
+    parameter[object] =>
+        {
+            key:value           // Coloum_name:value pairs which are need to be inserted.
+        }
+
+
+    update(table_name,selection[object],parameter[object])
+
+    selection[object] =>
+        {
+            key1:value1,                //  conditions to WHERE cluase as key:value pairs
+            key2:value2
+        }
+
+    parameter[object] =>
+        {
+            key1:value1,                //  parameters to UPDATE as key:value pairs
+            key2:value2
+        }
+
+    query(sql[String],bind_parameters[Array])
+*/
