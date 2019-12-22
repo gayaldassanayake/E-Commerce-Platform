@@ -11,7 +11,7 @@ module.exports = class Customer {
 
     static register(userInput) {
         return new Promise((resolve) => {
-            resolve(db.execute("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
+            resolve(db.query("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
                 [userInput.name,
                 userInput.username,
                 hashFunctions.hash(userInput.password),

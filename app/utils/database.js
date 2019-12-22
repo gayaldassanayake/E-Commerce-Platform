@@ -171,7 +171,7 @@ DEVELOPER GUIDE
         {conditions:[Object Array],     //  conditions for WHERE clause as key:value pairs
             fields:[string Array]       //  coloum names needed to be fetched if need to be specified
             limit: [int]                //  limit no. of results
-            orderby: String             //  order by ASC | DESC
+            orderby: String             //  order by ASC | DESC | RAND()
         }
 
 

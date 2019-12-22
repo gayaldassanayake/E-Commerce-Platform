@@ -24,8 +24,11 @@ module.exports = class Order {
     }
 
     static findByOrderID(order_id) {
+
+        //db.read('order_',{conditions: {'order_id': order_id}})
+
         return new Promise((resolve) => {
-            resolve(db.query('SELECT * FROM order_ WHERE order_id = ? ', [order_id]))
+            resolve(db.read('order_',{conditions: {'order_id': order_id}}))
         }).catch((err) => {
             console.log(err);
         });
@@ -33,7 +36,7 @@ module.exports = class Order {
 
     static findOrderDetailsByOrderID(order_id) {
         return new Promise((resolve) => {
-            resolve(db.query('SELECT * FROM order_details WHERE order_id = ? ', [order_id]))
+            resolve(db.read('order_details',{conditions: {'order_id': order_id}}))
         }).catch((err) => {
             console.log(err);
         });
@@ -41,7 +44,7 @@ module.exports = class Order {
 
     static findOrderItemsByOrderID(order_id) {
         return new Promise((resolve) => {
-            resolve(db.query('SELECT * FROM order_items_view WHERE order_id = ? ', [order_id]))
+            resolve(db.read('order_items_view',{conditions: {'order_id': order_id}}))
         }).catch((err) => {
             console.log(err);
         });

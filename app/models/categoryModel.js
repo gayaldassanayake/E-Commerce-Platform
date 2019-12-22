@@ -19,9 +19,9 @@ module.exports = class Category {
     }
 
     static fetchAll() {
-        db.read('categoty',{}).catch((err) => {
+        db.read('categoty', {}).catch((err) => {
             console.log(err);
-        }).then(function(data) {
+        }).then(function (data) {
             return data;
         });
 
@@ -34,22 +34,13 @@ module.exports = class Category {
     }
 
     static fetchAllCategoryIDAndCategory() {
-        // Promise promise = new Promise(db.read('category',{'fields':['category_id','category'] }).catch((err) => {
-        //     console.log(err);
-        // }));;
 
         return new Promise((resolve) => {
-            resolve(db.read('category',{fields:['category_id','category'] }))
+            resolve(db.read('category', { fields: ['category_id', 'category'] }))
         }).catch((err) => {
             console.log(err);
         });
 
-        // db.read('category',{fields:['category_id','category'] }).then(function(data) {
-        //     //console.log(data);
-        //     return data;
-        // });
-
-   
     }
 
     static getProductsFromTheCart(customer_id) {
@@ -67,12 +58,16 @@ module.exports = class Category {
 
 
     static createProducts(...product_details) {
-    
+
     }
 
     static fetchAllProductForShop() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND() LIMIT 16"))
+            resolve(db.read('shop_view_min_max', {
+                fields: ['distinct title', 'image_path', '`MIN(varient.price)` as min_price', '`MAX(varient.price)` as max_price'],
+                limit: [16],
+                orderby: 'RAND()'
+            }))
         }).catch((err) => {
             console.log(err);
         });

@@ -107,7 +107,11 @@ module.exports = class Product {
 
     static fetchAllProductForIndex() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND() LIMIT 16"))
+            resolve(db.read('shop_view_min_max', {
+                fields: ['distinct title', 'image_path', '`MIN(varient.price)` as min_price', '`MAX(varient.price)` as max_price'],
+                limit: [16],
+                orderby: 'RAND()'
+            }))
         }).catch((err) => {
             console.log(err);
         });
@@ -115,7 +119,10 @@ module.exports = class Product {
 
     static fetchAllProductForShop() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND()"))
+            resolve(db.read('shop_view_min_max', {
+                fields: ['distinct title', 'image_path', '`MIN(varient.price)` as min_price', '`MAX(varient.price)` as max_price'],
+                orderby: 'RAND()'
+            }))
         }).catch((err) => {
             console.log(err);
         });
@@ -128,7 +135,12 @@ module.exports = class Product {
 
     static fetchAllProductsOnCategory(category_id){
         return new Promise((resolve) => {
-            resolve(db.query("SELECT title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max where category_id = ? ORDER BY RAND()",[category_id]))
+            resolve(db.read('shop_view_min_max', {
+                fields: ['distinct title', 'image_path', '`MIN(varient.price)` as min_price', '`MAX(varient.price)` as max_price'],
+                limit: [16],
+                conditions : {'category_id':category_id},
+                orderby: 'RAND()'
+            }))
         }).catch((err) => {
             console.log(err);
         });
