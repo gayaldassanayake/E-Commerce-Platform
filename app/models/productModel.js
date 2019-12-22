@@ -145,5 +145,16 @@ module.exports = class Product {
             console.log(err);
         });
     }
+
+    static fetchAllProductsOnCategoryForAdmin(category_id){
+        return new Promise((resolve) => {
+            resolve(db.read('product_category_details', {
+                conditions : {'category_id':category_id},
+                orderby: 'sold_items DESC'
+            }))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 };
 

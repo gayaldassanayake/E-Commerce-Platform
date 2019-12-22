@@ -2,10 +2,11 @@ const db = require('../utils/database');
 
 
 module.exports = class Category {
-    constructor(category_id, category, super_category_id, deleted) {
+    constructor(category_id, category, super_category_id, super_category,deleted) {
         this.category_id = category_id;
         this.category = category;
         this.super_category_id = super_category_id;
+        this.super_category = super_category;
         this.deleted = deleted;
     }
 
@@ -19,18 +20,22 @@ module.exports = class Category {
     }
 
     static fetchAll() {
-        db.read('categoty', {}).catch((err) => {
+        return new Promise((resolve) => {
+            resolve(db.read('category_details'))
+        }).catch((err) => {
             console.log(err);
-        }).then(function (data) {
-            return data;
         });
+    }
 
-
-        // db.query("SELECT * FROM category").then((res) => {
-        //     console.log(res);
-        // }).catch((err) => {
-        //     console.log(err);
-        // });
+    static fetch(category_id){
+        return new Promise((resolve) => {
+            resolve(db.read('category_details',{conditions: {'category_id': category_id}}))
+        }).then((result)=>{
+            //console.log(result[0].category_id);
+            return new Category(result[0].category_id,result[0].category,result[0].super_category_id,result[0].super_category,result[0].deleted);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     static fetchAllCategoryIDAndCategory() {
@@ -55,22 +60,9 @@ module.exports = class Category {
         })
     }
 
-
-
     static createProducts(...product_details) {
 
     }
 
-    static fetchAllProductForShop() {
-        return new Promise((resolve) => {
-            resolve(db.read('shop_view_min_max', {
-                fields: ['distinct title', 'image_path', '`MIN(varient.price)` as min_price', '`MAX(varient.price)` as max_price'],
-                limit: [16],
-                orderby: 'RAND()'
-            }))
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
 };
 
