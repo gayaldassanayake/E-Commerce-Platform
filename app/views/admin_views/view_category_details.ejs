@@ -74,8 +74,8 @@
           <table class="table table-borderless">
             <thead>
               <tr>
-                <th scope="col" colspan="2">Product</th>
-                <th scope="col"></th>
+                <th scope="col" colspan="2">Product ID</th>
+                <th scope="col">Product</th>
                 <th scope="col">Sold Items</th>
               </tr>
             </thead>
@@ -83,8 +83,9 @@
               <% var tot = 0; %>
               <% for (var i = 0; i< products.length; i++ ) { %>
                 <tr>
+                  <th><%= products[i].product_id %></th>
                   <th colspan="2"><span><%= products[i].title %></span></th>
-                  <th></th>
+                  
                   <% tot+=products[i].sold_items %>
                   <th><span>X<%= products[i].sold_items  %></span></th>
                   
