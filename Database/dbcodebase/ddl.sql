@@ -47,7 +47,7 @@ CREATE TABLE product(
     description text not null,
     manufacturer varchar(50) NOT NULL,
     deleted boolean not null,
-    rating int,
+    rating numeric,
     PRIMARY KEY(product_id)
 );
 
