@@ -57,7 +57,7 @@ exports.checkoutAction = (req, res, next) => {
 exports.cartAction = (req, res, next) => {
 
     // change once sessions are done----------------------------------
-    req.session.isLoggedIn = false
+    // req.session.isLoggedIn = true
     req.session.cartItems = [
         { prod_id: 15731, var_id: 66376, quantity: 3 }, 
         { prod_id: 16113, var_id: 38282, quantity: 4 },
@@ -80,6 +80,7 @@ exports.cartAction = (req, res, next) => {
             res.render('customer_views/cart', {
                 pageTitle: "Cart",
                 path: "/cart",
+                isAuthenticated: req.session.isLoggedIn,
                 data: result
             })
         }).catch(err => console.error(err))

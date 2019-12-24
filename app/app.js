@@ -37,7 +37,7 @@ app.use(session({
 app.use('/admin', adminRoutes);
 app.use(homeRoutes);
 app.use(authRoutes);
-app.use('/shop',shoppingRoutes);
+// app.use('/shop',shoppingRoutes);
 
 
 app.use(errorController.get404);
