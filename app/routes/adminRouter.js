@@ -13,4 +13,6 @@ router.get('/view_product',adminController.view_productAction);
 router.get('/report',adminController.reportAction);
 router.get('/report/top_sold_products/',adminController.top_sold_productsAction);
 
+router.post('/report/top_sold_products/',adminController.top_sold_productsPOSTAction);
+
 module.exports = router;
