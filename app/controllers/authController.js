@@ -62,12 +62,12 @@ exports.getLoginAction = (req, res, next) => {
 exports.postLoginAction = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
-    // const errorMessages = validationResult(req).array();
     Customer.getCustomerByUsername(username).then((user) => {
         if(user) {
             if(hashFunctions.checkHashed(password, user.password)) {
                 req.session.isLoggedIn = true;
                 req.session.user = user;
+                req.session.user.type = "Customer";
                 return req.session.save(err => {
                     if(err) {
                         console.error(err);

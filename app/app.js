@@ -14,6 +14,7 @@ const authRoutes = require('./routes/authRouter');
 const errorController = require('./controllers/errorController');
 const config = require('./utils/config');
 const Customer = require('./models/customerModel');
+const AccessControls = require('./data/access_controls');
 
 const app = express();
 const csrfProtection = csrf();
@@ -32,8 +33,50 @@ app.use(session({
     saveUninitialized: false
 }));
 
+app.use((req, res, next) => {
+    if(!req.session.user) {
+        for (const [key, value] of Object.entries(AccessControls.guest)) {
+            if(req.url == value) {
+                next();
+                return;
+            } else {
+                res.redirect('/');
+                return;
+            }           
+        }
+    } else {
+        
+        if(req.session.user.type === "Admin") {
+            for (const [key, value] of Object.entries(AccessControls.Admin)) {
+                if(req.url == value) {
+                    next();
+                    return;
+                } else {
+                    app.use(errorController.get404);
+                    return;
+                }
+            }
+        }
+        if(req.session.user.type === "Customer") {
+            console.log("hi");
+            for (const [key, value] of Object.entries(AccessControls.Loggedin)) {
+                if(req.url == value) {
+                    next();
+                    return;
+                } else {
+                    app.use(errorController.get404);
+                    return;
+                }
+            }
+        }
+    }
+    
+});
+
 app.use(csrfProtection);
 app.use(flash());
+
+
 
 app.use((req, res, next) => {
     if (!req.session.user) {

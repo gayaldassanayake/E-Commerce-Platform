@@ -10,7 +10,6 @@ module.exports = class Customer {
     }
 
     static register = (userInput) => {
-        // db.insert()
         return db.getConnection().then(conn => {
             conn.execute("INSERT INTO customer (name, username, password, email, address) VALUES (?,?,?,?,?)",
             [userInput.name, 
@@ -18,14 +17,6 @@ module.exports = class Customer {
             hashFunctions.hash(userInput.password), 
             userInput.email, 
             userInput.address]);
-
-            
-            // .then(conn => {
-                
-            //     conn.execute("INSERT INTO customer_telephone (customer_id, telephone_number) VALUES (?,?)",
-            //     []);
-            // });
-               
         });
     }
 
