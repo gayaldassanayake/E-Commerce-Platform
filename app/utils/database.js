@@ -17,7 +17,7 @@ const pool = mysql.createPool({
 function read(table, parameters) {
 
     return new Promise((resolve, reject) => {
-
+        
         var conditions = '';
         var limit = '';
         var orderby = '';
@@ -65,7 +65,7 @@ function read(table, parameters) {
     })
 }
 
-function insert(table, parameters) {
+exports.insert = (table, parameters) => {
 
     return new Promise((resolve, reject) => {
 
@@ -84,6 +84,7 @@ function insert(table, parameters) {
 
         fields = fieldsArr.join(', ');
         values = values.join(', ');
+        fields = fields.join(', ');
 
         var sql = `INSERT INTO ${table} (` + fields + ') VALUES (' + values + ')';
 
@@ -98,7 +99,7 @@ function insert(table, parameters) {
     })
 }
 
-function update(table, primaryKeys, parameters) {
+exports.update = (table, primaryKeys, parameters) => {
 
     return new Promise((resolve, reject) => {
 
@@ -137,7 +138,7 @@ function update(table, primaryKeys, parameters) {
     })
 }
 
-function query(sql, parameters) {
+exports.query = (sql, parameters) => {
 
     return new Promise((resolve, reject) => {
         pool.execute(sql, parameters, function (err, results, fields) {

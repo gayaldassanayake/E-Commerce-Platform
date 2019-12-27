@@ -35,6 +35,7 @@
                 Billing & Shipping section.
             </p>
             <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="col-md-6 form-group p_star">
                     <input type="text" class="form-control" id="name" name="name" value=" " />
                     <span class="placeholder" data-placeholder="Username or Email"></span>
@@ -70,6 +71,7 @@
                 <div class="col-lg-8">
                     <h3>Billing Details</h3>
                     <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <div class="col-md-6 form-group p_star">
                             <input type="text" class="form-control" id="first" name="name" />
                             <span class="placeholder" data-placeholder="First name"></span>

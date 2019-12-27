@@ -35,13 +35,17 @@
             <div class="col-lg-8 col-md-6">
                 <div class="login_part_form">
                     <div class="login_part_form_iner">
+                        <% if (errorMessages) { %>
+                        <div><%= errorMessages %></div>
+                        <% } %>
                         <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="name" name="name" value=""
+                                <input type="text" class="form-control" id="name" name="name" value="<%= prevInputs.name %>"
                                     placeholder="Name">
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="username" name="username" value=""
+                                <input type="text" class="form-control" id="username" name="username" value="<%= prevInputs.username %>"
                                     placeholder="Username">
                             </div>
                             <div class="col-md-12 form-group p_star">
@@ -53,15 +57,15 @@
                                     placeholder="Re enter the Password">
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="email" name="email" value=""
+                                <input type="text" class="form-control" id="email" name="email" value="<%= prevInputs.email %>"
                                     placeholder="Email Address">
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <textarea class="form-control" id="address" name="address" value="" rows = "2"
+                                <textarea class="form-control" id="address" name="address" value="<%= prevInputs.address %>" rows = "2"
                                     placeholder="Addresss"></textarea>
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <input type="number" class="form-control" id="telephoneNumber" name="telephoneNumber" value=""
+                                <input type="number" class="form-control" id="telephoneNumber" name="telephoneNumber" value="<%= prevInputs.telephoneNumber %>"
                                     placeholder="Telephone Number">
                             </div>
                             <div class="col-md-12 form-group">

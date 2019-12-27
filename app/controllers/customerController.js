@@ -13,7 +13,7 @@ exports.indexAction = (req, res, next) => {
     };
 
     promise.then((value) => {
-        console.log(value);
+        // console.log(value);
         fetchProductDetails().then((result) => {
             console.log(result)
             res.render('customer_views/index', {
@@ -25,13 +25,6 @@ exports.indexAction = (req, res, next) => {
             })
         });
 
-    });
-};
-
-exports.loginAction = (req, res, next) => {
-    res.render('customer_views/customer_login', {
-        pageTitle: "Login",
-        path: '/'
     });
 };
 
@@ -80,7 +73,8 @@ exports.cartAction = (req, res, next) => {
             res.render('customer_views/cart', {
                 pageTitle: "Cart",
                 path: "/cart",
-                data: result
+                data: result,
+                isAuthenticated: req.session.isLoggedIn
             })
         }).catch(err => console.error(err))
 };
