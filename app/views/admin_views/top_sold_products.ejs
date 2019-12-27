@@ -24,6 +24,38 @@
         <div class="row">
             <div class="col">
                 <div class="row align-items-center latest_product_inner">
+                    <!-- <div class="row">
+                        <h2>dtpicker</h2>
+                    </div> -->
+                    <div class="col">
+                        
+                        <form action="/admin/report/top_sold_products/" method="POST" id="form">
+                                <div class="row">
+                                        <div class="row form-group"> <!-- Date input -->
+                                            <label class="col-sm-4 control-label" for="start_date">Start Date:</label>
+                                            <div class="col-sm-5">
+                                                <input class="form-control addpromo" id="start_date" name="start_date" placeholder="MM/DD/YYY" type="text"/>
+                                            </div>
+                                        </div>
+            
+                                        <div class=" row form-group"> <!-- Date input -->
+                                            <label class="control-label" for="end_date">End Date:</label>
+                                            <div class="col-sm-5">
+                                                <input class="form-control addpromo" id="end_date" name="end_date" placeholder="MM/DD/YYY" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class=" col-sm-4">
+                                            <button type="submit" class="btn btn-primary">Load</button>
+                                        </div>
+                                </div>
+                        </form>
+                    </div>
+
+                    <div class="row">
+                        <h4><%= reportText %></p>
+                    </div>
+                </div>
+                <div class="row align-items-center latest_product_inner">
                     <table class="table">
                         <thead>
                           <tr>

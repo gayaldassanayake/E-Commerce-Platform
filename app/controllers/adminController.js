@@ -38,9 +38,12 @@ exports.reportAction = (req,res,next) =>{
 
 exports.top_sold_productsAction = (req,res,next) =>{
 
+    var end_date = new Date().toISOString().slice(0,10);
+    var start_date = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().slice(0,10);
+    
     const fetchTopSoldProducts = () => {
         return new Promise((resolve, reject) => {
-            resolve((Report.getTopSoldProducts('2019-11-01','2019-12-31')));
+            resolve((Report.getTopSoldProducts(start_date,end_date)));
         });
     };
 
@@ -50,7 +53,28 @@ exports.top_sold_productsAction = (req,res,next) =>{
             pageTitle: "Admin Dashboard",
             path: '/',
             isAuthenticated: req.session.isLoggedIn,
-            table:result[0]
+            table:result[0],
+            reportText:"Top sales from "+start_date +" to "+end_date
+        })
+    });
+}
+
+exports.top_sold_productsPOSTAction = (req,res,next) =>{
+    
+    const fetchTopSoldProducts = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Report.getTopSoldProducts(req.body.start_date,req.body.end_date)));
+        });
+    };
+
+    fetchTopSoldProducts().then((result) => {
+
+        res.render('admin_views/top_sold_products', {
+            pageTitle: "Admin Dashboard",
+            path: '/',
+            isAuthenticated: req.session.isLoggedIn,
+            table:result[0],
+            reportText:"Top sales from "+req.body.start_date +" to "+req.body.end_date
         })
     });
 }
