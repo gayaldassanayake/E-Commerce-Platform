@@ -70,3 +70,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `add_product_super_cateogry` (`p_id`
 $$
 
 DELIMITER ;
+
+-- 
+-- Procedure to get the top sales for a given period
+
+
+DELIMITER //
+
+CREATE PROCEDURE top_sales_proc (start_date date,end_date date)
+	BEGIN
+    	(SELECT product.product_id,product.title,product.description,product.manufacturer,product.rating,COUNT(*) AS Number_of_sales FROM product,order_,order_item WHERE order_.date_>=start_date AND order_.date_<= end_date AND order_.order_id=order_item.order_id AND order_item.product_id=product.product_id GROUP BY order_item.product_id ORDER BY COUNT(*) DESC);
+    END
+//
+
+DELIMITER ;

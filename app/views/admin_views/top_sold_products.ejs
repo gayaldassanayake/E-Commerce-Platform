@@ -1,0 +1,88 @@
+<%- include('../includes/header.ejs') %>
+<%- include('../includes/navigation_admin.ejs') %>
+
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div>
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2 style="color: #00ADB5;">Admin Dashboard</h2>
+                        <h1>Top Sold Products</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb start-->
+
+<!--================Table Area =================-->
+<section class="cat_product_area">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="row align-items-center latest_product_inner">
+                    <!-- <div class="row">
+                        <h2>dtpicker</h2>
+                    </div> -->
+                    <div class="col">
+                        
+                        <form action="/admin/report/top_sold_products/" method="POST" id="form">
+                                <div class="row">
+                                        <div class="row form-group"> <!-- Date input -->
+                                            <label class="col-sm-4 control-label" for="start_date">Start Date:</label>
+                                            <div class="col-sm-5">
+                                                <input class="form-control addpromo" id="start_date" name="start_date" placeholder="MM/DD/YYY" type="text"/>
+                                            </div>
+                                        </div>
+            
+                                        <div class=" row form-group"> <!-- Date input -->
+                                            <label class="control-label" for="end_date">End Date:</label>
+                                            <div class="col-sm-5">
+                                                <input class="form-control addpromo" id="end_date" name="end_date" placeholder="MM/DD/YYY" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class=" col-sm-4">
+                                            <button type="submit" class="btn btn-primary">Load</button>
+                                        </div>
+                                </div>
+                        </form>
+                    </div>
+
+                    <div class="row">
+                        <h4><%= reportText %></p>
+                    </div>
+                </div>
+                <div class="row align-items-center latest_product_inner">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Manufacturer</th>
+                            <th scope="col">Rating</th>
+                            <th scope="col">No. of Sales</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for(var i=0; i < table.length; i++) { %>
+                            <tr>
+                                <th scope="row"><%= i+1 %></th>
+                                <td><%= table[i].title %></td>
+                                <td><%= table[i].description.substring(0,80)+'...' %></td>
+                                <td><%= table[i].manufacturer %></td>
+                                <td><%= table[i].rating %></td>
+                                <td><%= table[i].Number_of_sales %></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Table Area =================-->
