@@ -61,12 +61,12 @@ module.exports = class Customer {
         // });
     }
 
-    static checkUsernameExist = ( username ) => {
+    static checkUsernameExist(username){
         return db.query("SELECT username FROM customer WHERE username = ?", [username]);
         
     }
 
-    static checkEmailExist = ( email ) => {
+    static checkEmailExist(email){
         return db.query("SELECT email FROM customer WHERE email = ?", [email]);
         
     }
