@@ -1,14 +1,31 @@
 <%- include('../includes/header.ejs') %>
+<%- include('../includes/navigation_admin.ejs') %>
 
-<section class="login_part padding_top">
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div>
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2 style="color: #00ADB5;">Admin Dashboard</h2>
+                        <h3 style="color: #00ADB5;">Add Administrator</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb start-->
+
+<section class="login_part" style="margin-top: -140px;">
     <div class="container">
         <div class="row">
             <div class="col">
             </div>
-            <div class="col-6" style="text-align: center; margin-top: -30px;">
+            <div class="col-6" style="text-align: center;">
                 <div class="login_part_form">
                     <div class="login_part_form_iner" style="text-align: center;">
-                        <h3>ADMINISTRATOR LOGIN</h3>
                         <form class="row contact_form" action="/login" method="post" novalidate="novalidate">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <div class="col-md-12 form-group p_star">
@@ -19,10 +36,14 @@
                                 <input type="password" class="form-control" id="password" name="password"
                                     placeholder="Password">
                             </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Re Enter Password">
+                            </div>
                             <div class="col-md-12 form-group">
                                 <button type="submit" value="submit" class="genric-btn success-border circle arrow"
                                     style="font-size:15px;">
-                                    Login
+                                    Add Administrator
                                 </button>
                             </div>
                         </form>
