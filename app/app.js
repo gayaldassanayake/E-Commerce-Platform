@@ -39,46 +39,47 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.use((req, res, next) => {
-    if(!req.session.user) {
-        console.log(req.url);
-        for (const [key, value] of Object.entries(AccessControls.guest)) {
-            if(req.url == value) {
-                next();
-                return;
-            } else {
-                res.redirect('/');
-                return;
-            }           
-        }
-    } else {
+// app.use((req, res, next) => {
+//     if(!req.session.user) {
+//         console.log(req.url);
+//         for (const [key, value] of Object.entries(AccessControls.guest)) {
+//             if(req.url == value) {
+//                 next();
+//                 return;
+//             }         
+//         }
+//         // else {
+//             res.redirect('/');
+//             return;
+//         // }   
+//     } else {
         
-        if(req.session.user.type === "Admin") {
-            for (const [key, value] of Object.entries(AccessControls.Admin)) {
-                if(req.url == value) {
-                    next();
-                    return;
-                } else {
-                    app.use(errorController.get404);
-                    return;
-                }
-            }
-        }
-        if(req.session.user.type === "Customer") {
-            console.log("hi");
-            for (const [key, value] of Object.entries(AccessControls.Loggedin)) {
-                if(req.url == value) {
-                    next();
-                    return;
-                } else {
-                    app.use(errorController.get404);
-                    return;
-                }
-            }
-        }
-    }
+//         if(req.session.user.type === "Admin") {
+//             for (const [key, value] of Object.entries(AccessControls.Admin)) {
+//                 if(req.url == value) {
+//                     next();
+//                     return;
+//                 } else {
+//                     app.use(errorController.get404);
+//                     return;
+//                 }
+//             }
+//         }
+//         if(req.session.user.type === "Customer") {
+//             console.log("hi");
+//             for (const [key, value] of Object.entries(AccessControls.Loggedin)) {
+//                 if(req.url == value) {
+//                     next();
+//                     return;
+//                 } else {
+//                     app.use(errorController.get404);
+//                     return;
+//                 }
+//             }
+//         }
+//     }
     
-});
+// });
 
 app.use(csrfProtection);
 app.use(flash());
