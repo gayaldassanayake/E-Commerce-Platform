@@ -4,6 +4,8 @@ const authController = require('../controllers/authController');
 const registerValidation = require('../validation/registerValidation');
 const loginValidation = require('../validation/LoginValidation');
 
+const isAuth = require('../utils/isAuth');
+
 const router = express.Router();
 
 router.get('/signup', authController.getRegisterAction);

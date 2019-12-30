@@ -154,9 +154,9 @@ exports.query = (sql, parameters) => {
 
 
 exports.read = read;
-exports.insert = insert;
-exports.update = update;
-exports.query = query;
+// exports.insert = insert;
+// exports.update = update;
+// exports.query = query;
 
 // module.exports = pool.promise();
 

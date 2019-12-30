@@ -4,7 +4,6 @@ exports.getAddProduct = (req, res, next) => {
     res.render('admin_views/add-product', {
         pageTitle: 'Add Products', 
         path: '/admin/add-product',
-        isAuthenticated: req.session.isLoggedIn, 
         formsCSS: true, 
         productCSS: true, 
         activeAddProduct:true
@@ -27,7 +26,6 @@ exports.getProducts = (req, res, next) => {
     res.render('index', {
         pageTitle: 'Shop',
         path: '/',
-        isAuthenticated: req.session.isLoggedIn,
         activeShop: true,
         productCSS: true
     });

@@ -3,6 +3,7 @@ const { validationResult }  = require('express-validator');
 const Customer = require('../models/customerModel');
 const hashFunctions = require('../utils/hash_functions');
 const objToDict = require('../utils/objToDict');
+const errorMessage = require('../utils/errorMessage');
 
 exports.getRegisterAction = (req, res, next) => {
     // Customer.getCustomerByUsername("Lynwood893").then((user) => {

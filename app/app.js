@@ -24,10 +24,10 @@ const csrfProtection = csrf();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-// app.use((erq,res,next) => {
-//     console.log(b.hash("Ruchin1"));e
-//     next();
-// });
+app.use((erq,res,next) => {
+  // console.log(b.hash("Ruchin1"));
+    next();
+});
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public'))); 
 const sessionStorage = new MySQLStore(config.sessionStorage);
@@ -41,6 +41,7 @@ app.use(session({
 
 app.use((req, res, next) => {
     if(!req.session.user) {
+        console.log(req.url);
         for (const [key, value] of Object.entries(AccessControls.guest)) {
             if(req.url == value) {
                 next();
