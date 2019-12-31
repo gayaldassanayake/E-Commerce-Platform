@@ -19,6 +19,72 @@ module.exports = class Product {
         );
     }
 
+    static addProduct(params) {
+
+        const connection = db.getConnection();
+
+        connection.beginTransaction(function (err) {
+            if (err) { throw err; }
+            connection.query('INSERT INTO product(title,description,manufacturer,deleted,rating) VALUES(?,?,?,?,?)', [params.title, params.description, params.manufacturer, 0, 0], function (error, results, fields) {
+                if (error) {
+                    return connection.rollback(function () {
+                        throw error;
+                    });
+                }
+
+                // var log = 'Post ' + results.insertId + ' added';
+                var productID = results.insertId;
+                console.log(results.insertId);
+
+                connection.query('INSERT INTO varient (product_id,sku,title,price,quantity,deleted,weight,restock_limit,image_path) VALUES(?,?,?,?,?,?,?,?,?)', [results.insertId, params.sku, params.varientTitle, params.price, params.quantity, 0, params.weight, params.restockLimit, params.imagePath], function (error, results, fields) {
+                    if (error) {
+                        return connection.rollback(function () {
+                            throw error;
+                        });
+                    }
+
+                    var valuesArr = [];
+                    var paramterArr = [];
+            
+                    if (Array.isArray(params.category)) {
+                        for (var categoryID in params.category) {
+                            console.log(categoryID);
+                            if (categoryID) {
+                                valuesArr.push('(?,?)');
+                                paramterArr.push(productID);
+                                paramterArr.push(params.category[categoryID]);
+                            }
+
+                        }
+                    }
+                    else {
+                        valuesArr.push('(?,?)');
+                        paramterArr.push(productID);
+                        paramterArr.push(params.category);
+                    }
+
+                    connection.query(`INSERT INTO product_category(product_id,category_id) VALUES ${valuesArr.join(',')}`, paramterArr, function (error, results, fields) {
+
+                        if (error) {
+                            return connection.rollback(function () {
+                                throw error;
+                            });
+                        }
+
+                        connection.commit(function (err) {
+                            if (err) {
+                                return connection.rollback(function () {
+                                    throw err;
+                                });
+                            }
+                            console.log('success!');
+                        });
+                    });
+                });
+            });
+        });
+    }
+
     static fetchAll() {
         db.query("SELECT * FROM product").then((res) => {
             console.log(res);
@@ -27,11 +93,11 @@ module.exports = class Product {
         });
     }
 
-    
-/**
- * the cart,varient,product tables are accessed and cart info sent to the customerController
- * a promise returned
- */
+
+    /**
+     * the cart,varient,product tables are accessed and cart info sent to the customerController
+     * a promise returned
+     */
     static getProductsFromTheCart(customer_id) {
         const select_query = "SELECT varient.title,varient.image_path,product.description, varient.price, shopping_cart_item.quantity " +
             "FROM product,varient,shopping_cart_item WHERE "
@@ -43,17 +109,17 @@ module.exports = class Product {
 
         return new Promise((resolve) => {
 
-            new Promise((resolve)=>{
+            new Promise((resolve) => {
                 resolve(db.query(select_query, [customer_id]))
             })
-            .then(res => {
-                res = res[0]
-                const product_details = res.map((each)=>{
-                    return {title: each.title, description: each.description, manufacturer: null, state : null, rating : null, image_path: each.image_path, price: each.price,  quantity: each.quantity}
+                .then(res => {
+                    res = res[0]
+                    const product_details = res.map((each) => {
+                        return { title: each.title, description: each.description, manufacturer: null, state: null, rating: null, image_path: each.image_path, price: each.price, quantity: each.quantity }
+                    })
+                    resolve(this.createProducts(product_details))
                 })
-                resolve(this.createProducts(product_details))
-            })
-            .catch(err => err)
+                .catch(err => err)
 
         })
     }
@@ -64,32 +130,32 @@ module.exports = class Product {
     * the varient,product tables are accessed and cart info sent to the customerController
     * a promise returned
     */
-    static getProductsFromTheCartCookie(product_list){
+    static getProductsFromTheCartCookie(product_list) {
         var select_query = "SELECT varient.title,varient.image_path,product.description, varient.price " +
-        "FROM product,varient WHERE "
-        + "product.product_id = varient.product_id AND("
+            "FROM product,varient WHERE "
+            + "product.product_id = varient.product_id AND("
         var bind_params = []
 
-        for(var i=0;i<product_list.length;i++){
-            select_query+= " (varient.product_id =(?) AND varient.varient_id =(?))"
-            select_query+= (i<product_list.length-1)? " OR":")"
-            bind_params = [...bind_params,product_list[i].prod_id,product_list[i].var_id]
+        for (var i = 0; i < product_list.length; i++) {
+            select_query += " (varient.product_id =(?) AND varient.varient_id =(?))"
+            select_query += (i < product_list.length - 1) ? " OR" : ")"
+            bind_params = [...bind_params, product_list[i].prod_id, product_list[i].var_id]
         }
-        return new Promise((resolve=>{
+        return new Promise((resolve => {
 
-            new Promise((resolve)=>{
+            new Promise((resolve) => {
                 resolve(db.query(select_query, bind_params))
             })
-            .then(res => {
-                res = res[0]
-                const product_details = res.map((each,i)=>{
+                .then(res => {
+                    res = res[0]
+                    const product_details = res.map((each, i) => {
 
-                    return {title: each.title, description: each.description, manufacturer: null, state : null, rating : null, image_path: each.image_path, price: each.price,  quantity: product_list[i].quantity}
+                        return { title: each.title, description: each.description, manufacturer: null, state: null, rating: null, image_path: each.image_path, price: each.price, quantity: product_list[i].quantity }
+                    })
+                    resolve(this.createProducts(product_details))
                 })
-                resolve(this.createProducts(product_details))
-            })
-            .catch(err => console.error(err))
-            
+                .catch(err => console.error(err))
+
         }))
 
     }
@@ -126,9 +192,9 @@ module.exports = class Product {
 
     }
 
-    static fetchAllProductsOnCategory(category_id){
+    static fetchAllProductsOnCategory(category_id) {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max where category_id = ? ORDER BY RAND()",[category_id]))
+            resolve(db.query("SELECT title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max where category_id = ? ORDER BY RAND()", [category_id]))
         }).catch((err) => {
             console.log(err);
         });

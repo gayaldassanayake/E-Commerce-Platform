@@ -28,22 +28,22 @@ exports.view_productAction = (req, res, next) => {
     });
 }
 
-exports.reportAction = (req,res,next) =>{
-    res.render('admin_views/report',{
+exports.reportAction = (req, res, next) => {
+    res.render('admin_views/report', {
         pageTitle: "Admin Dashboard",
         path: '/',
         isAuthenticated: req.session.isLoggedIn
     });
 }
 
-exports.top_sold_productsAction = (req,res,next) =>{
+exports.top_sold_productsAction = (req, res, next) => {
 
-    var end_date = new Date().toISOString().slice(0,10);
-    var start_date = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().slice(0,10);
-    
+    var end_date = new Date().toISOString().slice(0, 10);
+    var start_date = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().slice(0, 10);
+
     const fetchTopSoldProducts = () => {
         return new Promise((resolve, reject) => {
-            resolve((Report.getTopSoldProducts(start_date,end_date)));
+            resolve((Report.getTopSoldProducts(start_date, end_date)));
         });
     };
 
@@ -53,17 +53,17 @@ exports.top_sold_productsAction = (req,res,next) =>{
             pageTitle: "Admin Dashboard",
             path: '/',
             isAuthenticated: req.session.isLoggedIn,
-            table:result[0],
-            reportText:"Top sales from "+start_date +" to "+end_date
+            table: result[0],
+            reportText: "Top sales from " + start_date + " to " + end_date
         })
     });
 }
 
-exports.top_sold_productsPOSTAction = (req,res,next) =>{
-    
+exports.top_sold_productsPOSTAction = (req, res, next) => {
+
     const fetchTopSoldProducts = () => {
         return new Promise((resolve, reject) => {
-            resolve((Report.getTopSoldProducts(req.body.start_date,req.body.end_date)));
+            resolve((Report.getTopSoldProducts(req.body.start_date, req.body.end_date)));
         });
     };
 
@@ -73,8 +73,53 @@ exports.top_sold_productsPOSTAction = (req,res,next) =>{
             pageTitle: "Admin Dashboard",
             path: '/',
             isAuthenticated: req.session.isLoggedIn,
-            table:result[0],
-            reportText:"Top sales from "+req.body.start_date +" to "+req.body.end_date
+            table: result[0],
+            reportText: "Top sales from " + req.body.start_date + " to " + req.body.end_date
         })
+    });
+
+
+}
+
+exports.addProductAction = (req, res, next) => {
+    const fetchCategoryDetails = () => {
+        return new Promise((resolve, reject) => {
+            resolve(Category.fetchAllCategoryIDAndCategory());
+        });
+    };
+
+    fetchCategoryDetails().then((result) => {
+        console.log(result);
+        res.render('admin_views/add-product', {
+            pageTitle: "Add Product",
+            path: '/',
+            category:result,
+            isAuthenticated: req.session.isLoggedIn
+        });
+    });
+
+
+}
+
+exports.addProductPostAction = (req, res, next) => {
+    console.log(req.body);
+    
+    const fetchCategoryDetails = () => {
+        return new Promise((resolve, reject) => {
+            resolve(Category.fetchAllCategoryIDAndCategory());
+        });
+    };
+
+    fetchCategoryDetails().then((result) => {
+        // console.log(result);
+
+        Product.addProduct(req.body);
+        
+        res.render('admin_views/add-product', {
+            pageTitle: "Add Product",
+            path: '/',
+            category:result,
+            isAuthenticated: req.session.isLoggedIn
+        });
     });
 }

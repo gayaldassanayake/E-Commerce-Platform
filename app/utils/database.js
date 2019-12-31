@@ -12,6 +12,17 @@ const pool = mysql.createPool({
     port: database.port
 });
 
+const connection = mysql.createConnection({
+    host: database.host,
+    user: database.user,
+    database: database.name
+  });
+
+
+exports.getConnection=() =>{
+    return connection;
+}
+
 // const pool = mysql.createPool(config.database);
 
 function read(table, parameters) {
