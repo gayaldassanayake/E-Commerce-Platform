@@ -1,5 +1,6 @@
 const Product = require('../models/productModel');
 
+
 exports.getAddProduct = (req, res, next) => {
     res.render('admin_views/add-product', {
         pageTitle: 'Add Products', 
@@ -30,3 +31,24 @@ exports.getProducts = (req, res, next) => {
         productCSS: true
     });
 };
+
+exports.viewProduct = (req, res, next) => {
+    console.log(req.params.id)
+
+    const fetchProducts = new Promise((resolve, reject) => {
+            resolve((Product.getProductDetails(req.params.id)))
+    })
+
+
+    fetchProducts
+        .then((result) => {
+            //  console.log(result)
+            res.render('customer_views/varient_item', {
+                pageTitle: 'Product',
+                path: 'product/id',
+                activeShop: true,
+                productCSS: true
+            })
+        }).catch(err => console.error(err))
+
+}

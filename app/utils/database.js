@@ -54,6 +54,7 @@ function read(table, parameters) {
 
         var sql = `SELECT ` + fieldsStr + ` FROM ${table}` + conditions + orderby + limit;
 
+        console.log(sql)
         pool.execute(sql, bindparam, function (err, results, fields) {
             if (err) {
                 reject(err);

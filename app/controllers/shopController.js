@@ -21,7 +21,7 @@ exports.shopAction = (req, res, next) => {
     fetchProducts().then((resu) => {
         fetchCategory().then((result) => {
             console.log(result);
-            console.log(resu);
+            console.log(resu[0]);
             res.render('customer_views/shop', {
                 pageTitle: "Shop",
                 path: '/',

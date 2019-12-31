@@ -18,3 +18,8 @@ SELECT category.category_id,category.category,product.product_id,product.title,v
 FROM category JOIN (product_category JOIN (product JOIN varient USING(product_id)) 
 USING (product_id)) USING (category_id) 
 where category.deleted=0 AND product.deleted = 0 GROUP BY product_id,category_id;
+
+
+
+
+

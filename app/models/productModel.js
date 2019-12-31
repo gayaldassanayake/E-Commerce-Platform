@@ -2,6 +2,7 @@ const db = require('../utils/database');
 
 module.exports = class Product {
     constructor(params) {
+        this.id = params.id
         this.title = params.title;
         this.description = params.description;
         this.manufacturer = params.manufacturer;
@@ -27,11 +28,11 @@ module.exports = class Product {
         });
     }
 
-    
-/**
- * the cart,varient,product tables are accessed and cart info sent to the customerController
- * a promise returned
- */
+
+    /**
+     * the cart,varient,product tables are accessed and cart info sent to the customerController
+     * a promise returned
+     */
     static getProductsFromTheCart(customer_id) {
         const select_query = "SELECT varient.title,varient.image_path,product.description, varient.price, shopping_cart_item.quantity " +
             "FROM product,varient,shopping_cart_item WHERE "
@@ -43,17 +44,20 @@ module.exports = class Product {
 
         return new Promise((resolve) => {
 
-            new Promise((resolve)=>{
+            new Promise((resolve) => {
                 resolve(db.query(select_query, [customer_id]))
             })
-            .then(res => {
-                res = res[0]
-                const product_details = res.map((each)=>{
-                    return {title: each.title, description: each.description, manufacturer: null, state : null, rating : null, image_path: each.image_path, price: each.price,  quantity: each.quantity}
+                .then(res => {
+                    // res = res[0]
+                    console.log("Hi")
+                    const product_details = res.map((each) => {
+                        console.log(each)
+                        return { id:null, title: each.title, description: each.description, manufacturer: null, state: null, rating: null, image_path: each.image_path, price: each.price, quantity: each.quantity }
+                    })
+                    console.log(product_details)
+                    resolve(this.createProducts(product_details))
                 })
-                resolve(this.createProducts(product_details))
-            })
-            .catch(err => err)
+                .catch(err => err)
 
         })
     }
@@ -64,32 +68,32 @@ module.exports = class Product {
     * the varient,product tables are accessed and cart info sent to the customerController
     * a promise returned
     */
-    static getProductsFromTheCartCookie(product_list){
+    static getProductsFromTheCartCookie(product_list) {
         var select_query = "SELECT varient.title,varient.image_path,product.description, varient.price " +
-        "FROM product,varient WHERE "
-        + "product.product_id = varient.product_id AND("
+            "FROM product,varient WHERE "
+            + "product.product_id = varient.product_id AND("
+
         var bind_params = []
 
-        for(var i=0;i<product_list.length;i++){
-            select_query+= " (varient.product_id =(?) AND varient.varient_id =(?))"
-            select_query+= (i<product_list.length-1)? " OR":")"
-            bind_params = [...bind_params,product_list[i].prod_id,product_list[i].var_id]
+        for (var i = 0; i < product_list.length; i++) {
+            select_query += " (varient.product_id =(?) AND varient.varient_id =(?))"
+            select_query += (i < product_list.length - 1) ? " OR" : ")"
+            bind_params = [...bind_params, product_list[i].prod_id, product_list[i].var_id]
         }
-        return new Promise((resolve=>{
+        return new Promise((resolve => {
 
-            new Promise((resolve)=>{
+            new Promise((resolve) => {
                 resolve(db.query(select_query, bind_params))
             })
             .then(res => {
-                res = res[0]
-                const product_details = res.map((each,i)=>{
-
-                    return {title: each.title, description: each.description, manufacturer: null, state : null, rating : null, image_path: each.image_path, price: each.price,  quantity: product_list[i].quantity}
+                // res = res[0]
+                const product_details = res.map((each, i) => {
+                    return { id:null, title: each.title, description: each.description, manufacturer: null, state: null, rating: null, image_path: each.image_path, price: each.price, quantity: product_list[i].quantity }
                 })
                 resolve(this.createProducts(product_details))
             })
             .catch(err => console.error(err))
-            
+
         }))
 
     }
@@ -115,7 +119,7 @@ module.exports = class Product {
 
     static fetchAllProductForShop() {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT distinct title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND()"))
+            resolve(db.query("SELECT distinct product_id,title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max ORDER BY RAND()"))
         }).catch((err) => {
             console.log(err);
         });
@@ -126,12 +130,70 @@ module.exports = class Product {
 
     }
 
-    static fetchAllProductsOnCategory(category_id){
+    static fetchAllProductsOnCategory(category_id) {
         return new Promise((resolve) => {
-            resolve(db.query("SELECT title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max where category_id = ? ORDER BY RAND()",[category_id]))
+            resolve(db.query("SELECT title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max where category_id = ? ORDER BY RAND()", [category_id]))
         }).catch((err) => {
             console.log(err);
         });
     }
+
+    static getProductDetails(product_id){
+
+        var productDetails = {}
+
+        return new Promise((resolve => {
+            var parameters = {
+                'fields':['product_id','title','description','manufacturer','rating'],
+                'orderby':'product_id ASC',
+                'conditions':{'product_id':product_id}
+            }
+
+            db.read("product",parameters)
+            .then(res => {
+                res = res[0]
+                var productObj = { id:res.product_id, title: res.title, description: res.description, manufacturer: res.manufacturer, state: null, rating: res.rating, image_path: null, price: null, quantity: null}
+                var product = new Product(productObj)
+                // console.log(product)
+                productDetails['product'] = product
+                return productDetails
+                // db.read
+            }).then(prod =>{
+                var parameters1 = {
+                    'fields':['varient_id','image_path','restock_limit'],
+                    'orderby':'varient_id ASC',
+                    'conditions':{'product_id':product_id}
+                }
+
+                
+                return db.read("varient",parameters1)
+                
+                
+            })
+            .then(varients=>{
+                productDetails['varients'] = varients
+                // console.log(productDetails)
+                db.read()
+
+                var parameters2 = {
+                    'fields':['category_id'],
+                    'orderby':'category_id ASC',
+                    'conditions':{'product_id':product_id}
+                }
+
+                return db.read("product_category",parameters2)
+
+                
+            }).then(res=>{
+                productDetails['categories'] = res
+                console.log(productDetails)
+                resolve(productDetails)
+            })
+            .catch(err => console.error(err))
+
+        }))
+    }
+
+
 };
 

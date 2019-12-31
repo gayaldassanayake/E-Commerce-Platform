@@ -14,6 +14,7 @@ exports.indexAction = (req, res, next) => {
 
     promise.then((value) => {
         fetchProductDetails().then((result) => {
+            console.log(result)
             res.render('customer_views/index', {
                 pageTitle: "Home",
                 path: '/',
@@ -48,11 +49,18 @@ exports.checkoutAction = (req, res, next) => {
 exports.cartAction = (req, res, next) => {
 
     // change once sessions are done----------------------------------
-    // req.session.isLoggedIn = true
+    var cartItems = [
+        { prod_id: 15731, var_id: 66376, quantity: 3 }, 
+        { prod_id: 16113, var_id: 38282, quantity: 4 },
+    ]
+    // var json_str = JSON.stringify(cartItems);
+    // res.setHeader('set-Cookie',"cartCookie =",jsonData)
+    res.cookie("cartCookie",cartItems)
     req.session.cartItems = [
         { prod_id: 15731, var_id: 66376, quantity: 3 }, 
         { prod_id: 16113, var_id: 38282, quantity: 4 },
     ]
+    // console.log(req.cookies)
     //-----------------------------------------------------------------
     
     const fetchProducts = new Promise((resolve, reject) => {
@@ -68,6 +76,7 @@ exports.cartAction = (req, res, next) => {
 
     fetchProducts
         .then((result) => {
+            // console.log(result)
             res.render('customer_views/cart', {
                 pageTitle: "Cart",
                 path: "/cart",
