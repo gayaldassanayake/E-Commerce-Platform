@@ -18,3 +18,11 @@ SELECT category.category_id,category.category,product.product_id,product.title,v
 FROM category JOIN (product_category JOIN (product JOIN varient USING(product_id)) 
 USING (product_id)) USING (category_id) 
 where category.deleted=0 AND product.deleted = 0 GROUP BY product_id,category_id;
+
+CREATE VIEW product_category_details as 
+SELECT category_id,product_id, title, rating, number_of_sales 
+from top_sales_view JOIN product_category using (product_id);
+
+CREATE VIEW category_details as 
+SELECT category.category_id,category.category,c.category as super_category, c.category_id as super_category_id, category.deleted 
+from category left outer join category as c on (category.super_category_id = c.category_id);

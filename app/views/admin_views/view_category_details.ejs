@@ -1,0 +1,126 @@
+<%- include('../includes/header.ejs') %>
+<%- include('../includes/navigation_admin.ejs') %>
+
+
+<!-- breadcrumb start-->
+<section class="breadcrumb breadcrumb_bg">
+  <div class="container">
+      <div class="row justify-content-center">
+          <div>
+              <div class="breadcrumb_iner">
+                  <div class="breadcrumb_iner_item">
+                      <h2 style="color: #00ADB5;">Admin Dashboard</h2>
+                      <h4 style="color: #00ADB5;">View Category Details - <%= category.category_id  %> </h4>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+<!-- breadcrumb start-->
+<!--================ confirmation part start =================-->
+<section class="confirmation_part padding_top" style="padding-bottom: 5%;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-lx-4">
+        <div class="single_confirmation_details">
+          <h4>Category information</h4>
+          <ul>
+            <li>
+              <p>Category ID</p><span>: <%= category.category_id  %> </span>
+            </li>
+            <li>
+              <p>category</p><span>: <%=  category.category%></span>
+            </li>
+            <li>
+              <% if(category.super_category == null){ %>
+                <p>super category</p><span>: NONE</span>
+              <% } else { %>
+                <p>super category</p><span>: <%=  category.super_category%></span>
+              <% } %>
+            </li>
+            <li>
+              <p>deleted</p><span>: <%= category.deleted %></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- <div class="col-lg-6 col-lx-4">
+        <div class="single_confirmation_details">
+          <h4>Billing Address</h4>
+          <ul>
+            <li>
+              <p>Street</p><span>: 56/8</span>
+            </li>
+            <li>
+              <p>city</p><span>: Los Angeles</span>
+            </li>
+            <li>
+              <p>country</p><span>: United States</span>
+            </li>
+            <li>
+              <p>postcode</p><span>: 36952</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6 col-lx-4">
+        <div class="single_confirmation_details">
+          <h4>shipping Address</h4>
+          <ul>
+            <li>
+              <p>Street</p><span>: 56/8</span>
+            </li>
+            <li>
+              <p>city</p><span>: Los Angeles</span>
+            </li>
+            <li>
+              <p>country</p><span>: United States</span>
+            </li>
+            <li>
+              <p>postcode</p><span>: 36952</span>
+            </li>
+          </ul>
+        </div>
+      </div> -->
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="order_details_iner">
+          <h3>Product Details for Category</h3>
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th scope="col" colspan="2">Product ID</th>
+                <th scope="col">Product</th>
+                <th scope="col">Sold Items</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% var tot = 0; %>
+              <% for (var i = 0; i< products.length; i++ ) { %>
+                <tr>
+                  <th><%= products[i].product_id %></th>
+                  <th colspan="2"><span><%= products[i].title %></span></th>
+                  
+                  <% tot+=products[i].number_of_sales %>
+                  <th><span>X<%= products[i].number_of_sales  %></span></th>
+                  
+                </tr>  
+              <% } %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="col" colspan="3">Totla Sold Items</th>
+                <th scope="col"><%= tot  %></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--================ confirmation part end =================-->
+
+<%- include('../includes/footer_admin.ejs') %>

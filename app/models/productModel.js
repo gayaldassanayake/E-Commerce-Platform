@@ -133,5 +133,13 @@ module.exports = class Product {
             console.log(err);
         });
     }
+
+    static fetchAllProductsOnCategoryForAdmin(category_id){
+        return new Promise((resolve) => {
+            resolve(db.query('select * from product_category_details where category_id = ?',[category_id]))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
 };
 
