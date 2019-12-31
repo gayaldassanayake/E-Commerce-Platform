@@ -1,6 +1,6 @@
-const path = require('path');
-
 const express = require('express');
+
+const isAuth = require('../utils/isAuth');
 
 const customerController = require('../controllers/customerController');
 

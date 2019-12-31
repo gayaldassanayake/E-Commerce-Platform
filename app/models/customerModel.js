@@ -61,34 +61,14 @@ module.exports = class Customer {
         // });
     }
 
-    static login(username, password, req, res) {
-        this.getCustomerByUsername(username).then((user) => {
-            if (user) {
-                if (hashFunctions.checkHashed(password, user.password)) {
-                    req.session.isLoggedIn = true;
-                    req.session.user = user;
-                    return req.session.save(err => {
-                        console.error(err);
-                        return res.redirect('/');
-                    });
-                } else {
-                    console.error("Password Incorrect !");
-                    res.redirect('/login');
-                }
-            } else {
-                console.log("User doesn't exists! Please try Again");
-                res.redirect('/login');
-            }
-        });
+    static checkUsernameExist(username){
+        return db.query("SELECT username FROM customer WHERE username = ?", [username]);
+        
     }
 
-    static getCustomerById() {
-
+    static checkEmailExist(email){
+        return db.query("SELECT email FROM customer WHERE email = ?", [email]);
+        
     }
-
-
-
-
-
 
 };

@@ -1,0 +1,7 @@
+// Stopping un sign in users from accessing routes
+module.exports = (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect('/login');
+    }
+    next();
+}

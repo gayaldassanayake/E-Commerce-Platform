@@ -12,6 +12,22 @@ exports.admin_dashboardAction = (req, res, next) => {
     });
 }
 
+exports.view_loginAction = (req, res, next) => {
+    res.render('admin_views/admin_login', {
+        pageTitle: "Admin Login",
+        path: '/',
+        //isAuthenticated: req.session.isLoggedIn
+    });
+}
+
+exports.add_adminAction = (req, res, next) => {
+    res.render('admin_views/add_admin', {
+        pageTitle: "Add Admin",
+        path: '/',
+        //isAuthenticated: req.session.isLoggedIn
+    });
+}
+
 exports.view_categoryAction = (req, res, next) => {
     res.render('admin_views/view_category', {
         pageTitle: "View Category",

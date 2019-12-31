@@ -13,9 +13,7 @@ exports.indexAction = (req, res, next) => {
     };
 
     promise.then((value) => {
-        console.log(value);
         fetchProductDetails().then((result) => {
-            console.log(result)
             res.render('customer_views/index', {
                 pageTitle: "Home",
                 path: '/',
@@ -25,13 +23,6 @@ exports.indexAction = (req, res, next) => {
             })
         });
 
-    });
-};
-
-exports.loginAction = (req, res, next) => {
-    res.render('customer_views/customer_login', {
-        pageTitle: "Login",
-        path: '/'
     });
 };
 

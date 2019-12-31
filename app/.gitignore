@@ -1,3 +1,5 @@
 **/controllers/testController.js
 **/models/modeltest.js
 **/views/test.ejs
+**/node_modules
+**/utils/config.js

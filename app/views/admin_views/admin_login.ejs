@@ -1,0 +1,38 @@
+<%- include('../includes/header.ejs') %>
+
+<section class="login_part padding_top">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col-6" style="text-align: center; margin-top: -30px;">
+                <div class="login_part_form">
+                    <div class="login_part_form_iner" style="text-align: center;">
+                        <h3>ADMINISTRATOR LOGIN</h3>
+                        <form class="row contact_form" action="/login" method="post" novalidate="novalidate">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="name" name="username" placeholder="Username"
+                                    value="">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Password">
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <button type="submit" value="submit" class="genric-btn success-border circle arrow"
+                                    style="font-size:15px;">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../includes/footer_admin.ejs') %>

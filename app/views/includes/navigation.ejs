@@ -34,9 +34,10 @@
                                 </li>
                             <% } else { %>
                                 <li class="nav-item">
-                                    <form action="/logout" method="POST"><button type="submit"
-                                            style="background-color: #00ADB5; border-color: rgba(0, 0, 0, 0); "><a
-                                                class="row nav-link-username" style="margin-right: 5px;">logout</a></button></form>
+                                    <form action="/logout" method="POST">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button type="submit" style="background-color: rgba(0, 0, 0, 0); border-color: rgba(0, 0, 0, 0); margin-top: -3px; margin-bottom: -3px;"><a class = "row nav-link-username">logout</a></button>
+                                    </form>
                                 </li>
                             <% } %>
                             <!-- <li class="nav-item">
@@ -103,13 +104,14 @@
             </div>
         </div>
     </div>
-    <div class="search_input" id="search_input_box">
+    <!-- <div class="search_input" id="search_input_box">
         <div class="container ">
             <form class="d-flex justify-content-between search-inner">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <input type="text" class="form-control" id="search_input" placeholder="Search Here">
                 <button type="submit" class="btn"></button>
                 <span class="ti-close" id="close_search" title="Close Search"></span>
             </form>
         </div>
-    </div>
+    </div> -->
 </header>
