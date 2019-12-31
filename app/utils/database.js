@@ -95,7 +95,7 @@ exports.insert = (table, parameters) => {
 
         fields = fieldsArr.join(', ');
         values = values.join(', ');
-        fields = fields.join(', ');
+        // fields = fieldsArr.join(', ');
 
         var sql = `INSERT INTO ${table} (` + fields + ') VALUES (' + values + ')';
 

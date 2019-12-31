@@ -93,7 +93,7 @@ exports.addProductAction = (req, res, next) => {
         res.render('admin_views/add-product', {
             pageTitle: "Add Product",
             path: '/',
-            category:result,
+            category: result,
             isAuthenticated: req.session.isLoggedIn
         });
     });
@@ -103,7 +103,7 @@ exports.addProductAction = (req, res, next) => {
 
 exports.addProductPostAction = (req, res, next) => {
     console.log(req.body);
-    
+
     const fetchCategoryDetails = () => {
         return new Promise((resolve, reject) => {
             resolve(Category.fetchAllCategoryIDAndCategory());
@@ -117,8 +117,57 @@ exports.addProductPostAction = (req, res, next) => {
         res.render('admin_views/add-product', {
             pageTitle: "Add Product",
             path: '/',
-            category:result,
+            category: result,
             isAuthenticated: req.session.isLoggedIn
         });
     });
+}
+
+exports.addCategoryAction = (req, res, next) => {
+    const fetchCategoryDetails = () => {
+        return new Promise((resolve, reject) => {
+            resolve(Category.fetchAllCategoryIDAndCategory());
+        });
+    };
+
+    fetchCategoryDetails().then((result) => {
+        console.log(result);
+        res.render('admin_views/add_category', {
+            pageTitle: "Add Category",
+            path: '/',
+            category: result,
+            isAuthenticated: req.session.isLoggedIn
+        });
+    });
+
+
+}
+
+exports.addCategoryPostAction = (req, res, next) => {
+ 
+    const fetchCategoryDetails = () => {
+        return new Promise((resolve, reject) => {
+            resolve(Category.fetchAllCategoryIDAndCategory());
+        });
+    };
+
+    const addProductCategory = () => {
+        return new Promise((resolve, reject) => {
+
+            resolve(Category.addProductCategory(req.body.category, req.body.title));
+        });
+    };
+
+    addProductCategory().then(() => {
+        fetchCategoryDetails().then((result) => {
+        
+            res.render('admin_views/add_category', {
+                pageTitle: "Add Category",
+                path: '/',
+                category: result,
+                isAuthenticated: req.session.isLoggedIn
+            });
+        });
+    });
+
 }

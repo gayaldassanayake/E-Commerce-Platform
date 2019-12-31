@@ -18,4 +18,7 @@ router.post('/report/top_sold_products/',adminController.top_sold_productsPOSTAc
 router.get('/add_product/',adminController.addProductAction);
 router.post('/add_product/',adminController.addProductPostAction);
 
+router.get('/add_category/',adminController.addCategoryAction);
+router.post('/add_category/',adminController.addCategoryPostAction);
+
 module.exports = router;
