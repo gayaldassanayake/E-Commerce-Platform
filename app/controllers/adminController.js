@@ -114,7 +114,6 @@ exports.addProductPostAction = (req, res, next) => {
         // console.log(result);
 
         Product.addProduct(req.body);
-        
         res.render('admin_views/add-product', {
             pageTitle: "Add Product",
             path: '/',
