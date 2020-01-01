@@ -1,7 +1,22 @@
-// Stopping un sign in users from accessing routes
-module.exports = (req, res, next) => {
+const AccessControls = require('../data/access_controls');
+const errorController = require('../controllers/errorController');
+
+exports.userAuthentication = (req, res, next) => {
     if (!req.session.isLoggedIn) {
-        return res.redirect('/login');
+        for (const [key, value] of Object.entries(AccessControls.guest)) { 
+            if(req.url === value) {
+                return next();
+            }  
+        }
+        res.redirect(errorController.get404);
     }
-    next();
+    for (const [key, value] of Object.entries(AccessControls.Customer)) { 
+        if(req.url === value) {
+            return next();
+        }
+    } 
+    res.redirect(errorController.get404);
+
+
 }
+

@@ -2,11 +2,13 @@ const { check } = require('express-validator');
 
 
 module.exports = [
-    check('name','Please Enter a name with only letters')
+    check('name')
     .isEmpty()
-    .isAlpha(),
+    .isAlpha()
+    .withMessage('Name Should be non Empty'),
     check('email')
-    .isEmpty() 
+    .isEmpty()
+    .withMessage('Email Field is Empty')
     .isEmail()
     .withMessage('Please enter a valid email !')
     .custom((value, { req }) => {
@@ -16,6 +18,7 @@ module.exports = [
         return true;
     }),
     check('password')
+    .isEmpty()
     .isLength({min: 6})
     .withMessage("Should contain at least 6 characters")
     .isAlphanumeric()

@@ -9,7 +9,7 @@ module.exports = {
         "Sign Up" : '/signup',
     },
 
-    "Loggedin" : {
+    "Customer" : {
         "Home" : '/',
         "Shop" : '/shop',
         "Track Order" : '/track_order',

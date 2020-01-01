@@ -52,6 +52,14 @@ module.exports = class Category {
 
     }
 
+    static fetchAllDetailsCategoryForViewCateogryDetails(category_id){
+        return new Promise((resolve) => {
+            resolve(db.query('select * from category_details where category_id = ?',[category_id]))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     static getProductsFromTheCart(customer_id) {
         const select_query = "SELECT varient.title,varient.image_path,product.description, varient.price, shopping_cart_item.quantity " +
             "FROM product,varient,shopping_cart_item WHERE "

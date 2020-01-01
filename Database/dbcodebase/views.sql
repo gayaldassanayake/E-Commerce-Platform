@@ -19,7 +19,14 @@ FROM category JOIN (product_category JOIN (product JOIN varient USING(product_id
 USING (product_id)) USING (category_id) 
 where category.deleted=0 AND product.deleted = 0 GROUP BY product_id,category_id;
 
+CREATE VIEW product_category_details as 
+SELECT category_id,product_id, title, rating, number_of_sales 
+from top_sales_view JOIN product_category using (product_id);
 
+CREATE VIEW category_details as 
+SELECT category.category_id,category.category,c.category as super_category, c.category_id as super_category_id, category.deleted 
+from category left outer join category as c on (category.super_category_id = c.category_id);
 
-
-
+create view product_varient_details as 
+select product.product_id,varient.varient_id,sku,varient.title,varient.price,quantity,varient.deleted,weight,restock_limit,count(0) as number_of_sales 
+from ((varient join product using (product_id)) join order_) join order_item where ((order_.order_id = order_item.order_id) and (order_item.varient_id = varient.varient_id)) group by order_item.varient_id order by count(0) desc limit 100;

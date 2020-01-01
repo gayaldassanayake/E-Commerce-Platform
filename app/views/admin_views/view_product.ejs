@@ -26,9 +26,10 @@
                 <div class="tracking_box_inner">
                     <p>To view details of a product please enter the product ID in the box below and press the "view" button.
                         You can find the relevent product ID's in the store manifest.</p>
-                    <form class="row tracking_form" action="#" method="post" novalidate="novalidate">
+                    <form class="row tracking_form" action="/admin/view_product_details" method="post" novalidate="novalidate">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="order_id" name="order_id"
+                            <input type="text" class="form-control" id="product_id" name="product_id"
                                 placeholder="Product ID">
                         </div>
                         <div class="col-md-12 form-group">

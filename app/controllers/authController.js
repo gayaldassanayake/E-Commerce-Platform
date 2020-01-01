@@ -47,8 +47,7 @@ exports.postRegisterAction = (req, res, next) => {
                 telephoneNumber: req.body.telephoneNumber
             }
         });
-    }
-    
+    }  
 }
 
 exports.getLoginAction = (req, res, next) => {
@@ -105,3 +104,42 @@ const redirectToLogin = (req, res) => {
         prevInput: req.body.username
     });
 }
+
+// Admininstrator Auth Settings
+
+exports.getAdminRegisterAction = (req, res, next) => {
+    res.render('admin_views/add_admin',{
+        pageTitle: 'Add Admin',
+        isAuthenticated: req.session.isLoggedIn,
+        path: '/signup',
+        errorMessages: false,
+        prevInputs: {
+            username: ''
+        }
+    });   
+}
+
+exports.postRegisterAction = (req, res, next) => {
+    const userInput = objToDict.objToDict(req.body);
+    const errorMessages = validationResult(req);
+    console.log(errorMessages)
+    if (errorMessages.isEmpty()) {
+        Customer.register(userInput).then(res.redirect('/login'));
+        return res.redirect('/login');
+    } else {
+        return res.status(422).render('customer_views/register',{
+            pageTitle: 'Sign up',
+            path: '/signup',
+            isAuthenticated: req.body.isLoggedIn,
+            errorMessages: errorMessages.array()[0].msg,
+            prevInputs: {
+                name: req.body.name,
+                username: req.body.username,
+                email: req.body.email,
+                address: req.body.address,
+                telephoneNumber: req.body.telephoneNumber
+            }
+        });
+    }  
+}
+

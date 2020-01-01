@@ -19,9 +19,7 @@ exports.indexAction = (req, res, next) => {
                 pageTitle: "Home",
                 path: '/',
                 meta: value,
-                productDetails: result,
-                isAuthenticated: req.session.isLoggedIn
-            })
+                productDetails: result            })
         });
 
     });
