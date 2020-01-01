@@ -1,6 +1,106 @@
 <%- include('../includes/header.ejs') %>
-<%- include('../includes/navigation_admin.ejs') %>
+<%- include('../includes/navigation.ejs') %>
 
 <!-- Methna Body eka -->
 
-<%- include('../includes/footer_admin.ejs') %>
+<!--================Checkout Area =================-->
+<section class="checkout_area padding_top">
+    <div class="container">
+
+
+        <div class="billing_details">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h3>Add Product</h3>
+                    <form class="row contact_form" action="/admin/add_product/" method="post" id='addProduct-form' novalidate="novalidate">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="col-md-6 form-group p_star">
+                            <label class="col-sm-4 control-label" for="title">Title:</label>
+                            <input type="text" class="form-control" id="title" name="title" />
+                            <span class="placeholder" data-placeholder="Title"></span>
+                        </div>
+
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="description">Description:</label>
+                            <input type="text" class="form-control" id="description" name="description" />
+                            <span class="placeholder" data-placeholder="Description"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="manufacturer">Manufacturer:</label>
+                            <input type="text" class="form-control" id="manufacturer" name="manufacturer" />
+                            <span class="placeholder" data-placeholder="Manufacturer"></span>
+                        </div>
+
+                        <h6>Varient</h6>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="varientTitle">Varient Title:</label>
+                            <input type="text" class="form-control" id="varientTitle" name="varientTitle" />
+                            <span class="placeholder" data-placeholder="Varient Title"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="sku">SKU:</label>
+                            <input type="text" class="form-control" id="sku" name="sku" />
+                            <span class="placeholder" data-placeholder="SKU"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="price">Price:</label>
+                            <input type="text" class="form-control" id="price" name="price" />
+                            <span class="placeholder" data-placeholder="Price"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="quantity">Quantity:</label>
+                            <input type="text" class="form-control" id="quantity" name="quantity" />
+                            <span class="placeholder" data-placeholder="Quantity"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="weight">Weight:</label>
+                            <input type="text" class="form-control" id="weight" name="weight" />
+                            <span class="placeholder" data-placeholder="Weight"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="restockLimit">Re-stock Limit:</label>
+                            <input type="text" class="form-control" id="restockLimit" name="restockLimit" />
+                            <span class="placeholder" data-placeholder="Re-stock Limit"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="imagePath">Image:</label>
+                            <input type="text" class="form-control" id="imagePath" name="imagePath" />
+                            <span class="placeholder" data-placeholder="Image"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="category">Category:</label>
+                            <ul>
+                                <!-- <li><input type="checkbox" name="hob[]" value="cri" /> cricket</li> -->
+
+                                <% for(var i=0; i < category.length; i++) { %>
+                                <li>
+                                        <input type="checkbox" name="category" value= <%= category[i].category_id%> /> <%= category[i].category%>
+
+                                </li>
+                                <% } %>
+                            </ul>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Checkout Area =================-->
+
+
+<%- include('../includes/footer.ejs') %>

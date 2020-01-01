@@ -19,9 +19,9 @@ module.exports = class Category {
     }
 
     static fetchAll() {
-        db.read('categoty',{}).catch((err) => {
+        db.read('categoty', {}).catch((err) => {
             console.log(err);
-        }).then(function(data) {
+        }).then(function (data) {
             return data;
         });
 
@@ -39,7 +39,7 @@ module.exports = class Category {
         // }));;
 
         return new Promise((resolve) => {
-            resolve(db.read('category',{fields:['category_id','category'] }))
+            resolve(db.read('category', { fields: ['category_id', 'category'] }))
         }).catch((err) => {
             console.log(err);
         });
@@ -49,7 +49,7 @@ module.exports = class Category {
         //     return data;
         // });
 
-   
+
     }
 
     static getProductsFromTheCart(customer_id) {
@@ -64,10 +64,49 @@ module.exports = class Category {
         })
     }
 
+    static addProductCategory(superCategoryID, title) {
+
+        if (typeof superCategoryID !== 'undefined' && superCategoryID) {
+
+            const check = ()=>{
+                return new Promise((resolve, reject) => {
+                    resolve(db.read('category',{conditions:{ category: title, deleted: 0 }}));
+                });
+            }
+
+            check().then((result)=>{
+                console.log(result);
+                if(result.length>0){
+                    return;
+                }
+                return new Promise((resolve, reject) => {
+                    resolve(db.insert('category', { super_category_id: superCategoryID, category: title, deleted: 0 }));
+                });
+            });
+            
+        }
+        else {
+            const check = ()=>{
+                return new Promise((resolve, reject) => {
+                    resolve(db.read('category',{conditions:{ category: title, deleted: 0 }}));
+                });
+            }
+            check().then((result)=>{
+                console.log(result);
+                if(result.length>0){
+                    return;
+                }
+                return new Promise((resolve, reject) => {
+                    resolve(db.insert('category', { category: title, deleted: 0 }));
+                });
+            });
+        }
+    }
+
 
 
     static createProducts(...product_details) {
-    
+
     }
 
     static fetchAllProductForShop() {

@@ -20,6 +20,72 @@ module.exports = class Product {
         );
     }
 
+    static addProduct(params) {
+
+        const connection = db.getConnection();
+
+        connection.beginTransaction(function (err) {
+            if (err) { throw err; }
+            connection.query('INSERT INTO product(title,description,manufacturer,deleted,rating) VALUES(?,?,?,?,?)', [params.title, params.description, params.manufacturer, 0, 0], function (error, results, fields) {
+                if (error) {
+                    return connection.rollback(function () {
+                        throw error;
+                    });
+                }
+
+                // var log = 'Post ' + results.insertId + ' added';
+                var productID = results.insertId;
+                console.log(results.insertId);
+
+                connection.query('INSERT INTO varient (product_id,sku,title,price,quantity,deleted,weight,restock_limit,image_path) VALUES(?,?,?,?,?,?,?,?,?)', [results.insertId, params.sku, params.varientTitle, params.price, params.quantity, 0, params.weight, params.restockLimit, params.imagePath], function (error, results, fields) {
+                    if (error) {
+                        return connection.rollback(function () {
+                            throw error;
+                        });
+                    }
+
+                    var valuesArr = [];
+                    var paramterArr = [];
+            
+                    if (Array.isArray(params.category)) {
+                        for (var categoryID in params.category) {
+                            console.log(categoryID);
+                            if (categoryID) {
+                                valuesArr.push('(?,?)');
+                                paramterArr.push(productID);
+                                paramterArr.push(params.category[categoryID]);
+                            }
+
+                        }
+                    }
+                    else {
+                        valuesArr.push('(?,?)');
+                        paramterArr.push(productID);
+                        paramterArr.push(params.category);
+                    }
+
+                    connection.query(`INSERT INTO product_category(product_id,category_id) VALUES ${valuesArr.join(',')}`, paramterArr, function (error, results, fields) {
+
+                        if (error) {
+                            return connection.rollback(function () {
+                                throw error;
+                            });
+                        }
+
+                        connection.commit(function (err) {
+                            if (err) {
+                                return connection.rollback(function () {
+                                    throw err;
+                                });
+                            }
+                            console.log('success!');
+                        });
+                    });
+                });
+            });
+        });
+    }
+
     static fetchAll() {
         db.query("SELECT * FROM product").then((res) => {
             console.log(res);

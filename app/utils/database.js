@@ -12,6 +12,17 @@ const pool = mysql.createPool({
     port: database.port
 });
 
+const connection = mysql.createConnection({
+    host: database.host,
+    user: database.user,
+    database: database.name
+  });
+
+
+exports.getConnection=() =>{
+    return connection;
+}
+
 // const pool = mysql.createPool(config.database);
 
 function read(table, parameters) {
@@ -85,7 +96,7 @@ exports.insert = (table, parameters) => {
 
         fields = fieldsArr.join(', ');
         values = values.join(', ');
-        fields = fields.join(', ');
+        // fields = fieldsArr.join(', ');
 
         var sql = `INSERT INTO ${table} (` + fields + ') VALUES (' + values + ')';
 

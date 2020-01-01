@@ -17,4 +17,16 @@ router.get('/report/top_sold_products/',adminController.top_sold_productsAction)
 
 router.post('/report/top_sold_products/',adminController.top_sold_productsPOSTAction);
 
+router.get('/add_product/',adminController.addProductAction);
+router.post('/add_product/',adminController.addProductPostAction);
+
+router.get('/add_category/',adminController.addCategoryAction);
+router.post('/add_category/',adminController.addCategoryPostAction);
+
+router.get('/report/top_category/',adminController.topCategoryAction);
+router.post('/report/top_category/',adminController.topCategoryPOSTAction);
+
+
+router.get('/report/product_sales/:id',adminController.getProductSales);
+
 module.exports = router;

@@ -1,0 +1,48 @@
+<%- include('../includes/header.ejs') %>
+<%- include('../includes/navigation.ejs') %>
+
+
+<!--================Add Category Area =================-->
+<section class="checkout_area padding_top">
+    <div class="container">
+
+
+        <div class="billing_details">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h3>Add Category</h3>
+                    <form class="row contact_form" action="/admin/add_category/" method="post" id='addProduct-category' novalidate="novalidate">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="col-md-6 form-group p_star">
+                            <label class="col-sm-4 control-label" for="title">Title:</label>
+                            <input type="text" class="form-control" id="title" name="title" />
+                            <span class="placeholder" data-placeholder="Title"></span>
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                            <label class="col-sm-4 control-label" for="category">Super Category:</label>
+                            <ul>
+                                <!-- <li><input type="checkbox" name="hob[]" value="cri" /> cricket</li> -->
+
+                                <% for(var i=0; i < category.length; i++) { %>
+                                <li>
+                                        <input type="radio" name="category" value= <%= category[i].category_id%> /> <%= category[i].category%>
+
+                                </li>
+                                <% } %>
+                            </ul>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Category Area =================-->
+
+
+<%- include('../includes/footer.ejs') %>
