@@ -119,12 +119,24 @@ exports.getCheckoutAction = (req, res, next) => {
     }
 };
 
-exports.postCheckoutAction = (req, res, next) => {
-    console.log(req.body);
-    
+exports.postCheckoutAction = (req, res, next) => {   
+    // console.log(req.body);
+    // console.log(req.body.payment_method);
+    // console.log(req.body.address_no);
+    // console.log(req.body.road_name);
+    // console.log(req.body.city);
+    // console.log(req.body.country);
+    // console.log(new Date().toISOString().slice(0,10));
+
+    Order.saveOrder(
+        "Pending", 
+        req.body.delivery_method, 
+        req.body.payment_method, 
+        req.body.address_no, 
+        req.body.road_name, 
+        req.body.city, 
+        req.body.country, 
+        "11232", 
+        new Date().toISOString().slice(0,10));
     res.redirect('/');
-    // res.render('customer_views/checkout', {
-    //     pageTitle: "Checkout",
-    //     path: "/"
-    // })
 };
