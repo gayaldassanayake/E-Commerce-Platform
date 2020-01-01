@@ -59,7 +59,7 @@ app.use((req, res, next) => {
 app.use('/admin', adminRoutes);
 app.use(homeRoutes);
 app.use(authRoutes);
-// app.use('/shop',shoppingRoutes);
+app.use('/shop',shoppingRoutes);
 // app.use((req,res, next) => {
 //     req.session.cart = "cart";
 // });

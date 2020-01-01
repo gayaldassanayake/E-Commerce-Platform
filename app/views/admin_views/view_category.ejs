@@ -26,9 +26,10 @@
                 <div class="tracking_box_inner">
                     <p>To view details of a category please enter the category ID in the box below and press the "view" button.
                         You can find the relevent category ID's in the store manifest.</p>
-                    <form class="row tracking_form" action="#" method="post" novalidate="novalidate">
+                    <form class="row tracking_form" action="/admin/view_category_details" method="post" novalidate="novalidate">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <div class="col-md-12 form-group">
-                            <input type="text" class="form-control" id="order_id" name="order_id"
+                            <input type="text" class="form-control" id="category_id" name="category_id"
                                 placeholder="Category ID">
                         </div>
                         <div class="col-md-12 form-group">
@@ -43,3 +44,5 @@
     </div>
 </section>
 <!--================End Category Product Area =================-->
+
+<%- include('../includes/footer_admin.ejs') %>

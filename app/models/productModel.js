@@ -133,5 +133,30 @@ module.exports = class Product {
             console.log(err);
         });
     }
+
+    static fetchAllProductsOnCategoryForAdmin(category_id){
+        return new Promise((resolve) => {
+            resolve(db.query('select * from product_category_details where category_id = ?',[category_id]))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchSingleProduct(product_id){
+        return new Promise((resolve)=>{
+            resolve(db.query("SELECT * FROM product WHERE product_id = ?",[product_id]))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
+    static fetchAllVarientsOnProductForAdmin(product_id){
+        return new Promise((resolve) => {
+            resolve(db.query('select * from product_varient_details where product_id = ?',[product_id]))
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+    
 };
 
