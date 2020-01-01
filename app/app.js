@@ -10,6 +10,7 @@ const flash = require('connect-flash');
 const adminRoutes = require('./routes/adminRouter');
 const homeRoutes = require('./routes/homeRouter');
 const shoppingRoutes = require('./routes/shopRouter');
+const searchRoutes = require('./routes/searchRouter');
 const authRoutes = require('./routes/authRouter');
 const b = require('./utils/hash_functions');
 
@@ -59,7 +60,8 @@ app.use((req, res, next) => {
 app.use('/admin', adminRoutes);
 app.use(homeRoutes);
 app.use(authRoutes);
-// app.use('/shop',shoppingRoutes);
+app.use(searchRoutes);
+app.use('/shop',shoppingRoutes);
 // app.use((req,res, next) => {
 //     req.session.cart = "cart";
 // });

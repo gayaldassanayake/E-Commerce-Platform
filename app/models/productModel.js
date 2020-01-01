@@ -133,5 +133,16 @@ module.exports = class Product {
             console.log(err);
         });
     }
+
+    static fetchSearchedProducts(query_string) {
+        return new Promise((resolve,reject) => {
+            resolve(db.query("SELECT * FROM varient WHERE title LIKE '%Dell%' LIMIT 10"))
+            .catch(() => {
+                console.log("HI");
+                reject(null);
+                console.log(err);
+            });
+        });
+    }
 };
 
