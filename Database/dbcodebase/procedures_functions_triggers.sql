@@ -53,6 +53,36 @@ INSERT
     END IF//
 DELIMITER ;
 
+
+
+DELIMITER //
+CREATE TRIGGER user_validation
+    BEFORE INSERT ON customer
+    FOR EACH ROW 
+ 
+BEGIN
+    DECLARE n TYPE OF customer.name DEFAULT '' ;
+    SET n := (SELECT name FROM customer WHERE name = NEW.name);
+    IF NEW.name = n THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'name already exist';
+    END IF;
+    
+    IF NEW.email NOT LIKE '_%@_%.__%' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Email field is not valid';
+    END IF;
+    
+    IF NOT nameCheck(NEW.name) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = "Name should only contain Letters";
+    END IF;
+ 
+    
+ 
+END; //
+ 
+DELIMITER ;
+
+
+
 ------------------------procedures-------------------------
 
 -- call this proceudre after adding a data to the product_category table
@@ -77,10 +107,50 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE PROCEDURE top_sales_proc (start_date date,end_date date)
-	BEGIN
-    	(SELECT product.product_id,product.title,product.description,product.manufacturer,product.rating,COUNT(*) AS Number_of_sales FROM product,order_,order_item WHERE order_.date_>=start_date AND order_.date_<= end_date AND order_.order_id=order_item.order_id AND order_item.product_id=product.product_id GROUP BY order_item.product_id ORDER BY COUNT(*) DESC);
+	CREATE PROCEDURE top_sales_proc (start_date date,end_date date)
+		BEGIN
+	    	(SELECT product.product_id,product.title,product.description,product.manufacturer,product.rating,COUNT(*) AS Number_of_sales FROM product,order_,order_item WHERE order_.date_>=start_date AND order_.date_<= end_date AND order_.order_id=order_item.order_id AND order_item.product_id=product.product_id GROUP BY order_item.product_id ORDER BY COUNT(*) DESC);
+	    END
+	//
+
+	DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE top_category_proc (start_date date,end_date date)
+	BEGIN       
+        (SELECT category.category,COUNT(*) AS No_of_sales FROM product,order_,order_item,product_category,category WHERE order_.date_>=start_date AND order_.date_<= end_date AND order_.order_id=order_item.order_id AND order_item.product_id=product.product_id AND product_category.product_id=order_item.product_id AND category.category_id=product_category.category_id GROUP By category.category ORDER BY category.category);
     END
 //
 
 DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE product_popularity_proc (productID integer)
+	BEGIN       
+        (SELECT date_,COUNT(*)As no_of_sales FROM order_item,order_ WHERE order_item.product_id=productID AND order_.order_id=order_item.order_id GROUP BY order_.date_ ORDER BY date_);
+    END
+//
+
+DELIMITER ;
+
+
+
+---------------- functions -------------------------------------------
+
+DELIMITER //
+ 
+CREATE FUNCTION nameCheck(string varchar(20)) RETURNS boolean DETERMINISTIC
+BEGIN
+    IF NOT (string REGEXP '[:alpha:]') THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'name can only contain strings';
+        RETURN FALSE;
+    END IF;
+    RETURN TRUE;
+END; //
+ 
+DELIMITER ;
+        

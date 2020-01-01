@@ -30,3 +30,9 @@ from category left outer join category as c on (category.super_category_id = c.c
 create view product_varient_details as 
 select product.product_id,varient.varient_id,sku,varient.title,varient.price,quantity,varient.deleted,weight,restock_limit,count(0) as number_of_sales 
 from ((varient join product using (product_id)) join order_) join order_item where ((order_.order_id = order_item.order_id) and (order_item.varient_id = varient.varient_id)) group by order_item.varient_id order by count(0) desc limit 100;
+
+
+CREATE VIEW customer_details AS
+SELECT username, name, email, address_no, road_name, city, country, telephone_number
+FROM customer, customer_telephone
+WHERE customer.customer_id = customer_telephone.customer_id;

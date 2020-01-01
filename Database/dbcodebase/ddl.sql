@@ -14,7 +14,10 @@ CREATE TABLE delivery_person(
 
 CREATE TABLE customer(
     customer_id char(7),
-    address varchar(255) not null,
+    address_no varchar(255),
+    road_name varchar(255),
+    city varchar(255),
+    country varchar(255),
     email varchar(100) not null unique,
     name varchar(100) not null,
     username varchar(45) not null unique,
@@ -76,7 +79,10 @@ CREATE TABLE order_(
     expire_year NUMERIC(4, 0),
     expire_month numeric(2, 0),
     name_on_card varchar(200),
-    delivery_address varchar(255),
+    address_no varchar(255),
+    road_name varchar(255),
+    city varchar(255),
+    country varchar(255),
     estimate_days numeric(2, 0),
     delivery_person_id char(5),
     

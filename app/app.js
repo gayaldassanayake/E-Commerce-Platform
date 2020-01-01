@@ -71,5 +71,6 @@ app.use(searchRoutes);
 // });
 
 app.use(errorController.get404);
+app.use(errorController.get404Admin);
 
 app.listen(3000);
