@@ -140,10 +140,11 @@ exports.update = (table, primaryKeys, parameters) => {
 }
 
 exports.query = (sql, parameters) => {
-
+    console.log(sql,parameters)
     return new Promise((resolve, reject) => {
         pool.execute(sql, parameters, function (err, results, fields) {
             if (err) {
+                console.error(err)
                 reject(err);
             }
             else {

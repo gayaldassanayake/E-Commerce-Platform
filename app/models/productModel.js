@@ -154,10 +154,8 @@ module.exports = class Product {
                 res = res[0]
                 var productObj = { id:res.product_id, title: res.title, description: res.description, manufacturer: res.manufacturer, state: null, rating: res.rating, image_path: null, price: null, quantity: null}
                 var product = new Product(productObj)
-                // console.log(product)
                 productDetails['product'] = product
                 return productDetails
-                // db.read
             }).then(prod =>{
                 var parameters1 = {
                     'fields':['varient_id','image_path','restock_limit'],
@@ -172,8 +170,6 @@ module.exports = class Product {
             })
             .then(varients=>{
                 productDetails['varients'] = varients
-                // console.log(productDetails)
-                db.read()
 
                 var parameters2 = {
                     'fields':['category_id'],
@@ -181,11 +177,38 @@ module.exports = class Product {
                     'conditions':{'product_id':product_id}
                 }
 
-                return db.read("product_category",parameters2)
+                
 
                 
-            }).then(res=>{
-                productDetails['categories'] = res
+
+                return db.read("product_category",parameters2)
+                
+
+                
+            }).then(cat=>{
+                productDetails['categories'] = cat
+
+                var statement = "SELECT cat.attribute_id, attribute,value from "+
+                                "category_specialized_attribute as cat, product_category_specialized_attribute as prod "+
+                                "where  cat.attribute_id = prod.attribute_id and "+
+                                "cat.category_id = prod.category_id and "+
+                                "prod.product_id=(?) and ("
+                
+                console.log(cat.length)
+                for(var i=0;i<cat.length;i++){
+                    statement+= " prod.category_id = (?) "
+                    statement+= (i<cat.length-1)?"OR ":")"
+                }
+
+                var parameters3 = productDetails['categories'].map(category=>category["category_id"])
+                parameters3.unshift(product_id)
+                console.log(parameters3)
+                return db.query(statement,parameters3)
+
+                
+            })
+            .then(cat_attr=>{
+                productDetails['category_attributes'] = cat_attr
                 console.log(productDetails)
                 resolve(productDetails)
             })
