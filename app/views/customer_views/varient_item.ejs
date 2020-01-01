@@ -35,7 +35,16 @@
             <div class="col-lg-5 col-xl-4">
                 <div class="s_product_text">
                     <h3><%=product.product.title %></h3> 
-                    <h2><%= %></h2> {{!-- Varient price --}}
+                    <%var var_id
+                    var price
+                    for(var i =0;i<product.varients.length;i++){
+                        if(product.varients[i].varient_id = varient){
+                            var_id = i
+                            price = product.varients[i].price
+                    %>
+                            <h2>$ <%=price%></h2> 
+                        <%}
+                    }%>
                     <ul class="list">
                         <li>
                                 <span>Category</span>
@@ -51,7 +60,13 @@
                             
                         </li>
                         <li>
-                            <a href="#"> <span>Availibility</span> : In Stock</a>
+                            <a href="#"> <span>Availibility</span>
+                                <% if (product.varients[var_id].restock_limit>0){%>
+                                    <p>Available</p>
+                                <%}else {%>
+                                    <p>Out of Stock</p>
+                                <% } %>
+                            </a>
                         </li>
                     </ul>
                     <!-- <p>
@@ -64,18 +79,21 @@
                             <input class="input-number" type="text" value="1" min="1" max="10">
                             <span class="number-increment"> <i class="ti-plus"></i></span>
                         </div>
-                        <a href="/cart" class="btn_3">add to cart</a> 
+                        <form action="" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <input type="hidden" name="data" value="<%= [product.product.id, varient] %>">
+                            <button class="btn_3" type="submit">add to cart</button>
+                        </form>
                     </div> 
                     <div class="card_area d-flex justify-content-between align-items-center">
                         <div class="dropdown">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Select varient
+                                <%=product.varients[var_id].title%>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <% for(var i=0;i<product.varients.length;i++){ %>
                                     <% var link = "/product/"+product.product.id+"/"+product.varients[i].varient_id %>
-                                    <% console.log(link) %>
                                     <a class="dropdown-item" href=<%=link%>><%= product.varients[i].title %></a>
                                 <% } %>
                                 </div>
@@ -125,6 +143,16 @@
                                                             <h5><%=product.category_attributes[i].value%></h5>
                                                         </td>
                                                     </tr>
+                                                    <% }%>
+                                                    <% for(var i =0;i<product.varient_attributes.length;i++){ %>
+                                                        <tr>
+                                                            <td>
+                                                                <h5><%=product.varient_attributes[i].attribute_name%></h5>
+                                                            </td>
+                                                            <td>
+                                                                <h5><%=product.varient_attributes[i].value%></h5>
+                                                            </td>
+                                                        </tr>
                                                     <% }%>
                                                 </tbody>
                                             </table>

@@ -33,7 +33,7 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.viewProduct = (req, res, next) => {
-    console.log(req.params.id)
+    // console.log(req.params.id)
 
     const fetchProducts = new Promise((resolve, reject) => {
             resolve((Product.getProductDetails(req.params.id,null)))
@@ -42,7 +42,7 @@ exports.viewProduct = (req, res, next) => {
 
     fetchProducts
         .then(([productDetails,varient]) => {
-            console.log(varient)
+            // console.log(varient)
             res.render('customer_views/varient_item', {
                 pageTitle: 'Product',
                 path: 'product/id',
@@ -56,7 +56,7 @@ exports.viewProduct = (req, res, next) => {
 }
 
 exports.viewVarient = (req, res, next) => {
-    console.log(req.params.id,req.params.id)
+    // console.log(req.params.id,req.params.var)
 
     const fetchProducts = new Promise((resolve, reject) => {
             resolve((Product.getProductDetails(req.params.id,req.params.var)))
@@ -65,7 +65,7 @@ exports.viewVarient = (req, res, next) => {
 
     fetchProducts
         .then(([productDetails,varient]) => {
-            console.log(productDetails,varient)
+            // console.log(productDetails,varient)
             res.render('customer_views/varient_item', {
                 pageTitle: 'Product',
                 path: 'product/id',
@@ -77,3 +77,4 @@ exports.viewVarient = (req, res, next) => {
         }).catch(err => console.error(err))
 
 }
+

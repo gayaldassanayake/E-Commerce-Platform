@@ -1,4 +1,5 @@
 const db = require('../utils/database');
+const customer = require('./customerModel')
 
 module.exports = class Product {
     constructor(params) {
@@ -35,7 +36,7 @@ module.exports = class Product {
 
                 // var log = 'Post ' + results.insertId + ' added';
                 var productID = results.insertId;
-                console.log(results.insertId);
+                // console.log(results.insertId);
 
                 connection.query('INSERT INTO varient (product_id,sku,title,price,quantity,deleted,weight,restock_limit,image_path) VALUES(?,?,?,?,?,?,?,?,?)', [results.insertId, params.sku, params.varientTitle, params.price, params.quantity, 0, params.weight, params.restockLimit, params.imagePath], function (error, results, fields) {
                     if (error) {
@@ -206,7 +207,7 @@ module.exports = class Product {
     }
 
     static getProductDetails(product_id,varient_id){
-        console.log(product_id,varient_id)
+        // console.log(product_id,varient_id)
         var productDetails = {}
 
         return new Promise((resolve => {
@@ -226,7 +227,7 @@ module.exports = class Product {
 
             }).then(prod =>{
                 var parameters1 = {
-                    'fields':['varient_id','title','image_path','restock_limit'],
+                    'fields':['varient_id','title','price','image_path','restock_limit'],
                     'orderby':'varient_id ASC',
                     'conditions':{'product_id':product_id}
                 }
@@ -236,8 +237,10 @@ module.exports = class Product {
             })
             .then(varients=>{
                 productDetails['varients'] = varients
+                // console.log(varients)
                 if(varient_id==null){
-                    varient_id = varients.varient_id
+                    // console.log(varients.varient_id)
+                    varient_id = varients[0].varient_id
                 }
 
                 var statement = "SELECT category.category_id, category.category from product_category,category "+
@@ -273,17 +276,17 @@ module.exports = class Product {
 
             })
             .then(cat_attr=>{
-                // console.log(cat_attr)
+                // console.log(productDetails)
                 productDetails['category_attributes'] = cat_attr
 
                 var varients = productDetails['varients'].map(varient=>varient['varient_id'])
-                var statement = "SELECT varient_id,attribute_name, value from custom_attribute where product_id = (?) and ("
+                var statement = "SELECT varient_id,attribute_name, value from custom_attribute where product_id = (?) and varient_id = (?) "
                 
-                for(var i=0;i<varients.length;i++){
-                    statement+= " varient_id = (?) "
-                    statement+= (i<varients.length-1)?"OR ":")"
-                }
-                var parameters1 = [product_id, ...varients]
+                // for(var i=0;i<varients.length;i++){
+                //     statement+= ""
+                //     statement+= (i<varients.length-1)?"OR ":")"
+                // }
+                var parameters1 = [product_id, varient_id]
                 return db.query(statement,parameters1)
                 
             }).then(varient_attr=>{
@@ -320,6 +323,12 @@ module.exports = class Product {
         }).catch((err) => {
             console.log(err);
         });
+    }
+
+    static addProductToCart(username,product,varient,price){
+        var customer_id = Customer.getCustomerIdByUsername(username)
+        console.log(customer_id)
+        
     }
     
 

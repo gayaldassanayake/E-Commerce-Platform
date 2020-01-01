@@ -33,6 +33,17 @@ module.exports = class Customer {
         });
     }
 
+    static getCustomerIdByUsername(username) {
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT customer_id FROM customer WHERE username = ?", [username]))
+        }).then(value => {
+            console.log(value)
+            return value[0]; 
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+
     static checkUsernameExist(username){
         return db.query("SELECT username FROM customer WHERE username = ?", [username]);
         

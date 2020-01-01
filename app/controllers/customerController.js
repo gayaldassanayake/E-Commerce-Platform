@@ -79,6 +79,26 @@ exports.cartAction = (req, res, next) => {
         }).catch(err => console.error(err))
 };
 
+exports.addToCart2 = (req, res, next) => {
+    console.log(req.body);
+    var product_id = req.body.data[0]
+    var varient_id = req.body.data[1]
+    // var price = req.body.price
+    // console.log(req)
+    console.log(product_id,varient_id)
+
+    if (req.session.isLoggedIn) {
+        console.log(req.session.prevInputs.username,product_id,varient_id,req.params.price)
+        Product.addProductToCart(req.session.prevInputs.username,product_id,varient_id,req.params.price)
+    }
+    // res.render('index', {
+    //     pageTitle: 'Shop',
+    //     path: '/',
+    //     activeShop: true,
+    //     productCSS: true
+    // });
+};
+
 exports.order_detailsActionPost = (req, res, next) => {
     var order_id = req.body.order_id;
     // console.log(order_id);

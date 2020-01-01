@@ -11,5 +11,5 @@ router.get ('/checkout', ACL.userAuthentication, customerController.getCheckoutA
 router.post ('/checkout', ACL.userAuthentication, customerController.postCheckoutAction);
 router.post('/track_order_details', ACL.userAuthentication, customerController.order_detailsActionPost);
 router.get('/cart', ACL.userAuthentication, customerController.cartAction)
-
+router.post('/product/:product/:varient',customerController.addToCart2);
 module.exports = router;

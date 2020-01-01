@@ -65,7 +65,7 @@ function read(table, parameters) {
 
         var sql = `SELECT ` + fieldsStr + ` FROM ${table}` + conditions + orderby + limit;
 
-        console.log(sql)
+        // console.log(sql)
         pool.execute(sql, bindparam, function (err, results, fields) {
             if (err) {
                 reject(err);
@@ -137,7 +137,7 @@ exports.update = (table, primaryKeys, parameters) => {
         var conditions = conditionsArr.join(' AND ');
 
         var sql = `UPDATE ${table} SET ` + parameterStr + ' WHERE ' + conditions;
-        console.log(sql);
+        // console.log(sql);
 
         pool.execute(sql, bindparam, function (err, results, fields) {
             if (err) {
@@ -151,7 +151,7 @@ exports.update = (table, primaryKeys, parameters) => {
 }
 
 exports.query = (sql, parameters) => {
-    console.log(sql,parameters)
+    // console.log(sql,parameters)
     return new Promise((resolve, reject) => {
         pool.execute(sql, parameters, function (err, results, fields) {
             if (err) {

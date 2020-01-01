@@ -1,5 +1,6 @@
 module.exports = {
     "guest" : {
+        "Track Order" : '/track_order',
         "Home" : '',
         "Shop" : 'shop',
         "Track Order" : 'track_order',
@@ -8,6 +9,7 @@ module.exports = {
         "Search" : 'search_results',
         "Login" : 'login',
         "Sign Up" : 'signup',
+        "Add to Cart":'/addtocart'
     },
 
     "Loggedin" : {
