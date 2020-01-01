@@ -171,3 +171,49 @@ exports.addCategoryPostAction = (req, res, next) => {
     });
 
 }
+
+exports.topCategoryAction = (req, res, next) => {
+
+    var end_date = new Date().toISOString().slice(0, 10);
+    var start_date = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().slice(0, 10);
+
+    const fetchTopSoldProducts = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Report.getTopCategory(start_date, end_date)));
+        });
+    };
+
+    fetchTopSoldProducts().then((result) => {
+
+        res.render('admin_views/top_category', {
+            pageTitle: "Admin Dashboard",
+            path: '/',
+            isAuthenticated: req.session.isLoggedIn,
+            table: result[0],
+            reportText: "Popular Product Categories from " + start_date + " to " + end_date
+        })
+    });
+
+}
+
+exports.topCategoryPOSTAction = (req, res, next) => {
+
+    const fetchTopCategory = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Report.getTopCategory(req.body.start_date, req.body.end_date)));
+        });
+    };
+
+    fetchTopCategory().then((result) => {
+
+        res.render('admin_views/top_category', {
+            pageTitle: "Admin Dashboard",
+            path: '/',
+            isAuthenticated: req.session.isLoggedIn,
+            table: result[0],
+            reportText: "Popular Product Categories from " + req.body.start_date + " to " + req.body.end_date
+        })
+    });
+
+
+}
