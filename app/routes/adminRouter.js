@@ -24,4 +24,7 @@ router.post('/add_category/',adminController.addCategoryPostAction);
 router.get('/report/top_category/',adminController.topCategoryAction);
 router.post('/report/top_category/',adminController.topCategoryPOSTAction);
 
+
+router.get('/report/product_sales/:id',adminController.getProductSales);
+
 module.exports = router;

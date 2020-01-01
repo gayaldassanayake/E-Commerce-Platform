@@ -215,5 +215,32 @@ exports.topCategoryPOSTAction = (req, res, next) => {
         })
     });
 
+}
 
+exports.getProductSales = (req, res, next) => {
+
+    if( typeof req.params.id == 'undefined'){
+        es.render('admin_views/admin_dashboard', {
+            pageTitle: "Admin Dashboard",
+            path: '/',
+            isAuthenticated: req.session.isLoggedIn
+        });
+    }
+
+    const fetchTopCategory = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Report.getProductSales(req.params.id)));
+        });
+    };
+
+    fetchTopCategory().then((result) => {
+
+        res.render('admin_views/product_popularity', {
+            pageTitle: "Admin Dashboard",
+            path: '/',
+            isAuthenticated: req.session.isLoggedIn,
+            table: result[0]
+        })
+    });
+    
 }
