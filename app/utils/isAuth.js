@@ -10,7 +10,7 @@ exports.userAuthentication = (req, res, next) => {
         }
         res.redirect(errorController.get404);
     }
-    for (const [key, value] of Object.entries(AccessControls.Loggedin)) { 
+    for (const [key, value] of Object.entries(AccessControls.Customer)) { 
         if(req.url === value) {
             return next();
         }

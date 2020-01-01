@@ -8,6 +8,7 @@ const csrf = require('csurf');
 const flash = require('connect-flash');
 
 const adminRoutes = require('./routes/adminRouter');
+const adminAuthRoutes = require('./routes/adminAuthRouter');
 const homeRoutes = require('./routes/homeRouter');
 const shoppingRoutes = require('./routes/shopRouter');
 const authRoutes = require('./routes/authRouter');
@@ -57,6 +58,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/admin', adminRoutes);
+app.use('/admin', adminAuthRoutes);
 app.use(homeRoutes);
 app.use(authRoutes);
 app.use('/shop',shoppingRoutes);

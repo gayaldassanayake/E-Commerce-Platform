@@ -26,11 +26,18 @@
             <div class="col-6" style="text-align: center;">
                 <div class="login_part_form">
                     <div class="login_part_form_iner" style="text-align: center;">
-                        <form class="row contact_form" action="/login" method="post" novalidate="novalidate">
+                        <% if (errorMessages) { %>
+                        <div style="color: #ff005a;"><h4 style="color: #ff005a;"><%= errorMessages %></h4></div>
+                        <% } %>
+                        <form class="row contact_form" action="/admin/add_admin" method="post" novalidate="novalidate">
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Username"
-                                    value="">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Name" value="<%= prevInputs.name %>">
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="username" name="username"
+                                    placeholder="Username" value="<%= prevInputs.username %>">
                             </div>
                             <div class="col-md-12 form-group p_star">
                                 <input type="password" class="form-control" id="password" name="password"
