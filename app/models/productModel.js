@@ -1,4 +1,5 @@
 const db = require('../utils/database');
+const customer = require('./customerModel')
 
 module.exports = class Product {
     constructor(params) {
@@ -35,7 +36,7 @@ module.exports = class Product {
 
                 // var log = 'Post ' + results.insertId + ' added';
                 var productID = results.insertId;
-                console.log(results.insertId);
+                // console.log(results.insertId);
 
                 connection.query('INSERT INTO varient (product_id,sku,title,price,quantity,deleted,weight,restock_limit,image_path) VALUES(?,?,?,?,?,?,?,?,?)', [results.insertId, params.sku, params.varientTitle, params.price, params.quantity, 0, params.weight, params.restockLimit, params.imagePath], function (error, results, fields) {
                     if (error) {
@@ -206,7 +207,7 @@ module.exports = class Product {
     }
 
     static getProductDetails(product_id,varient_id){
-        console.log(product_id,varient_id)
+        // console.log(product_id,varient_id)
         var productDetails = {}
 
         return new Promise((resolve => {
@@ -236,8 +237,10 @@ module.exports = class Product {
             })
             .then(varients=>{
                 productDetails['varients'] = varients
+                // console.log(varients)
                 if(varient_id==null){
-                    varient_id = varients.varient_id
+                    // console.log(varients.varient_id)
+                    varient_id = varients[0].varient_id
                 }
 
                 var statement = "SELECT category.category_id, category.category from product_category,category "+
@@ -273,7 +276,7 @@ module.exports = class Product {
 
             })
             .then(cat_attr=>{
-                // console.log(cat_attr)
+                // console.log(productDetails)
                 productDetails['category_attributes'] = cat_attr
 
                 var varients = productDetails['varients'].map(varient=>varient['varient_id'])
@@ -320,6 +323,12 @@ module.exports = class Product {
         }).catch((err) => {
             console.log(err);
         });
+    }
+
+    static addProductToCart(username,product,varient,price){
+        var customer_id = Customer.getCustomerIdByUsername(username)
+        console.log(customer_id)
+        
     }
     
 };

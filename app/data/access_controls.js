@@ -7,6 +7,7 @@ module.exports = {
         "Check Out" : '/checkout',
         "Login" : '/login',
         "Sign Up" : '/signup',
+        "Add to Cart":'/addtocart'
     },
 
     "Customer" : {
@@ -15,7 +16,8 @@ module.exports = {
         "Track Order" : '/track_order',
         "Cart" : '/cart',
         "Check Out" : '/checkout',
-        "Logout" : '/logout'
+        "Logout" : '/logout',
+        "Add to Cart":'/addtocart'
     },
 
     "Admin" : {

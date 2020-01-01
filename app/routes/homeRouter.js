@@ -11,6 +11,10 @@ router.get ('/checkout', ACL.userAuthentication, customerController.checkoutActi
 router.post('/track_order_details', ACL.userAuthentication, customerController.order_detailsActionPost);
 
 router.get('/cart', ACL.userAuthentication, customerController.cartAction)
-
-
+// router.get('/addtocart/:product/:varient/:price',ACL.userAuthentication,customerController.addToCart)
+router.post('/product/:product/:varient',customerController.addToCart2);
+// router.post.cart = {
+//     params: ['param1', 'param2'],
+//     controller: customerController.addToCart2
+// }
 module.exports = router;
