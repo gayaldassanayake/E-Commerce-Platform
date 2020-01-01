@@ -226,7 +226,7 @@ module.exports = class Product {
 
             }).then(prod =>{
                 var parameters1 = {
-                    'fields':['varient_id','title','image_path','restock_limit'],
+                    'fields':['varient_id','title','price','image_path','restock_limit'],
                     'orderby':'varient_id ASC',
                     'conditions':{'product_id':product_id}
                 }
@@ -277,13 +277,13 @@ module.exports = class Product {
                 productDetails['category_attributes'] = cat_attr
 
                 var varients = productDetails['varients'].map(varient=>varient['varient_id'])
-                var statement = "SELECT varient_id,attribute_name, value from custom_attribute where product_id = (?) and ("
+                var statement = "SELECT varient_id,attribute_name, value from custom_attribute where product_id = (?) and varient_id = (?) "
                 
-                for(var i=0;i<varients.length;i++){
-                    statement+= " varient_id = (?) "
-                    statement+= (i<varients.length-1)?"OR ":")"
-                }
-                var parameters1 = [product_id, ...varients]
+                // for(var i=0;i<varients.length;i++){
+                //     statement+= ""
+                //     statement+= (i<varients.length-1)?"OR ":")"
+                // }
+                var parameters1 = [product_id, varient_id]
                 return db.query(statement,parameters1)
                 
             }).then(varient_attr=>{
