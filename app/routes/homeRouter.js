@@ -1,17 +1,16 @@
 const express = require('express');
 
-const isAuth = require('../utils/isAuth');
-
 const customerController = require('../controllers/customerController');
+const ACL = require('../utils/isAuth');
 
 const router = express.Router();
 
-router.get('/', customerController.indexAction);
-router.get ('/track_order', customerController.track_orderAction);
-router.get ('/checkout',customerController.checkoutAction); // methna post ekak dmmoth hodi from cart interface//
-router.post('/track_order_details',customerController.order_detailsActionPost);
+router.get('/', ACL.userAuthentication, customerController.indexAction);
+router.get ('/track_order', ACL.userAuthentication, customerController.track_orderAction);
+router.get ('/checkout', ACL.userAuthentication, customerController.checkoutAction); // methna post ekak dmmoth hodi from cart interface//
+router.post('/track_order_details', ACL.userAuthentication, customerController.order_detailsActionPost);
 
-router.get('/cart',customerController.cartAction)
+router.get('/cart', ACL.userAuthentication, customerController.cartAction)
 
 
 module.exports = router;

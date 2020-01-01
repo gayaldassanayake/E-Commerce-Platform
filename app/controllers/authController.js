@@ -47,8 +47,7 @@ exports.postRegisterAction = (req, res, next) => {
                 telephoneNumber: req.body.telephoneNumber
             }
         });
-    }
-    
+    }  
 }
 
 exports.getLoginAction = (req, res, next) => {
