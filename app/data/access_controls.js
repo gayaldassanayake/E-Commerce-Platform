@@ -9,7 +9,7 @@ module.exports = {
         "Search" : 'search_results',
         "Login" : 'login',
         "Sign Up" : 'signup',
-        "Add to Cart":'/addtocart'
+        "Add to Cart":'addtocart'
     },
 
     "Loggedin" : {
