@@ -8,7 +8,8 @@ exports.admin_dashboardAction = (req, res, next) => {
     res.render('admin_views/admin_dashboard', {
         pageTitle: "Admin Dashboard",
         path: '/',
-        isAuthenticated: req.session.isLoggedIn
+        isAuthenticated: req.session.isLoggedIn,
+        userName : req.session.user.name,
     });
 }
 

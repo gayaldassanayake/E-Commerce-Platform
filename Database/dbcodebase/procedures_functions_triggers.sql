@@ -61,7 +61,6 @@ CREATE TRIGGER user_validation
     FOR EACH ROW 
  
 BEGIN
-BEGIN
     DECLARE n TYPE OF customer.name DEFAULT '' ;
     SET n := (SELECT name FROM customer WHERE name = NEW.name);
     IF NEW.name = n THEN
@@ -77,8 +76,6 @@ BEGIN
     END IF;
  
     
-END
- 
  
 END; //
  

@@ -9,7 +9,9 @@
                 <div class="breadcrumb_iner">
                     <div class="breadcrumb_iner_item">
                         <h2 style="color: #00ADB5;">Admin Dashboard</h2>
-                        <h2 style="color: #00ADB5;">Methna Adminge nama pennanaa</h2>
+                        <% if (userName != null) {%>
+                        <h3 style="color: #00ADB5;">Administrator is <%= userName  %></h3>
+                        <% } %>
                     </div>
                 </div>
             </div>
