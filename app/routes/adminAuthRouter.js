@@ -9,6 +9,9 @@ const router = express.Router();
 
 router.get('/add_admin',adminAuthController.getAdminRegisterAction);
 router.post('/add_admin',adminAddValidation,adminAuthController.postRegisterAction);
+router.get('/login',adminAuthController.view_loginAction);
+router.post('/login', loginValidation, adminAuthController.postLoginAction);
+router.post('/logout', adminAuthController.postLogoutAction);
 // router.get('/signup', ACL.userAuthentication, authController.getRegisterAction);
 // router.post('/signup', ACL.userAuthentication,registerValidation , authController.postRegisterAction);
 // router.get('/login', ACL.userAuthentication, authController.getLoginAction);

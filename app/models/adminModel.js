@@ -5,7 +5,8 @@ module.exports = class Admininstrator {
     constructor(params) {
         this.id = params.id,
         this.name = params.name,
-        this.username = params.username
+        this.username = params.username,
+        this.password = params.password
     }
 
     static insert(userInput){
@@ -19,6 +20,18 @@ module.exports = class Admininstrator {
             console.log(err);
         });
 
+    }
+
+    static getAdminUserName(username){
+
+        return new Promise((resolve) => {
+            resolve(db.query("SELECT * FROM administrator WHERE username = ?",[username]))
+        }).then(value => {
+            const detail = value[0];
+            return new Admininstrator(detail);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
     
 };
