@@ -16,10 +16,9 @@ module.exports = class Order {
         this.state = state;
     }
 
-
-    save() {
-        db.query('INSERT INTO products (title, description, manufacturer, state, rating) VALUES (?,?,?,?,?,?)',
-            [this.title, this.description, manufacturer, this.state, this.rating]
+    static saveOrder(state, delivery_method, payment_method, address_no, road_name, city, country, delivery_person, date) {
+        return db.query('INSERT INTO order_ (state, delivery_method, payment_method, address_no, road_name, city, country, delivery_person_id, date_) VALUES (?,?,?,?,?,?,?,?,?)',
+            [state, delivery_method, payment_method, address_no, road_name, city, country, delivery_person, date]
         );
     }
 
@@ -70,5 +69,7 @@ module.exports = class Order {
             console.log(err);
         });
     }
+
+    
 };
 
