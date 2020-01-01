@@ -20,14 +20,15 @@ exports.indexAction = (req, res, next) => {
                 pageTitle: "Home",
                 path: '/',
                 meta: value,
-                productDetails: result            })
+                productDetails: result
+            })
         });
 
     });
 };
 
-exports.track_orderAction = (req, res, next) =>{
-    res.render ('customer_views/track_order',{
+exports.track_orderAction = (req, res, next) => {
+    res.render('customer_views/track_order', {
         pageTitle: "Track Order",
         path: "/",
         isAuthenticated: req.session.isLoggedIn
@@ -43,19 +44,19 @@ exports.cartAction = (req, res, next) => {
 
     // change once sessions are done----------------------------------
     var cartItems = [
-        { prod_id: 15731, var_id: 66376, quantity: 3 }, 
+        { prod_id: 15731, var_id: 66376, quantity: 3 },
         { prod_id: 16113, var_id: 38282, quantity: 4 },
     ]
     // var json_str = JSON.stringify(cartItems);
     // res.setHeader('set-Cookie',"cartCookie =",jsonData)
-    res.cookie("cartCookie",cartItems)
+    res.cookie("cartCookie", cartItems)
     req.session.cartItems = [
-        { prod_id: 15731, var_id: 66376, quantity: 3 }, 
+        { prod_id: 15731, var_id: 66376, quantity: 3 },
         { prod_id: 16113, var_id: 38282, quantity: 4 },
     ]
     // console.log(req.cookies)
     //-----------------------------------------------------------------
-    
+
     const fetchProducts = new Promise((resolve, reject) => {
         const custId = 13550
         if (req.session.isLoggedIn) {
@@ -94,13 +95,22 @@ exports.order_detailsActionPost = (req, res, next) => {
     };
     fetchOrderDetails().then((result) => {
         fetchOrderItems().then((resu) => {
-            res.render('customer_views/track_order_details', {
-                pageTitle: "Order Details",
-                path: "/",
-                order_details: result[0],
-                order_items: resu,
-                isAuthenticated: req.session.isLoggedIn
-            })
+            if (result[0] == undefined) {
+                res.status(404).render('404', {
+                    pageTitle: 'Page Not Found',
+                    path: '',
+                });
+            }
+            else {
+                res.render('customer_views/track_order_details', {
+                    pageTitle: "Order Details",
+                    path: "/",
+                    order_details: result[0],
+                    order_items: resu,
+                    isAuthenticated: req.session.isLoggedIn
+                })
+            }
+
         }).catch(err => console.error(err));
     }).catch(err => console.error(err))
 };
@@ -109,28 +119,28 @@ exports.getCheckoutAction = (req, res, next) => {
     let userDetail = userDetails;
     if (req.session.user) {
         Customer.getCustomerDetails(req.session.user.username)
-        .then((results) => {
-            userDetail = results
-            return res.render('customer_views/checkout', {
-                pageTitle: "Checkout",
-                path: "/",
-                userDetails : userDetail,
-            })
-        }).catch((err) => {
-            console.error(err);
-        });
+            .then((results) => {
+                userDetail = results
+                return res.render('customer_views/checkout', {
+                    pageTitle: "Checkout",
+                    path: "/",
+                    userDetails: userDetail,
+                })
+            }).catch((err) => {
+                console.error(err);
+            });
     } else {
         return res.render('customer_views/checkout', {
             pageTitle: "Checkout",
             path: "/",
-            userDetails : userDetail,
+            userDetails: userDetail,
         });
     }
 };
 
 exports.postCheckoutAction = (req, res, next) => {
     console.log(req.body);
-    
+
     res.redirect('/');
     // res.render('customer_views/checkout', {
     //     pageTitle: "Checkout",

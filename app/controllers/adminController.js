@@ -3,13 +3,14 @@ const Order = require('../models/orderModel');
 const Category = require('../models/categoryModel');
 const jsonData = require('../utils/json_reader');
 const Report = require('../models/reportModel');
+const errorController = require('../controllers/errorController');
 
 exports.admin_dashboardAction = (req, res, next) => {
     res.render('admin_views/admin_dashboard', {
         pageTitle: "Admin Dashboard",
         path: '/',
         isAuthenticated: req.session.isLoggedIn,
-        userName : req.session.user.name,
+        userName: req.session.user.name,
     });
 }
 
@@ -144,7 +145,7 @@ exports.addCategoryAction = (req, res, next) => {
 }
 
 exports.addCategoryPostAction = (req, res, next) => {
- 
+
     const fetchCategoryDetails = () => {
         return new Promise((resolve, reject) => {
             resolve(Category.fetchAllCategoryIDAndCategory());
@@ -160,7 +161,7 @@ exports.addCategoryPostAction = (req, res, next) => {
 
     addProductCategory().then(() => {
         fetchCategoryDetails().then((result) => {
-        
+
             res.render('admin_views/add_category', {
                 pageTitle: "Add Category",
                 path: '/',
@@ -219,7 +220,7 @@ exports.topCategoryPOSTAction = (req, res, next) => {
 
 exports.getProductSales = (req, res, next) => {
 
-    if( typeof req.params.id == 'undefined'){
+    if (typeof req.params.id == 'undefined') {
         es.render('admin_views/admin_dashboard', {
             pageTitle: "Admin Dashboard",
             path: '/',
@@ -242,7 +243,7 @@ exports.getProductSales = (req, res, next) => {
             table: result[0]
         })
     });
-    
+
 }
 
 exports.view_category_detailsAction = (req, res, next) => {
@@ -260,12 +261,22 @@ exports.view_category_detailsAction = (req, res, next) => {
     };
     fetchCategoryDetails().then((result) => {
         fetchProduts().then((resu) => {
-            res.render('admin_views/view_category_details', {
-                pageTitle: "Category Details",
-                path: "/",
-                category: result[0],
-                products: resu
-            })
+            if (result[0] == undefined) {
+                res.status(404).render('404_admin', {
+                    pageTitle: 'Page Not Found',
+                    path: '',
+                });
+
+            }
+            else {
+                res.render('admin_views/view_category_details', {
+                    pageTitle: "Category Details",
+                    path: "/",
+                    category: result[0],
+                    products: resu
+                })
+            }
+
         }).catch(err => console.error(err));
     }).catch(err => console.error(err))
 }
@@ -284,14 +295,20 @@ exports.view_product_detailsAction = (req, res, next) => {
     }
     fetchProdut().then((resu) => {
         fetchVarients().then((result) => {
-            console.log(result);
-            console.log(resu);
-            res.render('admin_views/view_product_details', {
-                pageTitle: "Category Details",
-                path: "/",
-                varients: result,
-                product: resu[0]
-            })
+            if (resu[0] == undefined) {
+                res.status(404).render('404_admin', {
+                    pageTitle: 'Page Not Found',
+                    path: '',
+                });
+            }
+            else {
+                res.render('admin_views/view_product_details', {
+                    pageTitle: "Category Details",
+                    path: "/",
+                    varients: result,
+                    product: resu[0]
+                })
+            }
         }).catch(err => console.error(err));
     }).catch(err => console.error(err));
 }
