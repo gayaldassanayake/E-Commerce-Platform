@@ -38,9 +38,8 @@ exports.view_categoryAction = (req, res, next) => {
 
 exports.view_productAction = (req, res, next) => {
     res.render('admin_views/view_product', {
-        pageTitle: "View Category",
-        path: '/',
-        isAuthenticated: req.session.isLoggedIn
+        pageTitle: "View Product",
+        path: '/'
     });
 }
 
@@ -109,9 +108,7 @@ exports.view_category_detailsAction = (req, res, next) => {
         });
     };
     fetchCategoryDetails().then((result) => {
-        console.log(result[0]);
         fetchProduts().then((resu) => {
-            console.log(resu);
             res.render('admin_views/view_category_details', {
                 pageTitle: "Category Details",
                 path: "/",
@@ -120,4 +117,32 @@ exports.view_category_detailsAction = (req, res, next) => {
             })
         }).catch(err => console.error(err));
     }).catch(err => console.error(err))
+}
+
+// methna idn hdnna 
+
+exports.view_product_detailsAction = (req, res, next) => {
+    var product_id = req.body.product_id;
+    const fetchVarients = () => {
+        return new Promise((resolve, reject) => {
+            resolve((Product.fetchAllVarientsOnProductForAdmin(product_id)));
+        });
+    };
+    const fetchProdut = () => {
+        return new Promise((resolve) => {
+            resolve((Product.fetchSingleProduct(product_id)));
+        })
+    }
+    fetchProdut().then((resu) => {
+        fetchVarients().then((result) => {
+            console.log(result);
+            console.log(resu);
+            res.render('admin_views/view_product_details', {
+                pageTitle: "Category Details",
+                path: "/",
+                varients: result,
+                product: resu[0]
+            })
+        }).catch(err => console.error(err));
+    }).catch(err => console.error(err));
 }
