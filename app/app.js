@@ -11,6 +11,7 @@ const adminRoutes = require('./routes/adminRouter');
 const adminAuthRoutes = require('./routes/adminAuthRouter');
 const homeRoutes = require('./routes/homeRouter');
 const shoppingRoutes = require('./routes/shopRouter');
+const searchRoutes = require('./routes/searchRouter');
 const authRoutes = require('./routes/authRouter');
 const productRoutes = require('./routes/productRouter')
 const b = require('./utils/hash_functions');
@@ -64,6 +65,7 @@ app.use(homeRoutes);
 app.use(authRoutes);
 app.use('/shop',shoppingRoutes);
 app.use('/product',productRoutes)
+app.use(searchRoutes);
 // app.use((req,res, next) => {
 //     req.session.cart = "cart";
 // });
