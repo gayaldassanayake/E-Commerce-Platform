@@ -131,6 +131,7 @@ module.exports = class Product {
     }
 
     static fetchAllProductsOnCategory(category_id) {
+
         return new Promise((resolve) => {
             resolve(db.query("SELECT title,image_path,`MIN(varient.price)` as min_price,`MAX(varient.price)` as max_price FROM shop_view_min_max where category_id = ? ORDER BY RAND()", [category_id]))
         }).catch((err) => {
@@ -138,8 +139,8 @@ module.exports = class Product {
         });
     }
 
-    static getProductDetails(product_id){
-
+    static getProductDetails(product_id,varient_id){
+        console.log(product_id,varient_id)
         var productDetails = {}
 
         return new Promise((resolve => {
@@ -156,36 +157,35 @@ module.exports = class Product {
                 var product = new Product(productObj)
                 productDetails['product'] = product
                 return productDetails
+
             }).then(prod =>{
                 var parameters1 = {
-                    'fields':['varient_id','image_path','restock_limit'],
+                    'fields':['varient_id','title','image_path','restock_limit'],
                     'orderby':'varient_id ASC',
                     'conditions':{'product_id':product_id}
                 }
-
                 
                 return db.read("varient",parameters1)
-                
                 
             })
             .then(varients=>{
                 productDetails['varients'] = varients
-
-                var parameters2 = {
-                    'fields':['category_id'],
-                    'orderby':'category_id ASC',
-                    'conditions':{'product_id':product_id}
+                if(varient_id==null){
+                    varient_id = varients.varient_id
                 }
 
-                
+                var statement = "SELECT category.category_id, category.category from product_category,category "+
+                                "where category.category_id = product_category.category_id and product_id= (?)"
+                // var parameters2 = {
+                //     'fields':['category_id'],
+                //     'orderby':'category_id ASC',
+                //     'conditions':{'product_id':product_id}
+                // }
 
-                
-
-                return db.read("product_category",parameters2)
-                
-
+                return db.query(statement,[product_id])
                 
             }).then(cat=>{
+                // console.log(cat)
                 productDetails['categories'] = cat
 
                 var statement = "SELECT cat.attribute_id, attribute,value from "+
@@ -194,23 +194,36 @@ module.exports = class Product {
                                 "cat.category_id = prod.category_id and "+
                                 "prod.product_id=(?) and ("
                 
-                console.log(cat.length)
                 for(var i=0;i<cat.length;i++){
                     statement+= " prod.category_id = (?) "
                     statement+= (i<cat.length-1)?"OR ":")"
                 }
 
                 var parameters3 = productDetails['categories'].map(category=>category["category_id"])
+                
                 parameters3.unshift(product_id)
-                console.log(parameters3)
+                // console.log(parameters3)
                 return db.query(statement,parameters3)
 
-                
             })
             .then(cat_attr=>{
+                // console.log(cat_attr)
                 productDetails['category_attributes'] = cat_attr
-                console.log(productDetails)
-                resolve(productDetails)
+
+                var varients = productDetails['varients'].map(varient=>varient['varient_id'])
+                var statement = "SELECT varient_id,attribute_name, value from custom_attribute where product_id = (?) and ("
+                
+                for(var i=0;i<varients.length;i++){
+                    statement+= " varient_id = (?) "
+                    statement+= (i<varients.length-1)?"OR ":")"
+                }
+                var parameters1 = [product_id, ...varients]
+                return db.query(statement,parameters1)
+                
+            }).then(varient_attr=>{
+                productDetails['varient_attributes'] = varient_attr
+                // console.log(productDetails)
+                resolve([productDetails,varient_id])
             })
             .catch(err => console.error(err))
 

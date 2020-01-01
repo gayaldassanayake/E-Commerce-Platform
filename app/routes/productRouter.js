@@ -7,6 +7,8 @@ const productController = require('../controllers/productController');
 const router = express.Router();
 
 router.get('/:id', productController.viewProduct);
+router.get('/:id/:var', productController.viewVarient);
+
 // router.get('/:id', shopController.shopCategoryAction);
 
 module.exports = router;

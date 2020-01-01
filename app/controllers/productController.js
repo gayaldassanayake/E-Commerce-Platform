@@ -36,18 +36,43 @@ exports.viewProduct = (req, res, next) => {
     console.log(req.params.id)
 
     const fetchProducts = new Promise((resolve, reject) => {
-            resolve((Product.getProductDetails(req.params.id)))
+            resolve((Product.getProductDetails(req.params.id,null)))
     })
 
 
     fetchProducts
-        .then((result) => {
-            //  console.log(result)
+        .then(([productDetails,varient]) => {
+            console.log(varient)
             res.render('customer_views/varient_item', {
                 pageTitle: 'Product',
                 path: 'product/id',
                 activeShop: true,
-                productCSS: true
+                productCSS: true,
+                product: productDetails,
+                varient: varient
+            })
+        }).catch(err => console.error(err))
+
+}
+
+exports.viewVarient = (req, res, next) => {
+    console.log(req.params.id,req.params.id)
+
+    const fetchProducts = new Promise((resolve, reject) => {
+            resolve((Product.getProductDetails(req.params.id,req.params.var)))
+    })
+
+
+    fetchProducts
+        .then(([productDetails,varient]) => {
+            console.log(productDetails,varient)
+            res.render('customer_views/varient_item', {
+                pageTitle: 'Product',
+                path: 'product/id',
+                activeShop: true,
+                productCSS: true,
+                product: productDetails,
+                varient: varient
             })
         }).catch(err => console.error(err))
 
